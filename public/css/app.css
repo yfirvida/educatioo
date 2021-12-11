@@ -1,0 +1,41 @@
+.sidebar .nav .nav-item.active > .nav-link i.menu-arrow::before {
+     content: "\F142"; 
+}
+.bt{
+	display: inline-flex;
+	margin: 0 5px;
+}
+.pagination {
+    justify-content: center;
+    align-items: center;
+}
+.pagination .page-item .page-link{
+	color: #e4601c;
+}
+.pagination .page-item.active .page-link{
+	background: #e4601c;
+	color: #fff;
+}
+
+.navbar .navbar-brand-wrapper .brand-logo-mini img{
+	width: auto;
+	height: auto;
+}
+.navbar .navbar-brand-wrapper {
+	width: 100px
+}
+.navbar .navbar-menu-wrapper{
+	width: calc(100% - 100px);
+}
+@media (min-width: 991px){
+.navbar .navbar-brand-wrapper {
+	width: 260px
+	}
+.navbar .navbar-brand-wrapper .navbar-brand img {
+    height: auto;
+}
+.navbar .navbar-menu-wrapper{
+	width: calc(100% - 260px);
+}
+}
+
