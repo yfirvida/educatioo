@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 11-12-2021 a las 00:01:07
--- Versión del servidor: 5.7.28
--- Versión de PHP: 7.4.0
+-- Tiempo de generación: 18-12-2021 a las 20:32:08
+-- Versión del servidor: 5.7.36
+-- Versión de PHP: 7.4.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -32,11 +31,11 @@ DROP TABLE IF EXISTS `answers`;
 CREATE TABLE IF NOT EXISTS `answers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `answer` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `correct_answ` tinyint(1) NOT NULL,
   `question_id` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL,
-  `updated_at` timestamp NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -51,8 +50,8 @@ CREATE TABLE IF NOT EXISTS `classrooms` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `trainer_id` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL,
-  `updated_at` timestamp NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -69,8 +68,8 @@ CREATE TABLE IF NOT EXISTS `classroom_student` (
   `classroom_id` int(11) NOT NULL,
   `student_id` int(11) NOT NULL,
   `pin` varchar(50) NOT NULL,
-  `created_at` timestamp NOT NULL,
-  `updated_at` timestamp NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -90,8 +89,8 @@ CREATE TABLE IF NOT EXISTS `exams` (
   `start_at` datetime NOT NULL,
   `ends_at` datetime NOT NULL,
   `author` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL,
-  `updated_at` timestamp NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -107,11 +106,11 @@ CREATE TABLE IF NOT EXISTS `exam_questions` (
   `quiz_id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL,
   `value` int(5) NOT NULL,
-  `next_question` int(11) NOT NULL,
-  `show_in_resukt` tinyint(1) NOT NULL,
-  `latest_question` tinyint(1) NOT NULL,
-  `created_at` timestamp NOT NULL,
-  `updated_at` timestamp NOT NULL,
+  `next_question` int(11) DEFAULT NULL,
+  `show_in_resukt` tinyint(1) NOT NULL DEFAULT '0',
+  `latest_question` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -130,8 +129,8 @@ CREATE TABLE IF NOT EXISTS `lands` (
   `iso3` char(3) NOT NULL,
   `numcode` smallint(6) NOT NULL,
   `phonecode` int(5) NOT NULL,
-  `created_at` timestamp NOT NULL,
-  `updated_at` timestamp NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=240 DEFAULT CHARSET=latin1;
 
@@ -390,8 +389,8 @@ DROP TABLE IF EXISTS `levels`;
 CREATE TABLE IF NOT EXISTS `levels` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `level` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL,
-  `updated_at` timestamp NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -405,8 +404,8 @@ DROP TABLE IF EXISTS `plans`;
 CREATE TABLE IF NOT EXISTS `plans` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `created_at` timestamp NOT NULL,
-  `updated_at` timestamp NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -420,10 +419,10 @@ DROP TABLE IF EXISTS `questions`;
 CREATE TABLE IF NOT EXISTS `questions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `question` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `value` int(5) NOT NULL,
-  `created_at` timestamp NOT NULL,
-  `updated_at` timestamp NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -436,21 +435,28 @@ CREATE TABLE IF NOT EXISTS `questions` (
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `image` varchar(255) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` enum('admin','trainer','student') NOT NULL,
-  `school` varchar(255) NOT NULL,
+  `school` varchar(255) DEFAULT NULL,
   `land_id` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL,
-  `updated_at` timestamp NOT NULL,
-  `last_session` date NOT NULL,
-  `subscription_date` date NOT NULL,
-  `plan_id` int(11) NOT NULL,
-  `total_students` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_session` date DEFAULT NULL,
+  `subscription_date` date DEFAULT NULL,
+  `plan_id` int(11) DEFAULT NULL,
+  `total_students` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`id`, `image`, `name`, `email`, `password`, `role`, `school`, `land_id`, `created_at`, `updated_at`, `last_session`, `subscription_date`, `plan_id`, `total_students`) VALUES
+(1, '/star-admin/images/faces/face10.jpg', 'Yeny Firvida', 'yfirvida@yahoo.es', 'ba22f9456cb410f472c72d609bba3c0e', 'admin', NULL, 150, '2021-12-18 19:32:53', '2021-12-18 19:32:53', NULL, '2021-12-09', NULL, 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

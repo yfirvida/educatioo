@@ -16,44 +16,6 @@
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-top"> 
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item dropdown">
-            <a class="nav-link count-indicator" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
-              <i class="icon-mail icon-lg"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="notificationDropdown">
-              <a class="dropdown-item py-3 border-bottom">
-                <p class="mb-0 font-weight-medium float-left">You have 4 new notifications </p>
-                <span class="badge badge-pill badge-primary float-right">View all</span>
-              </a>
-              <a class="dropdown-item preview-item py-3">
-                <div class="preview-thumbnail">
-                  <i class="mdi mdi-alert m-auto text-primary"></i>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject fw-normal text-dark mb-1">Application Error</h6>
-                  <p class="fw-light small-text mb-0"> Just now </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item py-3">
-                <div class="preview-thumbnail">
-                  <i class="mdi mdi-settings m-auto text-primary"></i>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject fw-normal text-dark mb-1">Settings</h6>
-                  <p class="fw-light small-text mb-0"> Private message </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item py-3">
-                <div class="preview-thumbnail">
-                  <i class="mdi mdi-airballoon m-auto text-primary"></i>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject fw-normal text-dark mb-1">New user registration</h6>
-                  <p class="fw-light small-text mb-0"> 2 days ago </p>
-                </div>
-              </a>
-            </div>
-          </li>
           <li class="nav-item dropdown"> 
             <a class="nav-link count-indicator" id="countDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="icon-bell"></i>
@@ -104,7 +66,6 @@
                 <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
               </div>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
-              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>

@@ -24,10 +24,7 @@ Route::group(['middleware' => ['web'], 'namespace' => '\App\Http\Livewire\Admin'
 	Route::get('/admin/lands', Lands::class)->name('lands');
 	Route::get('/admin/levels', Levels::class)->name('levels');
 	Route::get('/admin/plans', Plans::class)->name('plans');
-
 	Route::get('/admin/profile', Profile::class)->name('profile');
-
-	Route::get('/admin/help', Dashboard::class)->name('help');
 
 
 });

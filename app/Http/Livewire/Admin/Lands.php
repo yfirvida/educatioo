@@ -12,3 +12,6 @@ class Lands extends Component
         return view('livewire.admin.lands', ['lands' => Land::paginate(15)]);
     }
 }
+
+
+

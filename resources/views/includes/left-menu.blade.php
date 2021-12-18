@@ -45,12 +45,5 @@
         <i class="menu-arrow"></i> 
       </a>
     </li>
-    <li class="nav-item nav-category">{{ __('Help') }}</li>
-    <li class="nav-item {{request()->routeIs('help') ? 'active' : '' }}">
-      <a class="nav-link" href="{{ route('help') }}">
-        <i class="menu-icon mdi mdi-file-document"></i>
-        <span class="menu-title">{{ __('Documentation') }}</span>
-      </a>
-    </li>
   </ul>
 </nav>
