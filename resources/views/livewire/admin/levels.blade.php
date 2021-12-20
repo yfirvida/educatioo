@@ -55,12 +55,13 @@
 			</div>
 		</div>
 	</div>
+	@if($levels->isNotEmpty())
 	<div class="row">
 		<div class="col-12 text-center">
 			{{ $levels->onEachSide(0)->links() }}
 		</div>
 	</div>
-	
+	@endif
 </div>
 <!-- add new land modal -->
 <div wire:ignore.self class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">

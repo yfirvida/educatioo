@@ -2,11 +2,14 @@
 
 namespace App\Http\Livewire\Admin;
 use App\Models\Level;
+use Livewire\WithPagination;
 
 use Livewire\Component;
 
 class Levels extends Component
 {
+	use WithPagination;
+	
 	public $level;
     public $updateMode = false;
 

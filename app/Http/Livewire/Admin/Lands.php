@@ -2,11 +2,14 @@
 
 namespace App\Http\Livewire\Admin;
 use App\Models\Land;
+use Livewire\WithPagination;
 
 use Livewire\Component;
 
 class Lands extends Component
 {
+    use WithPagination;
+    
 	public $name, $iso, $phonecode;
     public $updateMode = false;
 

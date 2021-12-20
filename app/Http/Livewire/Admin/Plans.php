@@ -2,12 +2,15 @@
 
 namespace App\Http\Livewire\Admin;
 use App\Models\Plan;
+use Livewire\WithPagination;
 
 use Livewire\Component;
 
 class Plans extends Component
 {
-	public $name;
+	use WithPagination;
+    
+    public $name;
     public $updateMode = false;
 
     public function render()
