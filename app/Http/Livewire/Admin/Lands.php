@@ -25,7 +25,6 @@ class Lands extends Component
     public function showForm() {
         self::resetLandsInputFields();
         $this->resetErrorBag();
-        $this->dispatchBrowserEvent('showAddLand');
     }
 
 
@@ -41,7 +40,7 @@ class Lands extends Component
 
         session()->flash('message', 'Land Created Successfully.');
 
-        $this->resetInputFields();
+        $this->resetLandsInputFields();
 
         $this->emit('landStore'); // Close model to using to jquery
 
@@ -51,7 +50,7 @@ class Lands extends Component
     {
         $this->updateMode = true;
         $land = Land::where('id',$id)->first();
-        $this->id = $id;
+        $this->land_id = $id;
         $this->name = $land->name;
         $this->iso = $land->iso;
         $this->phonecode = $land->phonecode;
@@ -61,7 +60,7 @@ class Lands extends Component
     public function cancel()
     {
         $this->updateMode = false;
-        $this->resetInputFields();
+        $this->resetLandsInputFields();
 
 
     }
@@ -74,8 +73,8 @@ class Lands extends Component
             'phonecode' => 'required',
         ]);
 
-        if ($this->id) {
-            $land = Land::find($this->id);
+        if ($this->land_id) {
+            $land = Land::find($this->land_id);
             $land->update([
                 'name' => $this->name,
                 'iso' => $this->iso,
@@ -83,7 +82,7 @@ class Lands extends Component
             ]);
             $this->updateMode = false;
             session()->flash('message', 'Land Updated Successfully.');
-            $this->resetInputFields();
+            $this->resetLandsInputFields();
 
         }
     }

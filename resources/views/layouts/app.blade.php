@@ -9,6 +9,8 @@
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  
 
     <!-- Styles -->
     <!-- plugins:css -->
@@ -20,7 +22,6 @@
     <link rel="stylesheet" href="/star-admin/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="/star-admin/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="/star-admin/js/select.dataTables.min.css">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
@@ -28,6 +29,7 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="/star-admin/images/favicon.png" />
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+
 
     @livewireStyles
 
@@ -52,6 +54,7 @@
     <script src="/star-admin/js/dashboard.js"></script>
     <script src="/star-admin/js/Chart.roundedBarCharts.js"></script>
     <!-- End custom js for this page-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{{ mix('js/app.js') }}" defer></script>
 </head>
 <body>

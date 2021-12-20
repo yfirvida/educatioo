@@ -1471,5 +1471,15 @@ select {
 }
 }
 
+.bt.badge-warning, .bt.badge-danger{
+  background-color: transparent !important;
+}
+
+.btn-primary {
+    color: #fff !important;
+    background-color: #1F3BB3 !important;
+    border-color: #1F3BB3;
+}
+
 
 
