@@ -57,6 +57,8 @@ class Lands extends Component
         $this->name = $land->name;
         $this->iso = $land->iso;
         $this->phonecode = $land->phonecode;
+
+        $this->dispatchBrowserEvent('openModal', ['tab' => 1]);
         
     }
 
@@ -96,6 +98,16 @@ class Lands extends Component
             Land::where('id',$id)->delete();
             session()->flash('message', 'Land Deleted Successfully.');
         }
+    }
+
+    public function openModal()
+    {
+        $this->dispatchBrowserEvent('openModal');
+    }
+
+    public function closeModal()
+    {
+        $this->dispatchBrowserEvent('closeModal');
     }
 }
 

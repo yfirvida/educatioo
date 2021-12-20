@@ -33,7 +33,7 @@
 
     @livewireStyles
 
-    <!-- Scripts -->
+    {{-- <!-- Scripts -->
     <!-- plugins:js -->
     <script src="/star-admin/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
@@ -53,7 +53,8 @@
     <!-- Custom js for this page-->
     <script src="/star-admin/js/dashboard.js"></script>
     <script src="/star-admin/js/Chart.roundedBarCharts.js"></script>
-    <!-- End custom js for this page-->
+    <!-- End custom js for this page-->  --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{{ mix('js/app.js') }}" defer></script>
 </head>
@@ -71,6 +72,7 @@
         </div><!-- page-body-wrapper ends -->
     </div><!-- container-scroller -->
     @stack('modals')
+    @stack('scripts')
     @livewireScripts
 </body>
 </html>
