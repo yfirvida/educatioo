@@ -7,7 +7,7 @@
     @endif
 	<div class="row">
 		<div class="d-flex justify-content-end">
-      <button class="bt badge badge-success mb-3" type="button" data-toggle="modal" data-target="#createModal"  wire:click="showForm">
+      <button class="bt badge badge-success mb-3" type="button"  wire:click="showForm">
         <i class="mdi mdi-plus-circle-outline mr-2"></i>
           {{ __('Add new level') }}
       </button>
@@ -36,7 +36,7 @@
 											{{ $level->level }}
 										</td>
 										<td>
-											<button class="bt badge badge-warning" data-toggle="modal" data-target="#editModal" wire:click="edit({{$level->id}})" ><i class=" mdi mdi-pencil-box-outline"></i> {{ __('Edit') }}</button>
+											<button class="bt badge badge-warning" wire:click="edit({{$level->id}})" ><i class=" mdi mdi-pencil-box-outline"></i> {{ __('Edit') }}</button>
 											<button class="bt badge badge-danger" wire:click="delete({{ $level->id }})"><i class=" mdi mdi-minus-circle-outline"></i> {{ __('Delete') }}</button>
 										</td>
 									</tr>
@@ -69,7 +69,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">{{__('Create New Level')}}</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<button type="button" class="close" wire:click="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
@@ -91,9 +91,9 @@
 					<img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
 				</div>
 				<div wire:loading.remove wire:target="store">
-					<button type="button" wire:click="store" class="btn btn-primary" >{{__('Save Land')}}</button>
+					<button type="button" wire:click.prevent="store" class="btn btn-primary" >{{__('Save Land')}}</button>
 				</div>
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
+				<button type="button" class="btn btn-secondary" wire:click="close" data-dismiss="modal">{{__('Cancel')}}</button>
 			</div>
 		</div>
 	</div>
@@ -104,7 +104,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">{{__('Edit Level')}}</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<button type="button" class="close" wire:click="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
@@ -122,15 +122,36 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<div wire:loading wire:target="createModal">
+				<div wire:loading wire:target="updateModal">
 					<img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
 				</div>
 				<div wire:loading.remove wire:target="update">
-					<button type="button" wire:click="update" class="btn btn-primary" >{{__('Update Level')}}</button>
+					<button type="button" wire:click.prevent="update" class="btn btn-primary" >{{__('Update Level')}}</button>
 				</div>
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancel')}}</button>
+				<button type="button" class="btn btn-secondary" wire:click="close" data-dismiss="modal">{{__('Cancel')}}</button>
 			</div>
 		</div>
 	</div>
 </div>
 </div>
+
+@push('scripts')
+	<script>
+		window.addEventListener('openModal', event => {			
+			$('#createModal').modal('show');
+		});
+
+		window.addEventListener('closeModal', event => {
+			$('#createModal').modal('hide');
+		});
+		window.addEventListener('openUpdateModal', event => {			
+			$('#editModal').modal('show');
+		});
+
+		window.addEventListener('closeUpdateModal', event => {
+			$('#editModal').modal('hide');
+		});
+	</script>
+@endpush
+
+

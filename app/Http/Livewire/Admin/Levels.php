@@ -9,7 +9,7 @@ use Livewire\Component;
 class Levels extends Component
 {
 	use WithPagination;
-	
+
 	public $level;
     public $updateMode = false;
 
@@ -28,6 +28,7 @@ class Levels extends Component
     public function showForm() {
         self::resetInputFields();
         $this->resetErrorBag();
+        $this->dispatchBrowserEvent('openModal');
     }
 
 
@@ -43,7 +44,7 @@ class Levels extends Component
 
         $this->resetInputFields();
 
-        $this->emit('levelStore'); // Close model to using to jquery
+        $this->dispatchBrowserEvent('closeModal'); // Close model to using to jquery
 
     }
 
@@ -53,13 +54,15 @@ class Levels extends Component
         $level = Level::where('id',$id)->first();
         $this->level_id = $id;
         $this->level = $level->level;
+        $this->dispatchBrowserEvent('openUpdateModal');
         
     }
 
-    public function cancel()
+    public function close()
     {
-        $this->updateMode = false;
-        $this->resetInputFields();
+
+        $this->dispatchBrowserEvent('closeModal'); 
+        $this->dispatchBrowserEvent('closeUpdateModal');
 
 
     }
@@ -78,6 +81,7 @@ class Levels extends Component
             $this->updateMode = false;
             session()->flash('message', 'Level Updated Successfully.');
             $this->resetInputFields();
+            $this->dispatchBrowserEvent('closeUpdateModal');
 
         }
     }

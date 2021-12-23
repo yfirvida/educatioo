@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Admin;
 use App\Models\User;
+use App\Models\Land;
+use App\Models\Plan;
 use Livewire\WithPagination;
 
 use Livewire\Component;
@@ -10,8 +12,9 @@ class Users extends Component
 {
 	use WithPagination;
 
-	public $level;
+	public $name, $role, $email, $password, $school, $plan_id, $land_id, $subscription_date;
     public $updateMode = false;
+    public $lands, $plans;
 
     public function render()
     {
@@ -34,6 +37,12 @@ class Users extends Component
     public function showForm() {
         self::resetInputFields();
         $this->resetErrorBag();
+        $this->lands = Land::all_items();
+        $this->plans = Plan::all_items();
+
+        $this->dispatchBrowserEvent('openModal');
+
+        
     }
 
 
@@ -46,8 +55,8 @@ class Users extends Component
             'role' => 'required',
             'school' => 'nullable',
             'land_id' => 'required',
-            'plan_id' => 'nullable',
-            'subscription_date' => 'nullable',
+            'plan_id' => 'required',
+            'subscription_date' => 'required',
 
         ]);
 
@@ -57,7 +66,14 @@ class Users extends Component
 
         $this->resetInputFields();
 
-        $this->emit('trainerStore'); // Close model to using to jquery
+        $this->dispatchBrowserEvent('closeModal'); // Close model to using to jquery
+
+    }
+    public function close()
+    {
+
+        $this->dispatchBrowserEvent('closeModal'); 
+        $this->dispatchBrowserEvent('closeUpdateModal');
 
     }
 
@@ -74,16 +90,26 @@ class Users extends Component
         $this->land_id = $user->land_id;
         $this->plan_id = $user->plan_id;
         $this->subscription_date = $user->subscription_date;
+
+        $this->lands = Land::all_items();
+        $this->plans = Plan::all_items();
+
+        $this->dispatchBrowserEvent('openUpdateModal');
         
     }
 
-    public function cancel()
+    public function cancelsubscription($id)
     {
-        $this->updateMode = false;
-        $this->resetInputFields();
+        if($id){
+        	$user = User::where('id',$id)->first();
+        	$user->update([
+            	'subscription_date' => NULL,
+            ]);
+            session()->flash('message', 'User Subscription was canceled Successfully.');
+        }
 
 
-    }
+    }  
 
     public function update()
     {
@@ -112,8 +138,10 @@ class Users extends Component
             	'subscription_date' => $this->subscription_date,
             ]);
             $this->updateMode = false;
-            session()->flash('message', 'User Updated Successfully.');
+            session()->flash('message', 'Trainer Updated Successfully.');
             $this->resetInputFields();
+
+            $this->dispatchBrowserEvent('closeUpdateModal');
 
         }
     }
@@ -121,7 +149,7 @@ class Users extends Component
     public function delete($id)
     {
         if($id){
-            User::where('id',$id)->delete();
+        	User::find($id)->delete();
             session()->flash('message', 'User Deleted Successfully.');
         }
     }

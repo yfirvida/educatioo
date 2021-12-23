@@ -25,6 +25,7 @@ class Plans extends Component
     public function showForm() {
         self::resetInputFields();
         $this->resetErrorBag();
+        $this->dispatchBrowserEvent('openModal');
     }
 
 
@@ -40,7 +41,7 @@ class Plans extends Component
 
         $this->resetInputFields();
 
-        $this->emit('planStore'); // Close model to using to jquery
+        $this->dispatchBrowserEvent('closeModal'); // Close model to using to jquery
 
     }
 
@@ -50,16 +51,18 @@ class Plans extends Component
         $plan = Plan::where('id',$id)->first();
         $this->plan_id = $id;
         $this->name = $plan->name;
+
+        $this->dispatchBrowserEvent('openUpdateModal');
         
     }
 
-    public function cancel()
+    public function close()
     {
-        $this->updateMode = false;
-        $this->resetInputFields();
 
-
+        $this->dispatchBrowserEvent('closeModal'); 
+        $this->dispatchBrowserEvent('closeUpdateModal');
     }
+
 
     public function update()
     {
@@ -75,6 +78,8 @@ class Plans extends Component
             $this->updateMode = false;
             session()->flash('message', 'Plan Updated Successfully.');
             $this->resetInputFields();
+            $this->dispatchBrowserEvent('closeUpdateModal');
+
 
         }
     }

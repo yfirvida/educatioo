@@ -1480,6 +1480,31 @@ select {
     background-color: #1F3BB3 !important;
     border-color: #1F3BB3;
 }
+.date .input-group-addon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  position: absolute;
+  top: 2px;
+  right: 0;
+  height: 30px;
+}
+span.error{
+  font-size: 14px;
+  color: red;
+}
+select.form-control{
+  background-color: #fff !important;
+  color: #212529 !important;
+  outline: 1px solid #6b7280 !important;
+}
+.form-control{
+  border-radius: 4px;
+}
 
-
-
+.profile-pic img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

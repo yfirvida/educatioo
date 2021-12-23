@@ -28,4 +28,8 @@ class Land extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public static function all_items($sort = 'name', $order = 'asc') {
+        return Land::orderBy($sort, $order)->get();
+    }
 }

@@ -28,6 +28,7 @@ class Lands extends Component
     public function showForm() {
         self::resetLandsInputFields();
         $this->resetErrorBag();
+        $this->dispatchBrowserEvent('openModal');
     }
 
 
@@ -45,7 +46,7 @@ class Lands extends Component
 
         $this->resetLandsInputFields();
 
-        $this->emit('landStore'); // Close model to using to jquery
+        $this->dispatchBrowserEvent('closeModal'); // Close model to using to jquery
 
     }
 
@@ -58,14 +59,15 @@ class Lands extends Component
         $this->iso = $land->iso;
         $this->phonecode = $land->phonecode;
 
-        $this->dispatchBrowserEvent('openModal', ['tab' => 1]);
+        $this->dispatchBrowserEvent('openUpdateModal');
         
     }
 
-    public function cancel()
+    public function close()
     {
-        $this->updateMode = false;
-        $this->resetLandsInputFields();
+
+        $this->dispatchBrowserEvent('closeModal'); 
+        $this->dispatchBrowserEvent('closeUpdateModal');
 
 
     }
@@ -88,6 +90,7 @@ class Lands extends Component
             $this->updateMode = false;
             session()->flash('message', 'Land Updated Successfully.');
             $this->resetLandsInputFields();
+            $this->dispatchBrowserEvent('closeUpdateModal');
 
         }
     }
@@ -100,15 +103,7 @@ class Lands extends Component
         }
     }
 
-    public function openModal()
-    {
-        $this->dispatchBrowserEvent('openModal');
-    }
-
-    public function closeModal()
-    {
-        $this->dispatchBrowserEvent('closeModal');
-    }
+    
 }
 
 
