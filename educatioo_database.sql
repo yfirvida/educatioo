@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 18-12-2021 a las 20:32:08
--- Versión del servidor: 5.7.36
--- Versión de PHP: 7.4.26
+-- Tiempo de generación: 04-01-2022 a las 19:06:01
+-- Versión del servidor: 5.7.28
+-- Versión de PHP: 7.4.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -125,9 +126,9 @@ CREATE TABLE IF NOT EXISTS `lands` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `iso` char(2) NOT NULL,
   `name` varchar(80) NOT NULL,
-  `nicename` varchar(80) NOT NULL,
-  `iso3` char(3) NOT NULL,
-  `numcode` smallint(6) NOT NULL,
+  `nicename` varchar(80) DEFAULT NULL,
+  `iso3` char(3) DEFAULT NULL,
+  `numcode` smallint(6) DEFAULT NULL,
   `phonecode` int(5) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -139,7 +140,6 @@ CREATE TABLE IF NOT EXISTS `lands` (
 --
 
 INSERT INTO `lands` (`id`, `iso`, `name`, `nicename`, `iso3`, `numcode`, `phonecode`, `created_at`, `updated_at`) VALUES
-(1, 'AF', 'AFGHANISTAN', 'Afghanistan', 'AFG', 4, 93, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (2, 'AL', 'ALBANIA', 'Albania', 'ALB', 8, 355, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (3, 'DZ', 'ALGERIA', 'Algeria', 'DZA', 12, 213, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (4, 'AS', 'AMERICAN SAMOA', 'American Samoa', 'ASM', 16, 1684, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
@@ -392,7 +392,14 @@ CREATE TABLE IF NOT EXISTS `levels` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `levels`
+--
+
+INSERT INTO `levels` (`id`, `level`, `created_at`, `updated_at`) VALUES
+(2, 'eeeee', '2021-12-23 02:49:14', '2021-12-23 02:49:25');
 
 -- --------------------------------------------------------
 
@@ -407,7 +414,14 @@ CREATE TABLE IF NOT EXISTS `plans` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `plans`
+--
+
+INSERT INTO `plans` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Example Plan', '2021-12-23 03:05:57', '2021-12-23 03:05:57');
 
 -- --------------------------------------------------------
 
@@ -448,15 +462,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `subscription_date` date DEFAULT NULL,
   `plan_id` int(11) DEFAULT NULL,
   `total_students` int(11) DEFAULT NULL,
+  `remember_token` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `image`, `name`, `email`, `password`, `role`, `school`, `land_id`, `created_at`, `updated_at`, `last_session`, `subscription_date`, `plan_id`, `total_students`) VALUES
-(1, '/star-admin/images/faces/face10.jpg', 'Yeny Firvida', 'yfirvida@yahoo.es', 'ba22f9456cb410f472c72d609bba3c0e', 'admin', NULL, 150, '2021-12-18 19:32:53', '2021-12-18 19:32:53', NULL, '2021-12-09', NULL, 0);
+INSERT INTO `users` (`id`, `image`, `name`, `email`, `password`, `role`, `school`, `land_id`, `created_at`, `updated_at`, `last_session`, `subscription_date`, `plan_id`, `total_students`, `remember_token`) VALUES
+(1, '/star-admin/images/faces/face10.jpg', 'Yeny Firvida ', 'yfirvida@yahoo.es', '$2y$10$.P.ebgafhpIVCdYjMXlF/O6T7c.JUB7V5lclU3mAiMvsrtl1cdVte', 'admin', NULL, 150, '2021-12-18 19:32:53', '2022-01-03 19:03:18', NULL, '2021-12-09', NULL, 0, NULL),
+(2, NULL, 'Trainer one l', 'admin@me.com', '$2y$10$.P.ebgafhpIVCdYjMXlF/O6T7c.JUB7V5lclU3mAiMvsrtl1cdVte', 'trainer', 'some school', 150, '2021-12-23 03:25:35', '2021-12-23 09:19:45', NULL, '2021-12-22', 1, NULL, NULL),
+(3, NULL, 'teriner two', 'otheremail@mail.com', '$2y$10$.P.ebgafhpIVCdYjMXlF/O6T7c.JUB7V5lclU3mAiMvsrtl1cdVte', 'trainer', '', 19, '2021-12-23 03:29:26', '2021-12-23 03:29:26', NULL, '2021-12-23', 1, NULL, NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

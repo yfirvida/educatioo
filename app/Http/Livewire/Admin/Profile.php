@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class Profile extends Component
 {
-	public $name, $email, $password, $land_id;
+	public $name, $email, $password, $land_id, $image;
     public $updateMode = false;
     public $lands;
 
@@ -25,6 +25,7 @@ class Profile extends Component
         $this->name = '';
         $this->email = '';
         $this->land_id = '';
+        $this->image = '';
     }
 
     public function edit($id)
@@ -35,6 +36,7 @@ class Profile extends Component
         $this->name = $user->name;
         $this->email = $user->email;
         $this->land_id = $user->land_id;
+        $this->image = $user->image;
 
         $this->lands = Land::all_items();
 
@@ -48,6 +50,7 @@ class Profile extends Component
             'name' => 'required',
             'email' => 'required',
             'land_id' => 'required',
+            'image' => 'nullable',
 
         ]);
 
@@ -57,6 +60,7 @@ class Profile extends Component
                 'name' => $this->name,
             	'email' => $this->email,
             	'land_id' => $this->land_id,
+            	'image' => $this->image,
             ]);
 
             $this->updateMode = false;
@@ -100,7 +104,7 @@ class Profile extends Component
     public function close()
     {
 
-        $this->dispatchBrowserEvent('closeModal'); 
+        $this->dispatchBrowserEvent('closeUpdateModal'); 
         $this->dispatchBrowserEvent('closePassModal');
 
     }

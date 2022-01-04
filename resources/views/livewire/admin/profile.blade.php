@@ -92,7 +92,11 @@
                                     @endif
                                 </select>
                                 @error('land_id') <span class="error">{{ $message }}</span> @enderror
-                            </div>  
+                            </div> 
+                            <div class="form-group">
+                                <label for="picture">{{__('Profile Image')}}</label>
+                                <input wire:model="image" type="file" class="form-control-file" id="picture">
+                            </div> 
                         </div>
                     </div>
                     <div class="inside-form mt-1 pb-0">

@@ -59,4 +59,16 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Plan::class);
     }
+
+    public function isAdmin() {
+       return $this->role === 'admin';
+    }
+
+    public function isTrainer() {
+       return $this->role === 'trainer';
+    }
+    
+    public function isStudent() {
+       return $this->role === 'student';
+    }
 }

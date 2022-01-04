@@ -1,7 +1,7 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
   <ul class="nav">
     <li class="nav-item {{request()->routeIs('dashboard') ? 'active' : '' }}">
-      <a class="nav-link" href="{{ route('dashboard') }}">
+      <a class="nav-link" href="{{ route('admin_dashboard') }}">
         <i class="mdi mdi-grid-large menu-icon"></i>
         <span class="menu-title">{{ __('Dashboard') }}</span>
         <i class="menu-arrow"></i> 

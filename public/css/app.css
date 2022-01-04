@@ -1512,3 +1512,10 @@ select.form-control{
 .content-wrapper{
   min-height: calc(100vh - 175px) !important;
 }
+
+.full-screen{
+  height: 100vh;
+  width: 100vw;
+  background: url("../img/handshake-3382503_1920.jpg");
+  background-size: cover;
+}
