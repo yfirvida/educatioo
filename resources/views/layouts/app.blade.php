@@ -25,6 +25,7 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="/star-admin/images/favicon.png" />
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" href="/css/admin_custom.css">
 
     @livewireStyles
 </head>

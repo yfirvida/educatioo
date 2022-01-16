@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () { return view('welcome'); });
-Route::post('/logout', '\App\Http\Controllers\Auth\AuthenticatedSessionController@destroy');
+//Route::post('/logout', '\App\Http\Controllers\Auth\AuthenticatedSessionController@destroy');
 
 Route::group(['middleware' => ['web', 'auth', 'admin'], 'namespace' => '\App\Http\Livewire\Admin'], function ()
 {
