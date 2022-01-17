@@ -8,27 +8,46 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="/star-admin/vendors/typicons/typicons.css">
+    <link rel="stylesheet" href="/star-admin/vendors/simple-line-icons/css/simple-line-icons.css">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/star-admin/css/vertical-layout-light/style.css">
+    <!-- endinject -->
     <link rel="shortcut icon" href="/star-admin/images/favicon.png" />
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" href="/css/custom.css">
+
 
     @livewireStyles
 </head>
 <body>
-    <div > 
-        <div class="container-fluid ">
+    <div class="container-scroller"> 
+        @include('includes.header_for_main')
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial -->
+                @include('includes.trainer-menu')
+            <!-- partial -->
+            <div class="main-panel">
                 {{ $slot }}
+            </div><!-- main-panel ends -->
         </div><!-- page-body-wrapper ends -->
     </div><!-- container-scroller -->
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+    <!-- plugins:js -->
+    <script src="/star-admin/vendors/js/vendor.bundle.base.js"></script>
+    <script src="/star-admin/js/template.js"></script>
+    <!-- endinject --> 
+    <script src="{{ mix('js/app.js') }}" defer></script>
+
     @stack('scripts')
     @livewireScripts
 </body>

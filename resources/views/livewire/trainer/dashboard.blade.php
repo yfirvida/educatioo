@@ -1,4 +1,3 @@
-<div>
-	trainer dashboard
-    {{-- Knowing others is intelligence; knowing yourself is true wisdom. --}}
+<div class="d-flex justify-content-center align-items-center h-100">
+	<img src="/img/small_logo.png">
 </div>
