@@ -176,15 +176,15 @@ input.form-control:focus, select.form-control:focus{
   transition: .2s easy-out;
   margin: auto
 }
-.menu-btn:hover{
+.menu-btn:hover, .menu-btn.active{
   color: #e4601c;
   border: 1px solid #e4601c;
   text-decoration: none;
 }
-.menu-btn:hover .normal{
+.menu-btn:hover .normal, .menu-btn.active .normal{
   display: none;
 }
-.menu-btn:hover .active{
+.menu-btn:hover .active, .menu-btn.active .active{
   display: block;
 }
 
