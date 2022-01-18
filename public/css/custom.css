@@ -16,6 +16,9 @@
 .btn-orange:hover{
   color: #fff;
 }
+.btn-orange img{
+  display: inline-flex;
+}
 .wrapper-card{
   background-color: #f4f8fc;
   border-radius: 6px;
@@ -204,6 +207,24 @@ input.form-control:focus, select.form-control:focus{
   font-family: 'Outfit', sans-serif;
   font-weight: 200;
   color: #868686;
+  padding-left: 25px;
+}
+.input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback){
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+
+}
+.input-group > i{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 9;
+    left: 5px;
+    height: 100%;
+    color: #ddd
 }
 }
 
@@ -222,4 +243,74 @@ input.form-control:focus, select.form-control:focus{
     transform: none;
     position: relative;
   }
+}
+
+.main-panel .content-wrapper{
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 15px 0px;
+}
+.main-panel .content-wrapper .content{
+  padding: 0px 10px;
+}
+
+.main-panel .content-wrapper h2{
+  color: #2b2b2b;
+  font-weight: 600;
+  font-size: 24px;
+  font-family: 'Outfit', sans-serif;
+}
+
+.table-responsive{
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  font-family: 'Outfit', sans-serif;
+}
+
+.table thead th, .table td{
+  font-size: 16px;
+}
+.btn.actions{
+  background-color: transparent;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  color: #6c6c6c;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  display: block;
+  padding: 5px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 175px;
+  box-shadow: 1px 0px 5px -3px rgba(0,0,0,0.75)
+}
+.fa-edit{
+  color: #33c85e !important;
+  margin-right: 5px;
+  font-size: 13px !important;
+}
+.fa-minus{
+  color: red !important;
+  border: 1px solid red;
+  border-radius: 50%;
+  padding: 4px;
+  height: 15px;
+  width: 15px;
+  display: inline-flex;
+  font-size: 10px !important;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}
+
+.table tbody tr:nth-of-type(even) {
+    background-color: #fbfbfb !important;
+}
+
+.dotted-input{
+  border-radius: 6px;
+  border: 1px dashed #000;
 }

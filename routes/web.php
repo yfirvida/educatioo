@@ -36,6 +36,7 @@ Route::group(['middleware' => ['web', 'auth', 'trainer'], 'namespace' => '\App\H
 	Route::get('/trainer/dashboard', Dashboard::class)->name('trainer_dashboard');
 	Route::get('/trainer/classrooms',Classrooms::class)->name('classrooms');
 	Route::get('/trainer/courses',Courses::class)->name('courses');
+	Route::get('/trainer/newcourse',Newcourse::class)->name('newcourse');
 	Route::get('/trainer/results',Results::class)->name('results');
 	Route::get('/trainer/launch',Launch::class)->name('launch');
 });

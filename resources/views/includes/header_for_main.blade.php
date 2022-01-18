@@ -16,6 +16,7 @@
       </div>
       <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
         <div class="input-group">
+          <i class='fas fa-search'></i>
           <input type="text" class="form-control search-input" placeholder="Search for..." >
         </div>
       </form>
