@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () { return view('welcome'); });
+Route::get('/', function () { return view('welcome'); })->name('home');
 //Route::post('/logout', '\App\Http\Controllers\Auth\AuthenticatedSessionController@destroy');
 
-Route::group(['middleware' => ['web', 'auth', 'admin'], 'namespace' => '\App\Http\Livewire\Admin'], function ()
+Route::group(['middleware' => ['web', 'admin'], 'namespace' => '\App\Http\Livewire\Admin'], function ()
 {
 	Route::get('/admin/dashboard', Dashboard::class)->name('admin_dashboard');
 	Route::get('/admin/users', Users::class)->name('users');
@@ -31,22 +31,20 @@ Route::group(['middleware' => ['web', 'auth', 'admin'], 'namespace' => '\App\Htt
 
 });
 
-Route::group(['middleware' => ['web', 'auth', 'trainer'], 'namespace' => '\App\Http\Livewire\Trainer'], function ()
+Route::group(['middleware' => ['web', 'trainer'], 'namespace' => '\App\Http\Livewire\Trainer'], function ()
 {
 	Route::get('/trainer/dashboard', Dashboard::class)->name('trainer_dashboard');
 	Route::get('/trainer/classrooms',Classrooms::class)->name('classrooms');
 	Route::get('/trainer/courses',Courses::class)->name('courses');
+	Route::get('/trainer/import',Import::class)->name('import');
 	Route::get('/trainer/newcourse',Newcourse::class)->name('newcourse');
 	Route::get('/trainer/results',Results::class)->name('results');
 	Route::get('/trainer/launch',Launch::class)->name('launch');
 });
-Route::group(['middleware' => ['web', 'auth', 'student'], 'namespace' => '\App\Http\Livewire\Student'], function ()
+
+Route::group(['middleware' => ['web', 'student'], 'namespace' => '\App\Http\Livewire\Student'], function ()
 {
 	Route::get('/student/dashboard', Dashboard::class)->name('student_dashboard');
 });
-
-/*Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');*/
 
 require __DIR__.'/auth.php';
