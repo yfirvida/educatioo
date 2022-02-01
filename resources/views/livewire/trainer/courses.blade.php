@@ -7,11 +7,17 @@
                         <i class='fas fa-search'></i>
                         <input type="text" class="form-control search-input" placeholder="Search..." >
                     </div>
-                </form>  
-                <a href="{{ route('newcourse') }}" class="btn btn-orange" >
-                    <img src="/img/quiz.png">
-                    {{ __('Add new quiz') }}
-                </a>
+                </form> 
+                <div>
+                    <a href="{{ route('import') }}" class="btn mr-3 btn-white btn-fix-size">   
+                        <i class="fas fa-file-import"></i> {{ __('Import') }}
+                    </a>
+                    <a href="{{ route('newcourse') }}" class="btn btn-orange btn-fix-size" >
+                        <img src="/img/quiz.png">
+                        {{ __('Add new quiz') }}
+                    </a>
+                </div> 
+                
             </div>
         </div>
         <div class="content">
@@ -22,9 +28,8 @@
                             <th scope="col">Name Quiz</th>
                             <th scope="col">Course Group</th>
                             <th scope="col">Points</th>
-                            <th scope="col">Start Date</th>
-                            <th scope="col">End Date</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col">Author</th>
+                            <th scope="col" class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,22 +37,28 @@
                             <td>Lorem Ipsum</td>
                             <td>Classroom 1</td>
                             <td>6</td>
-                            <td>17/01/2022</td>
-                            <td>20/01/2022</td>
-                            <td>
-                                <button  class="btn actions mb-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</button>
-                                <button class="btn actions" "><i class="fas fa-minus"></i> {{ __('Delete') }}</button>
+                            <td>Author 1</td>
+                            <td class="d-flex justify-content-center align-items-center">
+                                <div>
+                                <a href="{{ route('course-preview') }}" class="btn actions mb-2"><i class="far fa-file"></i> {{ __('Preview') }}</a>
+                                <a href="{{ route('edit-course') }}" class="btn actions mb-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
+                                <button class="btn actions mb-2"><i class="fas fa-minus"></i> {{ __('Delete') }}</button>
+                                <button class="btn actions"><i class="fas fa-share-alt"></i> {{ __('Share') }}</button>
+                                </div> 
                             </td>
                         </tr>
                         <tr>
                             <td>Lorem Ipsum 2</td>
                             <td>Classroom 2</td>
                             <td>7</td>
-                            <td>17/01/2022</td>
-                            <td>22/01/2022</td>
-                            <td>
-                                <button  class="btn actions mb-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</button>
-                                <button class="btn actions"><i class="fas fa-minus"></i> {{ __('Delete') }}</button>
+                            <td>Author 1</td>
+                            <td class="d-flex justify-content-center align-items-center">
+                                <div>
+                                <a href="{{ route('course-preview') }}" class="btn actions mb-2"><i class="far fa-file"></i> {{ __('Preview') }}</a>
+                                <a href="{{ route('edit-course') }}" class="btn actions mb-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
+                                <button class="btn actions mb-2"><i class="fas fa-minus"></i> {{ __('Delete') }}</button>
+                                <button class="btn actions"><i class="fas fa-share-alt"></i> {{ __('Share') }}</button>
+                                </div> 
                             </td>
                         </tr>
                     </tbody>

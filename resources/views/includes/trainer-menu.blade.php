@@ -7,7 +7,7 @@
         <span class="menu-title">{{ __('Course Group') }}</span>
       </div>
     </a>
-    <a class="menu-btn {{request()->routeIs('courses') || request()->routeIs('newcourse')? 'active' : '' }}" href="{{ route('courses') }}">
+    <a class="menu-btn {{request()->routeIs('courses') || request()->routeIs('newcourse') || request()->routeIs('edit-course') || request()->routeIs('course-preview')  ? 'active' : '' }}" href="{{ route('courses') }}">
       <div class="text-center">
         <img class="normal" src="/img/course.png">
         <img class="active" src="/img/course_active.png">

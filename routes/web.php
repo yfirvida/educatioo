@@ -38,6 +38,8 @@ Route::group(['middleware' => ['web', 'trainer'], 'namespace' => '\App\Http\Live
 	Route::get('/trainer/courses',Courses::class)->name('courses');
 	Route::get('/trainer/import',Import::class)->name('import');
 	Route::get('/trainer/newcourse',Newcourse::class)->name('newcourse');
+	Route::get('/trainer/edit-course',EditCourse::class)->name('edit-course');
+	Route::get('/trainer/course-preview',CoursePreview::class)->name('course-preview');
 	Route::get('/trainer/results',Results::class)->name('results');
 	Route::get('/trainer/launch',Launch::class)->name('launch');
 });
