@@ -3,8 +3,9 @@
 namespace App\Http\Livewire\Admin;
 use App\Models\User;
 use App\Models\Land;
-use App\Models\Plan;
 use Livewire\WithPagination;
+
+use Illuminate\Support\Facades\Hash;
 
 use Livewire\Component;
 
@@ -14,7 +15,7 @@ class Users extends Component
 
 	public $name, $role, $email, $password, $school, $plan_id, $land_id, $subscription_date;
     public $updateMode = false;
-    public $lands, $plans;
+    public $lands;
 
     public function render()
     {
@@ -30,7 +31,6 @@ class Users extends Component
         $this->password = '';
         $this->school = '';
         $this->land_id = '';
-        $this->plan_id = '';
         $this->subscription_date = '';
     }
 
@@ -38,7 +38,6 @@ class Users extends Component
         self::resetInputFields();
         $this->resetErrorBag();
         $this->lands = Land::all_items();
-        $this->plans = Plan::all_items();
 
         $this->dispatchBrowserEvent('openModal');
 
@@ -55,12 +54,21 @@ class Users extends Component
             'role' => 'required',
             'school' => 'nullable',
             'land_id' => 'required',
-            'plan_id' => 'required',
             'subscription_date' => 'required',
 
         ]);
 
-        User::create($validatedData);
+
+
+        User::create([
+            'name' => $this->name,
+            'email' => $this->email,
+            'password' => Hash::make($this->password),
+            'role' => 'trainer',
+            'school' => $this->school,
+            'land_id' => $this->land_id,
+            'subscription_date' => $this->subscription_date
+        ]);
 
         session()->flash('message', 'Trainer Created Successfully.');
 
@@ -85,14 +93,12 @@ class Users extends Component
         $this->name = $user->name;
         $this->role = $user->role;
         $this->email = $user->email;
-        $this->password = $user->password;
+        $this->password = null;
         $this->school = $user->school;
         $this->land_id = $user->land_id;
-        $this->plan_id = $user->plan_id;
         $this->subscription_date = $user->subscription_date;
 
         $this->lands = Land::all_items();
-        $this->plans = Plan::all_items();
 
         $this->dispatchBrowserEvent('openUpdateModal');
         
@@ -116,11 +122,9 @@ class Users extends Component
         $validatedData = $this->validate([
             'name' => 'required',
             'email' => 'required',
-            'password' => 'required',
             'role' => 'required',
             'school' => 'nullable',
             'land_id' => 'required',
-            'plan_id' => 'nullable',
             'subscription_date' => 'nullable',
 
         ]);
@@ -130,13 +134,15 @@ class Users extends Component
             $user->update([
                 'name' => $this->name,
             	'email' => $this->email,
-            	'password' => $this->password,
             	'role' => $this->role,
             	'school' => $this->school,
             	'land_id' => $this->land_id,
-            	'plan_id' => $this->plan_id,
             	'subscription_date' => $this->subscription_date,
             ]);
+            if($this->password != null):
+                $validatedData = $this->validate(['password' => 'required']);
+                $user->update(['password' => Hash::make($this->password)]);
+            endif;
             $this->updateMode = false;
             session()->flash('message', 'Trainer Updated Successfully.');
             $this->resetInputFields();

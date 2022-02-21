@@ -30,7 +30,7 @@
                         <div class="box d-flex justify-content-center align-items-center">
                             <div class="text-center">
                                 <h4>{{ __('Question 1') }}</h4>
-                                <p class="value">{{ __('Value') }}</p>
+                                <p class="value">8 {{ __('Points') }}</p>
                             </div>
                         </div>
                     </div>
@@ -59,7 +59,12 @@
                                     <option value="1">One</option>
                                     <option value="2">Two</option>
                                 </select>
-                                <input type="text" name="" class="form-control mt-2" value="8">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" value="" >
+                                  <label class="form-check-label" for="flexCheckChecked">
+                                    {{ __('Right Answer') }}
+                                  </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -81,7 +86,8 @@
                     </div>
                     <div class="icons-wrapper mt-2">
                         <a href="#" class="mr-2"><i class="far fa-trash-alt"></i></a>
-                        <a href="#"><i class="far fa-edit"></i></a>
+                        <a href="#" class="mr-2" wire:click="edit()"><i class='fas fa-edit'></i></a>
+                        <a href="#"><i class='far fa-copy'></i></a>
                     </div>
                 </div>
             </div>
@@ -106,8 +112,8 @@
                     <div class="col-md-3 p-1">
                         <div class="box d-flex justify-content-center align-items-center">
                             <div class="text-center">
-                                <h4>{{ __('Question 1') }}</h4>
-                                <p class="value">{{ __('Value') }}</p>
+                                <h4>{{ __('Question 2') }}</h4>
+                                <p class="value">10 {{ __('Points') }}</p>
                             </div>
                         </div>
                     </div>
@@ -136,7 +142,12 @@
                                     <option value="1">One</option>
                                     <option value="2">Two</option>
                                 </select>
-                                <input type="text" name="" class="form-control mt-2" value="8">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" value=""  checked>
+                                  <label class="form-check-label" for="">
+                                    {{ __('Right Answer') }}
+                                  </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -158,7 +169,8 @@
                     </div>
                     <div class="icons-wrapper mt-2">
                         <a href="#" class="mr-2"><i class="far fa-trash-alt"></i></a>
-                        <a href="#"><i class="far fa-edit"></i></a>
+                        <a href="#" class="mr-2"><i class='fas fa-edit'></i></a>
+                        <a href="#"><i class='far fa-copy'></i></a>
                     </div>
                 </div>
             </div>
@@ -178,7 +190,7 @@
         </div>
     </div>
 
-<!-- add new  modal -->
+<!-- add new question modal -->
 <div wire:ignore.self class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg mw-800" role="document">
         <div class="modal-content">
@@ -190,168 +202,49 @@
             </div>
             <div class="modal-body pt-3">
                 <div class="inside-form">
-                    <div class="row flex-row">
-                        <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-12">
                             <div class="question-wrapper">
-                                <div class="form-group">
-                                    <label for="name" class="form-label">{{__('Question Identifier')}} <sup class="text-danger">*</sup></label>
-                                    <input wire:model="name" type="text" class="form-control" placeholder="{{_('Ex Question 1')}}" :errors="$errors" autocomplete="off" />
-                                    @error('name') <span class="error">{{ $message }}</span> @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="question" class="form-label">{{__('Question')}} <sup class="text-danger">*</sup></label>
-                                    <input wire:model="question" type="text" class="form-control"  :errors="$errors" autocomplete="off" />
-                                    @error('question') <span class="error">{{ $message }}</span> @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="q_value" class="form-label">{{__('Value')}} <sup class="text-danger">*</sup></label>
-                                    <input wire:model="q_value" type="number" class="form-control"  :errors="$errors" autocomplete="off" />
-                                    @error('q_value') <span class="error">{{ $message }}</span> @enderror
-                                </div>
-                                <div class="form-group mb-lg-0">
-                                    <label for="image" class="form-label">{{__('Image')}} </label>
-                                    <div class="img-wrapper">
-                                        <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
-                                    </div>
-                                    @error('image') <span class="error">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-8">
-                            <div class="answers-wrapper">
                                 <div class="row">
-                                    <div class="col-lg-4 px-1">
+                                    <div class="col-lg-4 col-md-6">
                                         <div class="form-group">
-                                            <label for="answer" class="form-label">{{__('Answer')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="answer" type="text" class="form-control" :errors="$errors" autocomplete="off" />
-                                            @error('answer') <span class="error">{{ $message }}</span> @enderror
+                                            <label for="name" class="form-label">{{__('Question Identifier')}} <sup class="text-danger">*</sup></label>
+                                            <input wire:model="name" type="text" class="form-control" placeholder="{{_('Ex Question 1')}}" :errors="$errors" autocomplete="off" />
+                                            @error('name') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
-                                    <div class="col-lg-2 px-1">
+                                    <div class="col-lg-4 col-md-6">
                                         <div class="form-group">
-                                            <label for="avalue" class="form-label">{{__('Value')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="avalue" type="text" class="form-control" :errors="$errors" autocomplete="off" />
-                                            @error('avalue') <span class="error">{{ $message }}</span> @enderror
+                                            <label for="q_value" class="form-label">{{__('Value')}} <sup class="text-danger">*</sup></label>
+                                            <input wire:model="q_value" type="number" class="form-control"  :errors="$errors" autocomplete="off" />
+                                            @error('q_value') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 px-1">
-                                        <div class="form-group">
-                                            <label for="next" class="form-label">{{__('Next Question')}} </label>
-                                            <select wire:model="next" class="form-control" aria-label="" :errors="$errors">
-                                                <option value='' selected>{{__('Select Next')}}</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                            </select>
-                                            @error('avalue') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 px-1">
-                                        <div class="form-group">
-                                            <label for="aimage" class="form-label">{{__('Image')}} </label>
-                                            <input wire:model="aimage" type="file" class="form-control-file" :errors="$errors" autocomplete="off" />
-                                            @error('aimage') <span class="error">{{ $message }}</span> @enderror
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-lg-0">
+                                            <label for="image" class="form-label">{{__('Image')}} </label>
+                                            <div class="img-wrapper">
+                                                <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
+                                            </div>
+                                            @error('image') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-4 px-1">
+                                    <div class="col-12">
                                         <div class="form-group">
-                                            <label for="answer1" class="form-label">{{__('Answer')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="answer1" type="text" class="form-control" :errors="$errors" autocomplete="off" />
-                                            @error('answer1') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 px-1">
-                                        <div class="form-group">
-                                            <label for="avalue1" class="form-label">{{__('Value')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="avalue1" type="text" class="form-control" :errors="$errors" autocomplete="off" />
-                                            @error('avalue1') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 px-1">
-                                        <div class="form-group">
-                                            <label for="next1" class="form-label">{{__('Next Question')}} </label>
-                                            <select wire:model="next1" class="form-control" aria-label="" :errors="$errors">
-                                                <option value='' selected>{{__('Select Next')}}</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                            </select>
-                                            @error('next1') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 px-1">
-                                        <div class="form-group">
-                                            <label for="aimage1" class="form-label">{{__('Image')}} </label>
-                                            <input wire:model="aimage1" type="file" class="form-control-file" :errors="$errors" autocomplete="off" />
-                                            @error('aimage1') <span class="error">{{ $message }}</span> @enderror
+                                            <label for="explanation" class="form-label">{{__('Explanation')}} </label>
+                                            <textarea  wire:model="explanation" class="form-control"  :errors="$errors" ></textarea>
+                                            @error('explanation') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-4 px-1">
+                                    <div class="col-12">
                                         <div class="form-group">
-                                            <label for="answer2" class="form-label">{{__('Answer')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="answer2" type="text" class="form-control" :errors="$errors" autocomplete="off" />
-                                            @error('answer2') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 px-1">
-                                        <div class="form-group">
-                                            <label for="avalue2" class="form-label">{{__('Value')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="avalue2" type="text" class="form-control" :errors="$errors" autocomplete="off" />
-                                            @error('avalue2') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 px-1">
-                                        <div class="form-group">
-                                            <label for="next2" class="form-label">{{__('Next Question')}} </label>
-                                            <select wire:model="next2" class="form-control" aria-label="" :errors="$errors">
-                                                <option value='' selected>{{__('Select Next')}}</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                            </select>
-                                            @error('next2') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 px-1">
-                                        <div class="form-group">
-                                            <label for="aimage2" class="form-label">{{__('Image')}} </label>
-                                            <input wire:model="aimage2" type="file" class="form-control-file" :errors="$errors" autocomplete="off" />
-                                            @error('aimage2') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4 px-1">
-                                        <div class="form-group mb-lg-0">
-                                            <label for="answer3" class="form-label">{{__('Answer')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="answer3" type="text" class="form-control" :errors="$errors" autocomplete="off" />
-                                            @error('answer3') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 px-1">
-                                        <div class="form-group mb-lg-0">
-                                            <label for="avalue3" class="form-label">{{__('Value')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="avalue3" type="text" class="form-control" :errors="$errors" autocomplete="off" />
-                                            @error('avalue3') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 px-1">
-                                        <div class="form-group mb-lg-0">
-                                            <label for="next3" class="form-label">{{__('Next Question')}} </label>
-                                            <select wire:model="next3" class="form-control" aria-label="" :errors="$errors">
-                                                <option value='' selected>{{__('Select Next')}}</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                            </select>
-                                            @error('next3') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 px-1">
-                                        <div class="form-group mb-lg-0">
-                                            <label for="aimage4" class="form-label">{{__('Image')}} </label>
-                                            <input wire:model="aimage4" type="file" class="form-control-file" :errors="$errors" autocomplete="off" />
-                                            @error('aimage4') <span class="error">{{ $message }}</span> @enderror
+                                            <label for="question" class="form-label">{{__('Question')}} <sup class="text-danger">*</sup></label>
+                                            <input wire:model="question" type="text" class="form-control"  :errors="$errors" autocomplete="off" />
+                                            @error('question') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -370,7 +263,145 @@
                 <div wire:loading.remove wire:target="store">
                     <button type="button" wire:click.prevent="store" class="btn btn-orange btn-fix-size" >{{__('Save Question')}}</button>
                 </div>
-                <button type="button" class="btn btn-white btn-fix-size" wire:click="close" data-dismiss="modal">{{__('Cancel')}}</button>
+                <button type="button" wire:click.prevent="showAForm" class="btn btn-white btn-fix-size" ><i class='fas fa-plus-circle'></i> {{__('Add Answers')}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- edit question modal -->
+<div wire:ignore.self class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg mw-800" role="document">
+        <div class="modal-content">
+            <div class="modal-header py-3">
+                <h3 class="modal-title">{{__('Edit Question')}}</h3>
+                <button type="button" class="close" wire:click="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="inside-form">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="question-wrapper">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="form-group">
+                                            <label for="name" class="form-label">{{__('Question Identifier')}} <sup class="text-danger">*</sup></label>
+                                            <input wire:model="name" type="text" class="form-control" placeholder="{{_('Ex Question 1')}}" :errors="$errors" autocomplete="off" />
+                                            @error('name') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="form-group">
+                                            <label for="q_value" class="form-label">{{__('Value')}} <sup class="text-danger">*</sup></label>
+                                            <input wire:model="q_value" type="number" class="form-control"  :errors="$errors" autocomplete="off" />
+                                            @error('q_value') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-lg-0">
+                                            <label for="image" class="form-label">{{__('Image')}} </label>
+                                            <div class="img-wrapper">
+                                                <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
+                                            </div>
+                                            @error('image') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="explanation" class="form-label">{{__('Explanation')}} </label>
+                                            <textarea  wire:model="explanation" class="form-control"  :errors="$errors" ></textarea>
+                                            @error('explanation') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="question" class="form-label">{{__('Question')}} <sup class="text-danger">*</sup></label>
+                                            <input wire:model="question" type="text" class="form-control"  :errors="$errors" autocomplete="off" />
+                                            @error('question') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inside-form mt-1 pb-0">
+                        <small class="text-danger"><em><sup >*</sup> <apan class="text-muted">{{__('Required fields')}}</apan></em></small>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div wire:loading wire:target="createModal">
+                    <img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
+                </div>
+                <div wire:loading.remove wire:target="store">
+                    <button type="button" wire:click.prevent="store" class="btn btn-orange btn-fix-size" >{{__('Save Question')}}</button>
+                </div>
+                <button type="button" class="btn btn-secondary" wire:click="close" data-dismiss="modal">{{__('Cancel')}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- add new answer modal -->
+<div wire:ignore.self class="modal fade" id="createAModal" tabindex="-1" role="dialog" aria-labelledby="createAModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg mw-800 " role="document">
+        <div class="modal-content">
+            <div class="modal-header py-3">
+                <h3 class="modal-title">{{__('Add New Answer')}}</h3>
+                <button type="button" class="close" wire:click="closeA" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="inside-form">
+                    <div class="row flex-row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="answer" class="form-label">{{__('Answer')}} <sup class="text-danger">*</sup></label>
+                                <input wire:model="answer" type="text" class="form-control" :errors="$errors" autocomplete="off" />
+                                @error('answer') <span class="error">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="next_question" class="form-label">{{__('Next Question')}} </label>
+                                <select wire:model="next_question" class="form-control" aria-label="" :errors="$errors">
+                                    <option value='' selected>{{__('Select Next')}}</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                </select>
+                                @error('next_question') <span class="error">{{ $message }}</span> @enderror
+                                <small class="text-danger "><em><span class="text-muted">{{__('To assign the next question you need to create it first')}}</span></em></small>
+                            </div>
+                            
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="image" class="form-label">{{__('Image')}} </label>
+                                <input wire:model="image" type="file" class="form-control-file" :errors="$errors" autocomplete="off" />
+                                @error('image') <span class="error">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inside-form mt-2 pb-3 ">
+                        <small class="text-danger"><em><sup >*</sup> <span class="text-muted">{{__('Required fields')}}</span></em></small>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div wire:loading wire:target="createAModal">
+                    <img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
+                </div>
+                <div wire:loading.remove wire:target="store">
+                    <button type="button" wire:click.prevent="storeAns" class="btn btn-orange btn-fix-size" >{{__('Save Answer')}}</button>
+                </div>
+                <button type="button" class="btn btn-white btn-fix-size" wire:click="closeA" data-dismiss="modal">{{__('Cancel')}}</button>
             </div>
         </div>
     </div>
@@ -386,6 +417,21 @@
 
         window.addEventListener('closeModal', event => {
             $('#createModal').modal('hide');
+        });
+        window.addEventListener('openAModal', event => {         
+            $('#createAModal').modal('show');
+        });
+
+        window.addEventListener('closeAModal', event => {
+            $('#createAModal').modal('hide');
+        });
+
+        window.addEventListener('openUpdateModal', event => {           
+            $('#editModal').modal('show');
+        });
+
+        window.addEventListener('closeUpdateModal', event => {
+            $('#editModal').modal('hide');
         });
     </script>
 @endpush

@@ -22,10 +22,32 @@ class Newcourse extends Component
         $this->image    = '';
     }
 
+    private function resetInputAFields() {
+        
+        $this->answer         = '';
+        $this->next_question          = '';
+        $this->image    = '';
+    }
+
     public function showForm() {
         self::resetInputFields();
         $this->resetErrorBag();
         $this->dispatchBrowserEvent('openModal');
+    }
+
+    public function showAForm() {
+        self::resetInputAFields();
+        $this->resetErrorBag();
+        $this->dispatchBrowserEvent('openAModal');
+    }
+
+    public function edit() //$id parameter
+    {
+        $this->updateMode = true;
+        
+
+        $this->dispatchBrowserEvent('openUpdateModal');
+        
     }
 
     public function close()
@@ -33,6 +55,12 @@ class Newcourse extends Component
 
         $this->dispatchBrowserEvent('closeModal'); 
         $this->dispatchBrowserEvent('closeUpdateModal');
+
+    }
+    public function closeA()
+    {
+
+        $this->dispatchBrowserEvent('closeAModal'); 
 
 
     }

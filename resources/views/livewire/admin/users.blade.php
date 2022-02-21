@@ -39,9 +39,6 @@
                                         {{ __('Last Session') }}
                                     </th>
                                     <th>
-                                        {{ __('Plan') }}
-                                    </th>
-                                    <th>
                                         {{ __('Subscription') }}
                                     </th>
                                     <th>
@@ -70,13 +67,6 @@
                                         </td>
                                         <td>
                                             {{ $user->last_session }}
-                                        </td>
-                                        <td>
-                                            @if(!empty($user->plan))
-                                                {{ $user->plan->name}}
-                                            @else
-                                                {{ __('None') }}
-                                            @endif
                                         </td>
                                         <td>
                                             @if($user->subscription_date != null) 
@@ -165,18 +155,6 @@
                                 @error('land_id') <span class="error">{{ $message }}</span> @enderror
                             </div>
                             <div class="form-group">
-                                <label for="plan_id" class="form-label">{{__('Plan')}} <sup class="text-danger">*</sup></label>
-                                <select wire:model="plan_id" id="plan_id" class="form-control" :errors="$errors">
-                                    <option value="">{{__('Choose an option')}}</option>
-                                    @if(!empty($plans))
-                                        @foreach($plans as $option)
-                                            <option value="{{ $option->id }}">{{ $option->name }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                                @error('plan_id') <span class="error">{{ $message }}</span> @enderror
-                            </div>
-                            <div class="form-group">
                                 <label for="subscription_date" class="form-label">{{__('Subscription Date')}} (yyyy/mm/dd)<sup class="text-danger">*</sup></label>
                                 <div class="input-group date">
                                     <input wire:model="subscription_date" id="subscription_date" type="text" class="form-control"  :errors="$errors" autocomplete="off" />
@@ -256,21 +234,9 @@
                                 @error('land_id') <span class="error">{{ $message }}</span> @enderror
                             </div>
                             <div class="form-group">
-                                <label for="plan_id" class="form-label">{{__('Plan')}} <sup class="text-danger">*</sup></label>
-                                <select wire:model="plan_id" id="plan_id" class="form-control" :errors="$errors">
-                                    <option value="">{{__('Choose an option')}}</option>
-                                    @if(!empty($plans))
-                                        @foreach($plans as $option)
-                                            <option value="{{ $option->id }}">{{ $option->name }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                                @error('plan_id') <span class="error">{{ $message }}</span> @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="subscription_date" class="form-label">{{__('Subscription Date')}} (yyyy/mm/dd)<sup class="text-danger">*</sup></label>
+                                <label for="subscription_date2" class="form-label">{{__('Subscription Date')}} (yyyy/mm/dd)<sup class="text-danger">*</sup></label>
                                 <div class="input-group date">
-                                    <input wire:model="subscription_date" id="subscription_date" type="text" class="form-control"  :errors="$errors" autocomplete="off" />
+                                    <input wire:model="subscription_date" id="subscription_date2" type="text" class="form-control"  :errors="$errors" autocomplete="off" />
                                     <span class="input-group-addon">
                                         <span class="mdi mdi mdi-calendar-text"></span>
                                     </span>
@@ -301,6 +267,13 @@
 @push('scripts')
     <script>
         $('#subscription_date').datepicker({
+                format: "yyyy-mm-dd",
+                autoclose: true,
+                todayHighlight: true,
+            }).on('change', function(e){
+                @this.set('subscription_date', e.target.value);
+            });
+        $('#subscription_date2').datepicker({
                 format: "yyyy-mm-dd",
                 autoclose: true,
                 todayHighlight: true,

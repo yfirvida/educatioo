@@ -23,20 +23,6 @@
         <i class="menu-arrow"></i> 
       </a>
     </li>
-    <li class="nav-item {{request()->routeIs('levels') ? 'active' : '' }}">
-      <a class="nav-link "  href="{{ route('levels') }}">
-        <i class="menu-icon mdi mdi-file-tree"></i>
-        <span class="menu-title">{{ __('Levels') }}</span>
-        <i class="menu-arrow"></i>
-      </a>
-    </li>
-    <li class="nav-item {{request()->routeIs('plans') ? 'active' : '' }}">
-      <a class="nav-link" href="{{ route('plans') }}" >
-        <i class="menu-icon mdi mdi-playlist-check"></i>
-        <span class="menu-title">{{ __('Plans') }}</span>
-        <i class="menu-arrow"></i>
-      </a>
-    </li>
     <li class="nav-item nav-category">{{ __('Profile') }}</li>
     <li class="nav-item {{request()->routeIs('profile') ? 'active' : '' }}">
       <a class="nav-link" href="{{ route('profile') }}" >

@@ -47,6 +47,7 @@
     <script src="/star-admin/js/template.js"></script>
     <!-- endinject --> 
     <script src="{{ mix('js/app.js') }}" defer></script>
+    <script src="{{ asset('/js/custom.js') }}" defer></script>
 
     @stack('scripts')
     @livewireScripts

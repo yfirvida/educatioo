@@ -14,7 +14,7 @@
                     </a>
                     <a href="{{ route('newcourse') }}" class="btn btn-orange btn-fix-size" >
                         <img src="/img/quiz.png">
-                        {{ __('Add new quiz') }}
+                        {{ __('Add new course') }}
                     </a>
                 </div> 
                 
@@ -25,17 +25,17 @@
                 <table class="table  ">
                     <thead>
                         <tr>
-                            <th scope="col">Name Quiz</th>
-                            <th scope="col">Course Group</th>
-                            <th scope="col">Points</th>
-                            <th scope="col">Author</th>
-                            <th scope="col" class="text-center">Actions</th>
+                            <th scope="col">{{ __('Name Quiz') }}</th>
+                            <th scope="col">{{ __('Level') }}</th>
+                            <th scope="col">{{ __('Number of questions') }}</th>
+                            <th scope="col">{{ __('Author') }}</th>
+                            <th scope="col" class="text-center">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>Lorem Ipsum</td>
-                            <td>Classroom 1</td>
+                            <td>Level 1</td>
                             <td>6</td>
                             <td>Author 1</td>
                             <td class="d-flex justify-content-center align-items-center">
@@ -49,7 +49,7 @@
                         </tr>
                         <tr>
                             <td>Lorem Ipsum 2</td>
-                            <td>Classroom 2</td>
+                            <td>Level 2</td>
                             <td>7</td>
                             <td>Author 1</td>
                             <td class="d-flex justify-content-center align-items-center">
