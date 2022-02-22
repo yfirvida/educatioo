@@ -19,10 +19,10 @@ class RegisteredUserController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create($plan)
     {
         $lands = Land::all_items();
-        return view('auth.register', compact('lands'));
+        return view('auth.register', compact('lands', 'plan'));
     }
 
     /**
@@ -33,19 +33,22 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request, $plan)
     {
         $request->validate([
+            'name' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', Rules\Password::defaults()],
         ]);
+
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'trainer',
+            'plan' => $plan,
             'school' => $request->school,
             'land_id' => $request->land_id,
         ]);

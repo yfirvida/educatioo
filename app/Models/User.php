@@ -28,7 +28,7 @@ class User extends Authenticatable
         'land_id',
         'last_session',
         'subscription_date',
-        'plan_id',
+        'plan',
         'total_students'
     ];
 

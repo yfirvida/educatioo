@@ -69,9 +69,10 @@
               <div class="dropdown-header text-center b-bottom">
                 <img class="img-md mx-auto rounded-circle" src="/star-admin/images/faces/face8.jpg" alt="Profile image">
                 <p class="mb-1 mt-3 font-weight-semibold">{{Auth::user()->name}}</p>
+                <p class="mb-1 font-weight-bold">{{Auth::user()->plan}}</p>
                 <p class="fw-light text-muted mb-0">{{Auth::user()->email}}</p>
               </div>
-              <a href="javascript:void" onclick="$('#logout-form').submit();" class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+              <a href="javascript:void" onclick="$('#logout-form').submit();" class="dropdown-item justify-content-center"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>{{ __('Sign Out') }}</a>
             </div>
           </li>
         </ul>

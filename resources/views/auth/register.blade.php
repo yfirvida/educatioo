@@ -3,7 +3,7 @@
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ route('register', $plan) }}">
             @csrf
             <div class="w-100 d-flex justify-center">
                 <img class="mylogo" src="/img/small_logo.png" alt="logo" />
