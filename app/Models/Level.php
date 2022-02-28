@@ -10,4 +10,8 @@ class Level extends Model
     use HasFactory;
 
     protected $fillable = ['level'];
+
+    public static function all_items($sort = 'level', $order = 'asc') {
+        return Level::orderBy($sort, $order)->get();
+    }
 }

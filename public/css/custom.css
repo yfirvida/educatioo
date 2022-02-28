@@ -145,6 +145,7 @@ input.form-control:focus, select.form-control:focus{
 .navbar{
   background-color: #fff;
   border-bottom: 1px solid #f0f0f0;
+  height: 97px;
 }
 .navbar .navbar-menu-wrapper{
   width: auto !important;
@@ -164,6 +165,15 @@ input.form-control:focus, select.form-control:focus{
   background-color: #fff;
   padding: 20px 10px;
   font-family: 'Outfit', sans-serif;
+}
+
+@media (max-width: 991px){
+  .main-panel{
+    width: calc(100% - 100px)
+  }
+  .sidebar{
+    width: 100px;
+  }
 }
 
 .side-wrap{
@@ -214,6 +224,10 @@ input.form-control:focus, select.form-control:focus{
   border-bottom: 1px solid #dee2e6;
 }
 
+.input-group > .form-control.search-input{
+  padding-left: 25px;
+}
+
 @media (min-width: 992px){
 .sidebar-icon-only .sidebar {
     width: 100px;
@@ -226,7 +240,6 @@ input.form-control:focus, select.form-control:focus{
   font-family: 'Outfit', sans-serif;
   font-weight: 200;
   color: #868686;
-  padding-left: 25px;
 }
 .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback){
   border-top-left-radius: 3px;
@@ -289,6 +302,27 @@ input.form-control:focus, select.form-control:focus{
 
 .table thead th, .table td{
   font-size: 16px;
+  border-top: unset;
+}
+.table-responsive .fa-ellipsis-h:hover{
+  cursor: pointer;
+}
+.act{
+  position: relative !important;
+}
+.act .action-box{
+  position: absolute;
+  bottom: 0%;
+  right: 50px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 0px 10px 1px #dee2e6;
+  z-index: 10;
+  display: none;
+}
+.act .action-box.show{
+  display: block;
 }
 .btn.actions{
   background-color: transparent;
@@ -303,8 +337,23 @@ input.form-control:focus, select.form-control:focus{
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 175px;
+  min-width: 160px;
   box-shadow: 1px 0px 5px -3px rgba(0,0,0,0.75)
+}
+.btn img{
+  display: inline-flex;
+  margin-right: 2px;
+  width: 18px !important;
+  height: 18px !important;
+}
+.btn.btn-gray{
+  background: #d3d3d3;
+  color: #fff;
+  font-weight: 500;
+}
+.action-box .btn{
+  min-width: 252px;
+  font-size: 16px !important;
 }
 .btn .fa-file{
   color: #334093 !important;
@@ -316,7 +365,11 @@ input.form-control:focus, select.form-control:focus{
   margin-right: 5px;
   font-size: 13px !important;
 }
-.btn .fa-minus{
+.btn .fa-clock, .btn .fa-user-edit{
+  margin-right: 5px;
+  font-size: 15px !important;
+}
+.btn .fa-minus, .users .fa-minus, .users .fa-plus{
   color: red !important;
   border: 1px solid red;
   border-radius: 50%;
@@ -336,6 +389,17 @@ input.form-control:focus, select.form-control:focus{
   font-size: 13px !important;
 }
 
+.users .fa-plus{
+  color: green !important;
+  border: 1px solid green;
+  height: 18px;
+  width: 18px;
+}
+
+.users .fa-minus:hover, .users .fa-plus: hover{
+  cursor:  pointer;
+}
+
 .btn .fa-file-import, .btn .fa-cloud-upload-alt{
   margin-right: 5px;
 }
@@ -347,6 +411,18 @@ input.form-control:focus, select.form-control:focus{
 .dotted-input{
   border-radius: 6px;
   border: 1px dashed #000;
+}
+
+.card{
+  box-shadow: none;
+}
+.card .card-body{
+  padding: 0;
+}
+.card-header:first-child{
+  padding: 0;
+  background-color: transparent;
+  border-bottom: none;
 }
 
 .accordion-item{
@@ -527,16 +603,25 @@ input.form-control:focus, select.form-control:focus{
   bottom: 12px;
 }
 
+.modal-header{
+  border-bottom: none;
+}
+
+.modal-footer{
+  border-top: none;
+}
+
 .modal-header h3{
   font-size: 18px;
   font-weight: 700;
   font-family: 'Outfit'
 }
 
-.modal-body .answers-wrapper{
+.modal-body .intro{
   padding: 20px;
   border-radius: 10px;
   background: #f8f9fa;
+  height: 100%;
 }
 
 .modal-body .question-wrapper{
@@ -572,4 +657,56 @@ input.form-control:focus, select.form-control:focus{
   left: calc(50% - 73px);
   cursor:  pointer;
 }
+@media (min-width: 768px){
+ .modal-md{
+   max-width: 650px !important;
+ }
+}
+.datepickers, .datetimepicker-input{
+  min-width: 100%;
+  position: relative;
+}
+.datepickers i{
+  position: absolute;
+  right: 5px;
+  color: #ddd;
+  bottom: 8px;
+}
+.bootstrap-datetimepicker-widget table th{
+  font-size: 14px;
+  width: auto;
+  height: auto;
+  padding: 0.25rem 0.25rem
+}
+.bootstrap-datetimepicker-widget table td{
+  font-size: 14px;
+  padding: 0.25rem 0.25rem
+  
+}
+.bootstrap-datetimepicker-widget table td.day{
+  width: auto;
+  height: auto;
+  line-height: 16px;
+}
+.bootstrap-datetimepicker-widget table td.active, .bootstrap-datetimepicker-widget table td.active:hover{
+  background-color:  #e4601c ;
+}
+.bootstrap-datetimepicker-widget .picker-switch td span{
+  background-color: #dee2e6;
+  color: #343a40;
+}
+.bootstrap-datetimepicker-widget .timepicker .timepicker-picker a.btn{
+  color: #e4601c;
+}
+.bootstrap-datetimepicker-widget .timepicker .timepicker-picker span:hover{
+  color: #fff;
+  background-color: #e4601c;
+}
+.bootstrap-datetimepicker-widget .btn[data-action=togglePeriod]{
+  background-color: #e4601c;
+  border-color: #e4601c;
+}
 
+.fix-table{
+  max-height: 341px;
+}
