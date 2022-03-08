@@ -29,7 +29,8 @@ class User extends Authenticatable
         'last_session',
         'subscription_date',
         'plan',
-        'total_students'
+        'total_students',
+        'trainer_id'
     ];
 
     /**
@@ -51,6 +52,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function classrooms()
+    {
+        return $this->belongsToMany(Classroom::class)->withPivot("pin");
+    }
+
     public function land()
     {
         return $this->belongsTo(Land::class);
@@ -70,5 +76,9 @@ class User extends Authenticatable
     
     public function isStudent() {
        return $this->role === 'student';
+    }
+
+    public static function allStudents($id){
+        return User::where('trainer_id', $id)->where('role','student')->get();
     }
 }

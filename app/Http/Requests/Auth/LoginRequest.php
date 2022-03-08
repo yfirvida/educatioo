@@ -31,6 +31,8 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
+            'exam_id' => ['nullable', 'string'],
+            'course_id' => ['nullable', 'string'],
         ];
     }
 

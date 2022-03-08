@@ -34,7 +34,7 @@
                             <td>Level 1</td>
                             <td class="text-center">6</td>
                             <td class="d-flex justify-content-between align-items-center act">
-                                <a href="{{ route('edit-course') }}" class="btn actions mb-2 mr-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
+                                <a href="" class="btn actions mb-2 mr-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
                                 <button class="btn actions mb-2 mr-2"><i class="fas fa-minus"></i> {{ __('Delete') }}</button> 
                                 <i class='fas fa-ellipsis-h mb-2 text-danger'></i>
 
@@ -49,7 +49,7 @@
                             <td>Level 2</td>
                             <td class="text-center">7</td>
                             <td class="d-flex justify-content-between align-items-center act">
-                                <a href="{{ route('edit-course') }}" class="btn actions mb-2 mr-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
+                                <a href="" class="btn actions mb-2 mr-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
                                 <button class="btn actions mb-2 mr-2"><i class="fas fa-minus"></i> {{ __('Delete') }}</button> 
                                 <i class='fas fa-ellipsis-h mb-2 text-danger'></i>
 
@@ -64,7 +64,7 @@
                             <td>Level 2</td>
                             <td class="text-center">7</td>
                             <td class="d-flex justify-content-between align-items-center act">
-                                <a href="{{ route('edit-course') }}" class="btn actions mb-2 mr-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
+                                <a href="" class="btn actions mb-2 mr-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
                                 <button class="btn actions mb-2 mr-2"><i class="fas fa-minus"></i> {{ __('Delete') }}</button> 
                                 <i class='fas fa-ellipsis-h mb-2 text-danger'></i>
 
@@ -79,7 +79,7 @@
                             <td>Level 2</td>
                             <td class="text-center">7</td>
                             <td class="d-flex justify-content-between align-items-center act">
-                                <a href="{{ route('edit-course') }}" class="btn actions mb-2 mr-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
+                                <a href="" class="btn actions mb-2 mr-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
                                 <button class="btn actions mb-2 mr-2"><i class="fas fa-minus"></i> {{ __('Delete') }}</button> 
                                 <i class='fas fa-ellipsis-h mb-2 text-danger'></i>
 

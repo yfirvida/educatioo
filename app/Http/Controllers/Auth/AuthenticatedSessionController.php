@@ -28,12 +28,15 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+        $course_id = $request->course_id;
+        $group_id = $request->group_id;
+
         $request->authenticate();
 
         $request->session()->regenerate();
 
         //return redirect()->intended(RouteServiceProvider::HOME);
-        return redirect()->intended(self::home($request));
+        return redirect()->intended(self::home($request))->with(['course_id'=> $course_id, 'group_id' => $group_id]);
 
     }
     public static function home(LoginRequest $request) : string {

@@ -1,4 +1,6 @@
-
+.modal-content{
+  border: none !important;
+}
 .full-screen{
   min-height: 100vh;
   min-width: 100vw;
@@ -6,6 +8,9 @@
   background-size: cover;
   background-repeat: no-repeat;
   font-family: 'Outfit', sans-serif;
+}
+#loginStdModal .btn{
+  min-width: 135px;
 }
 
 .btn-orange{
@@ -48,14 +53,18 @@
   box-shadow: 0px 0px 7px 0px rgba(32,60,255,0.43);
 }
 
-.wrapper-card .btn-secondary{
+.wrapper-card .btn-secondary, #loginStdModal .btn-secondary{
   background-color: #fff;
   border-color: #fff;
   color: #a3a3a3;
   padding:  5px 40px;
 }
+#loginStdModal .btn-secondary{
+  border-color: #e9ecef;
+  color: #000;
+}
 
-.wrapper-card:hover .btn-secondary{
+.wrapper-card:hover .btn-secondary , #loginStdModal .btn-secondary:hover{
   background-color: #e4601c;
   border-color: #e4601c;
   color: #fff;
@@ -89,6 +98,11 @@
     border: #e4601c 1px solid;
     color: #e4601c;
     
+}
+
+.title{
+  font-size: 26px;
+  font-weight: 600;
 }
 
 .form-wrapper{
@@ -277,16 +291,16 @@ input.form-control:focus, select.form-control:focus{
   }
 }
 
-.main-panel .content-wrapper{
+.main-panel .content-wrapper, .main .content-wrapper{
   background-color: #fff;
   border-radius: 6px;
   padding: 15px 0px;
 }
-.main-panel .content-wrapper .content{
+.main-panel .content-wrapper .content, .main .content-wrapper .content{
   padding: 0px 10px;
 }
 
-.main-panel .content-wrapper h2{
+.main-panel .content-wrapper h2, .main .content-wrapper h2{
   color: #2b2b2b;
   font-weight: 600;
   font-size: 24px;
@@ -536,7 +550,7 @@ input.form-control:focus, select.form-control:focus{
   border-color:  #e4601c;
 }
 
-.accordion-item .box [type='checkbox']{
+.accordion-item .box [type='checkbox'], .check-group .form-check [type='checkbox']{
   color: #e4601c;
 }
 .accordion-item .box input.form-control{
@@ -549,7 +563,7 @@ input.form-control:focus, select.form-control:focus{
   border-color:  #e4601c !important;
 }
 
-.accordion-item .form-check-input:focus{
+.accordion-item .form-check-input:focus, .check-group .form-check-input:focus{
   outline:  unset;
   box-shadow: none
 } 
@@ -564,7 +578,7 @@ input.form-control:focus, select.form-control:focus{
   bottom: 0;
 }
 
-.accordion-item .opt .form-check{
+.accordion-item .opt .form-check, .check-group{
   margin-top: 0px;
   margin-bottom: 10px;
   padding-left: 25px;
@@ -574,13 +588,16 @@ input.form-control:focus, select.form-control:focus{
   margin: auto;
   position: relative;
 }
-.accordion-item .opt .form-check .form-check-label{
+.check-group .form-check{
+  padding-left: 1.5em;
+}
+.accordion-item .opt .form-check .form-check-label, .check-group .form-check .form-check-label{
   margin-left: 0;
   width: max-content;
   font-size: 16px;
   font-weight: 600;
 }
-.accordion-item .opt .form-check .form-check-input{
+.accordion-item .opt .form-check .form-check-input, .check-group .form-check .form-check-input{
   float: none !important;
   position: absolute;
   left: 0;
@@ -709,4 +726,85 @@ input.form-control:focus, select.form-control:focus{
 
 .fix-table{
   max-height: 341px;
+}
+
+.main{
+  width: 100%;
+  min-height: calc(100vh - 97px);
+  background-color: #f3f6f8;
+}
+
+.welc{
+  position: relative;
+  min-height: 450px;
+  font-family: 'Outfit', sans-serif;
+}
+.welc img:not(.centered){
+  position: absolute;
+  bottom: 0;
+  right: 10px
+}
+.welc h1{
+  font-size: 40px;
+  font-weight: 700;
+  color: #e4601c;
+  font-family: 'Outfit', sans-serif;
+}
+.welc h3{
+  font-size: 25px;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+}
+.welc h6{
+  font-size: 18px;
+  font-weight: 600;
+  color: #494949;
+  font-family: 'Outfit', sans-serif;
+}
+.welc p{
+  font-size: 16px;
+}
+.welc .btn-orange{
+  padding: 10px 60px;
+  font-size: 16px;
+}
+.welc .btn-orange i{
+  font-size: 12px;
+}
+.welc .image-wrapper{
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: #f0f2f5;
+  border-radius: 10px;
+  padding: 5px;
+  margin-left: 10px;
+  width: 40px;
+  height: 40px;
+}
+.welc .box{
+  border-radius: 6px;
+  padding: 7px;
+  margin-bottom: 15px;
+}
+.welc .box [type='checkbox'] {
+    color: #e4601c;
+    margin-left: 0;
+    margin-top: 4px;
+    border-color: #e4601c !important;
+    position: absolute;
+    left: 0;
+}
+.welc .form-check-input:focus{
+  outline: unset;
+  box-shadow: none;
+} 
+
+.welc .form-check .form-check-label{
+  font-size: 16px;
+  margin-left: 1.5rem
+}
+
+.users-wrapper{
+  max-height: 264px;
 }

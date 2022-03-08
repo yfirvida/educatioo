@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WelcomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,8 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () { return view('welcome'); })->name('home');
-//Route::post('/logout', '\App\Http\Controllers\Auth\AuthenticatedSessionController@destroy');
+//Route::get('/', function () { return view('welcome'); })->name('home');
+Route::get('/', [WelcomeController::class, 'show'])->name('home');
+
+Route::post('/authByPin', [WelcomeController::class, 'authByPin']);
 
 Route::group(['middleware' => ['web', 'admin'], 'namespace' => '\App\Http\Livewire\Admin'], function ()
 {
@@ -36,8 +39,8 @@ Route::group(['middleware' => ['web', 'trainer'], 'namespace' => '\App\Http\Live
 	Route::get('/trainer/courses',Courses::class)->name('courses');
 	Route::get('/trainer/import',Import::class)->name('import');
 	Route::get('/trainer/newcourse',Newcourse::class)->name('newcourse');
-	Route::get('/trainer/edit-course',EditCourse::class)->name('edit-course');
-	Route::get('/trainer/course-preview',CoursePreview::class)->name('course-preview');
+	Route::get('/trainer/edit-course/{id}',EditCourse::class)->name('edit-course');
+	Route::get('/trainer/course-preview/{id}',CoursePreview::class)->name('course-preview');
 	Route::get('/trainer/results',Results::class)->name('results');
 	Route::get('/trainer/archive',Archive::class)->name('archive');
 	Route::get('/trainer/launch',Launch::class)->name('launch');
@@ -46,6 +49,10 @@ Route::group(['middleware' => ['web', 'trainer'], 'namespace' => '\App\Http\Live
 Route::group(['middleware' => ['web', 'student'], 'namespace' => '\App\Http\Livewire\Student'], function ()
 {
 	Route::get('/student/dashboard', Dashboard::class)->name('student_dashboard');
+	Route::get('/student/quiz', Quiz::class)->name('quiz');
+	Route::get('/student/result', Result::class)->name('result');
 });
+
+
 
 require __DIR__.'/auth.php';

@@ -32,7 +32,7 @@
                             <td>12/05/2022 15:00</td>
                             <td class="d-flex justify-content-center align-items-center">
                                 <div>
-                                    <a href="{{ route('edit-course') }}" class="btn actions mb-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
+                                    <a href="" class="btn actions mb-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
                                     <button class="btn actions mb-2"><i class="far fa-clock"></i> {{ __('End now') }}</button>
                                     <button class="btn actions mb-2"><i class="fas fa-user-edit"></i> {{ __('View') }}</button>
                                     <button class="btn actions"><img src="/img/archive-orange.png"> {{ __('Archive') }}</button>
@@ -46,7 +46,7 @@
                             <td>12/05/2022 15:00</td>
                             <td class="d-flex justify-content-center align-items-center">
                                 <div>
-                                    <a href="{{ route('edit-course') }}" class="btn actions mb-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
+                                    <a href="" class="btn actions mb-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
                                     <button class="btn actions mb-2"><i class="far fa-clock"></i> {{ __('End now') }}</button>
                                     <button class="btn actions mb-2"><i class="fas fa-user-edit"></i> {{ __('View') }}</button>
                                     <button class="btn actions"><img src="/img/archive-orange.png"> {{ __('Archive') }}</button>

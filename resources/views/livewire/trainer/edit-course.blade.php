@@ -1,180 +1,140 @@
 <div>
+    @if (session()->has('message'))
+        <div class="alert alert-success" style="margin-top:30px;">
+          {{ session('message') }}
+        </div>
+     @endif
     <div class="content-wrapper">
         <div class="content ">
             <h2 class="mb-3">{{ __('Edit Course') }}</h2>
-            <h5 class="">{{ __('Course Name') }}</h5>
-                <input type="text" name="name" class="dotted-input w-100 mb-3 mt-2" value="Lorem ipsum dolor">
-            <h5 >{{ __('Instruction') }}</h5>
-                <textarea rows="3" class="dotted-input w-100 mt-2">Lorem ipsum dolor sit amet, facer timeam cu mea, eu dicta tamquam sea, nec no doctus dolorem. Mandamus patrioque te duo. Nec case explicari constituto te. Impedit sensibus aliquando mel an, suas voluptaria referrentur duo no. Ad tritani veritus accommodare vis.</textarea> 
+            <h5 class="">{{ __('Course Name') }} <sup class="text-danger">*</sup></h5>
+                <input wire:model="name" type="text" class="dotted-input w-100 mb-3 mt-2"  :errors="$errors" autocomplete="off" />
+                @error('name') <span class="error">{{ $message }}</span> @enderror
+            <h5 >{{ __('Instruction') }} <sup class="text-danger">*</sup></h5>
+                <textarea wire:model="description" rows="3" name="description" class="dotted-input w-100 mt-2 mb-2"  :errors="$errors" autocomplete="off" /></textarea> 
+                @error('description') <span class="error">{{ $message }}</span> @enderror
+            <div class="form-group">
+                <h5 class="mb-1">{{__('Level')}} <sup class="text-danger">*</sup></h5>
+                <select wire:model="level_id" id="level_id" class="form-control" :errors="$errors">
+                    <option value="">{{__('Choose an option')}}</option>
+                    @if(!empty($levels))
+                        @foreach($levels as $option)
+                            <option value="{{ $option->id }}">{{ $option->level }}</option>
+                        @endforeach
+                    @endif
+                </select>
+                @error('level_id') <span class="error">{{ $message }}</span> @enderror
+            </div>
         </div>
     </div>
     <div id="accordion" class="mt-3">
-        <div class="card accordion-item">
-            <div class="card-header" id="headingOne">
-                <div class="row m-0">
-                    <div class="col-md-3 p-1">
-                        <div class="box">
-                            <h4>{{ __('What is the name of the figure?') }}</h4>
-                            <button class="collapsed mt-3" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">{{ __('Answers') }}</button> 
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-1">
-                        <div class="box">
-                            <div class="img-wrapper">
-                                <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
-                                <div class="wrapper"><img src=""></div>
+        @if($questions && $questions->count() > 0) 
+            @foreach ($questions as $index => $question)
+                <div class="card accordion-item" wire:key="question-{{ $question->id }}">
+                    <div class="card-header" id="heading{{$index}}">
+                        <div class="row m-0">
+                            <div class="col-md-3 p-1">
+                                <div class="box">
+                                    <h4>{{$question->question }}</h4>
+                                    <button class="collapsed mt-3" type="button" data-toggle="collapse" data-target="#collapse{{$index}}" aria-expanded="true" aria-controls="collapse{{$index}}">{{ __('Answers') }}</button> 
+                                </div>
+                            </div>
+                            <div class="col-md-3 p-1">
+                                <div class="box">
+                                    <div class="img-wrapper">
+                                        <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
+                                        <div class="wrapper"><img src=""></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 p-1">
+                                <div class="box d-flex justify-content-center align-items-center">
+                                    <div class="text-center">
+                                        <h4>{{ $question->identifier}}</h4>
+                                        <p class="value">{{ $question->value }} {{ __('Points') }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 p-1">
-                        <div class="box d-flex justify-content-center align-items-center">
-                            <div class="text-center">
-                                <h4>{{ __('Question 1') }}</h4>
-                                <p class="value">8 {{ __('Points') }}</p>
-                            </div>
-                        </div>
+                    <div id="collapse{{$index}}" class="collapse" aria-labelledby="heading{{$index}}" data-parent="#accordion">
+                      <div class="card-body">
+                        @if($question->answers)
+                            @foreach ($question->answers as $ind => $answer)
+                                <div class="row m-0" wire:key="answer-{{ $answer->id }}">
+                                    <div class="col-md-3 p-1">
+                                        <div class="box">
+                                            <textarea rows="4" class="form-control w-100" wire:model.defer="questions.{{$index}}.answers.{{ $ind }}.answer"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 p-1">
+                                        <div class="box">
+                                            <div class="img-wrapper">
+                                                <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
+                                                <div class="wrapper"><img src=""></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 p-1">
+                                        <div class="box"> 
+                                            <select class="form-select" wire:model.defer="questions.{{$index}}.answers.{{ $ind }}.next_question">
+                                                <option value="">{{__('Choose an option')}}</option>
+                                                    @if(!empty($questions))
+                                                        @foreach($questions as $q)
+                                                            <option value="{{ $q->id }}">{{ $q->identifier }}</option>
+                                                        @endforeach
+                                                    @endif
+                                            </select>
+                                            <div class="form-check">
+                                              <input class="form-check-input" type="checkbox"  wire:model.defer="questions.{{$index}}.answers.{{ $ind }}.correct" >
+                                              <label class="form-check-label" for="">
+                                                {{ __('Right Answer') }}
+                                              </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                      </div>
                     </div>
-                </div>
-            </div>
-            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-              <div class="card-body">
-                <div class="row m-0">
-                    <div class="col-md-3 p-1">
-                        <div class="box">
-                            <textarea rows="4" class="form-control w-100">Curabitur ullamcorper ultricies nisi. </textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-1">
-                        <div class="box">
-                            <div class="img-wrapper">
-                                <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
-                                <div class="wrapper"><img src=""></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-1">
-                        <div class="box">
-                            <select class="form-select" aria-label="    ">
-                                <option selected>Question 2</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                            </select>
+                    <div class="col-md-3 p-1 opt">
+                        <div class="box text-center">
                             <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" checked>
-                              <label class="form-check-label" for="flexCheckChecked">
-                                {{ __('Right Answer') }}
-                              </label>
+                                <input wire:model.defer="questions.{{$index}}.latest_question" class="form-check-input" type="checkbox" value=""  >
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    {{ __('Last question') }}
+                                </label>
                             </div>
-                        </div>
-                    </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 p-1 opt">
-                <div class="box text-center">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            {{ __('Last question') }}
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            {{ __('Show in results') }}
-                        </label>
-                    </div>
-                    <div class="icons-wrapper mt-2">
-                        <a href="#" class="mr-2"><i class="far fa-trash-alt"></i></a>
-                        <a href="#" class="mr-2" wire:click="edit()"><i class='fas fa-edit'></i></a>
-                        <a href="#"><i class='far fa-copy'></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card accordion-item">
-            <div class="card-header" id="headingt">
-                <div class="row m-0">
-                    <div class="col-md-3 p-1">
-                        <div class="box">
-                            <h4>{{ __('What is the name of the figure?') }}</h4>
-                            <button class="collapsed mt-3" type="button" data-toggle="collapse" data-target="#collapset" aria-expanded="true" aria-controls="collapset">{{ __('Answers') }}</button> 
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-1">
-                        <div class="box">
-                            <div class="img-wrapper">
-                                <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
-                                <div class="wrapper"><img src=""></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-1">
-                        <div class="box d-flex justify-content-center align-items-center">
-                            <div class="text-center">
-                                <h4>{{ __('Question 1') }}</h4>
-                                <p class="value">8 {{ __('Points') }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="collapset" class="collapse" aria-labelledby="headingt" data-parent="#accordion">
-              <div class="card-body">
-                <div class="row m-0">
-                    <div class="col-md-3 p-1">
-                        <div class="box">
-                            <textarea rows="4" class="form-control w-100">Curabitur ullamcorper ultricies nisi. </textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-1">
-                        <div class="box">
-                            <div class="img-wrapper">
-                                <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
-                                <div class="wrapper"><img src=""></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 p-1">
-                        <div class="box">
-                            <select class="form-select" aria-label="    ">
-                                <option selected>Question 2</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                            </select>
                             <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" checked>
-                              <label class="form-check-label" for="flexCheckChecked">
-                                {{ __('Right Answer') }}
-                              </label>
+                                <input wire:model.defer="questions.{{$index}}.show_in_result" class="form-check-input" type="checkbox" value="" >
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    {{ __('Show in results') }}
+                                </label>
+                            </div>
+                            <div class="icons-wrapper mt-2">
+                                <a href="#" class="mr-2"><i class="far fa-trash-alt"></i></a>
+                                <a href="#" class="mr-2" wire:click="edit()"><i class='fas fa-edit'></i></a>
+                                <a href="#" class="mr-2"><i class='far fa-copy'></i></a>
+                                <a href="#"  wire:click='showA2Form({{$question->id}})'><i class='fab fa-rocketchat'></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
-              </div>
-            </div>
-            <div class="col-md-3 p-1 opt">
-                <div class="box text-center">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            {{ __('Last question') }}
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            {{ __('Show in results') }}
-                        </label>
-                    </div>
-                    <div class="icons-wrapper mt-2">
-                        <a href="#" class="mr-2"><i class="far fa-trash-alt"></i></a>
-                        <a href="#" class="mr-2" wire:click="edit()"><i class='fas fa-edit'></i></a>
-                        <a href="#"><i class='far fa-copy'></i></a>
+            @endforeach
+        @else
+            <div class="card accordion-item">
+                <div class="card-header" id="headingOne">
+                    <div class="row m-0">
+                        <div class="col-12 p-1">
+                            <div class="box">
+                                {{_('There are no questions yet')}} 
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
     </div>
     <div class="actions-wrapper">
         <div class="col-md-3 offset-9 actions">
@@ -183,11 +143,288 @@
                 <i class="far fa-question-circle mr-2"></i>
                 {{ __('Add new question') }}
             </button>
-            <a href="#" class="btn btn-white w-100 mt-2">   
+            <a href="#" class="btn btn-white w-100 mt-2" wire:click="update">   
                 {{ __('Save Course') }}
             </a>
             </div>
         </div>
     </div>
+<!-- add new question modal -->
+<div wire:ignore.self class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg mw-800" role="document">
+        <div class="modal-content">
+            <div class="modal-header py-3">
+                <h3 class="modal-title">{{__('Add New Question')}}</h3>
+                <button type="button" class="close" wire:click="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="inside-form">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="question-wrapper">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="form-group">
+                                            <label for="nameq" class="form-label">{{__('Question Identifier')}} <sup class="text-danger">*</sup></label>
+                                            <input wire:model="nameq" type="text" class="form-control" placeholder="{{_('Ex Question 1')}}" :errors="$errors" autocomplete="off" />
+                                            @error('nameq') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="form-group">
+                                            <label for="q_value" class="form-label">{{__('Value')}} <sup class="text-danger">*</sup></label>
+                                            <input wire:model="q_value" type="number" class="form-control"  :errors="$errors" autocomplete="off" />
+                                            @error('q_value') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-lg-0">
+                                            <label for="image" class="form-label">{{__('Image')}} </label>
+                                            <div class="img-wrapper">
+                                                <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
+                                            </div>
+                                            @error('image') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="explanation" class="form-label">{{__('Explanation')}} </label>
+                                            <textarea  wire:model="explanation" class="form-control"  :errors="$errors" ></textarea>
+                                            @error('explanation') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="form-group">
+                                            <label for="question_name" class="form-label">{{__('Question')}} <sup class="text-danger">*</sup></label>
+                                            <input wire:model="question_name" type="text" class="form-control"  :errors="$errors" autocomplete="off" />
+                                            @error('question_name') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-4 check-group">
+                                        <div class="form-check">
+                                            <input wire:model="latestQ" class="form-check-input" type="checkbox" :errors="$errors">
+                                            <label class="form-check-label" for="latestQ">
+                                                {{ __('Last question') }}
+                                            </label>
+                                            @error('latestQ') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                        <div class="form-check">
+                                            <input wire:model="showR" class="form-check-input" type="checkbox"  :errors="$errors">
+                                            <label class="form-check-label" for="showR">
+                                                {{ __('Show in results') }}
+                                            </label>
+                                            @error('showR') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inside-form mt-1 pb-0">
+                        <small class="text-danger"><em><sup >*</sup> <apan class="text-muted">{{__('Required fields')}}</apan></em></small>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div wire:loading wire:target="createModal">
+                    <img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
+                </div>
+                <div wire:loading.remove wire:target="store">
+                    <button type="button" wire:click.prevent="store" class="btn btn-orange btn-fix-size" >{{__('Save Question')}}</button>
+                </div>
+                <button type="button" id="btnsave" wire:click.prevent="showAForm" class="btn btn-white btn-fix-size" disabled><i class='fas fa-plus-circle'></i> {{__('Add Answers')}}</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- edit question modal -->
+<div wire:ignore.self class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg mw-800" role="document">
+        <div class="modal-content">
+            <div class="modal-header py-3">
+                <h3 class="modal-title">{{__('Edit Question')}}</h3>
+                <button type="button" class="close" wire:click="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="inside-form">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="question-wrapper">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="form-group">
+                                            <label for="name" class="form-label">{{__('Question Identifier')}} <sup class="text-danger">*</sup></label>
+                                            <input wire:model="name" type="text" class="form-control" placeholder="{{_('Ex Question 1')}}" :errors="$errors" autocomplete="off" />
+                                            @error('name') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="form-group">
+                                            <label for="q_value" class="form-label">{{__('Value')}} <sup class="text-danger">*</sup></label>
+                                            <input wire:model="q_value" type="number" class="form-control"  :errors="$errors" autocomplete="off" />
+                                            @error('q_value') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group mb-lg-0">
+                                            <label for="image" class="form-label">{{__('Image')}} </label>
+                                            <div class="img-wrapper">
+                                                <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
+                                            </div>
+                                            @error('image') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="explanation" class="form-label">{{__('Explanation')}} </label>
+                                            <textarea  wire:model="explanation" class="form-control"  :errors="$errors" ></textarea>
+                                            @error('explanation') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="question_name" class="form-label">{{__('Question')}} <sup class="text-danger">*</sup></label>
+                                            <input wire:model="question_name" type="text" class="form-control"  :errors="$errors" autocomplete="off" />
+                                            @error('question_name') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inside-form mt-1 pb-0">
+                        <small class="text-danger"><em><sup >*</sup> <apan class="text-muted">{{__('Required fields')}}</apan></em></small>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div wire:loading wire:target="createModal">
+                    <img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
+                </div>
+                <div wire:loading.remove wire:target="store">
+                    <button type="button" wire:click.prevent="store" class="btn btn-orange btn-fix-size" >{{__('Save Question')}}</button>
+                </div>
+                <button type="button" class="btn btn-secondary" wire:click="close" data-dismiss="modal">{{__('Cancel')}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- add new answer modal -->
+<div wire:ignore.self class="modal fade" id="createAModal" tabindex="-1" role="dialog" aria-labelledby="createAModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg mw-800 " role="document">
+        <div class="modal-content">
+            <div class="modal-header py-3">
+                <h3 class="modal-title">{{__('Add New Answer')}}</h3>
+                <button type="button" class="close" wire:click="closeA" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="inside-form">
+                    <div class="row flex-row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="answer" class="form-label">{{__('Answer')}} <sup class="text-danger">*</sup></label>
+                                <input wire:model="answer" type="text" class="form-control" :errors="$errors" autocomplete="off" />
+                                @error('answer') <span class="error">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row flex-row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="next_question" class="form-label">{{__('Next Question')}} </label>
+                                <select wire:model="next_question" class="form-control" aria-label="" :errors="$errors">
+                                    <option value="">{{__('Choose an option')}}</option>
+                                    @if(!empty($questions))
+                                        @foreach($questions as $q)
+                                            <option value="{{ $q->id }}">{{ $q->identifier }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                @error('next_question') <span class="error">{{ $message }}</span> @enderror
+                                <small class="text-danger "><em><span class="text-muted">{{__('To assign the next question you need to create it first')}}</span></em></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row flex-row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="image" class="form-label">{{__('Image')}} </label>
+                                <input wire:model="image" type="file" class="form-control-file" :errors="$errors" autocomplete="off" />
+                                @error('image') <span class="error">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                        <div class="col-6 check-group">
+                            <div class="form-check">
+                                <input wire:model="right" class="form-check-input" type="checkbox" :errors="$errors">
+                                <label class="form-check-label" for="right">
+                                    {{ __('Right Answer') }}
+                                </label>
+                                @error('right') <span class="error">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inside-form mt-2 pb-3 ">
+                        <small class="text-danger"><em><sup >*</sup> <span class="text-muted">{{__('Required fields')}}</span></em></small>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"> 
+                <div wire:loading wire:target="createAModal">
+                    <img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
+                </div>
+                <div wire:loading.remove wire:target="saveAnswer">
+                    <button type="button" wire:click.prevent="saveAnswer" class="btn btn-orange btn-fix-size" >{{__('Save Answer')}}</button>
+                </div>
+                <button type="button" class="btn btn-white btn-fix-size" wire:click="closeA" data-dismiss="modal">{{__('Cancel')}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+@push('scripts')
+    <script>
+        window.addEventListener('openModal', event => {         
+            $('#createModal').modal('show');
+        });
+        window.addEventListener('closeModal', event => {
+            $('#createModal').modal('hide');
+        });
+        window.addEventListener('openAnswers', event => {         
+            document.getElementById("btnsave").disabled = false
+        });
+        window.addEventListener('openAModal', event => {         
+            $('#createAModal').modal('show');
+        });
+
+        window.addEventListener('closeAModal', event => {
+            $('#createAModal').modal('hide');
+        });
+
+        window.addEventListener('openUpdateModal', event => {           
+            $('#editModal').modal('show');
+        });
+
+        window.addEventListener('closeUpdateModal', event => {
+            $('#editModal').modal('hide');
+        });
+    </script>
+@endpush
 

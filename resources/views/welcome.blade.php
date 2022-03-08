@@ -114,7 +114,7 @@
 </div>
 <!-- login student modal-->
 <div class="modal fade" id="studentModal" tabindex="-1" role="dialog" aria-labelledby="studentModalLabel" aria-hidden="true">
-    <<div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header align-items-center">
                 <img src="/img/student.png">
@@ -122,14 +122,14 @@
             <div class="modal-body px-5">
                 <h3 class="w-100 text-center mb-3">{{ __('Student') }}</h3>
                 
-                <form method="POST" action="{{ route('login') }}">
+                <form method="POST" action="">
             @csrf
 
-            <!-- Course(Code) -->
+            <!-- Course Name(Code) -->
             <div>
-                <x-label for="code" :value="__('Course(Code)')" />
+                <x-label for="name" :value="__('Course(Code)')" />
 
-                <x-input id="code" class="block mt-1 w-full" type="text" name="code"  required autofocus />
+                <x-input id="name" class="block mt-1 w-full" type="text" name="name"  required autofocus />
             </div>
 
             <!-- PIN -->
@@ -144,9 +144,9 @@
 
             <div class="flex items-center justify-center mt-3">
 
-                <button class=" btn btn-orange w-100">
-                    {{ __('Sign in') }}
-                </button>
+            <a href="#" class=" btn btn-orange w-100" id="btn-login" >
+                {{ __('Sign in') }}
+            </a>
             </div>
             <div class="flex items-center justify-center mt-3 back">
                 <a href="#" data-toggle="modal" data-target="#loginModal" data-dismiss="modal"><i class="fas fa-arrow-left"></i> {{ __('Back') }}</a>
@@ -157,8 +157,38 @@
         </div>
     </div>
 </div>
+
+<!-- loginStdModal modal -->
+<div class="modal fade" id="loginStdModal" tabindex="-1" role="dialog" aria-labelledby="loginStdModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body px-0 pt-0">
+                <img src="/img/student2.jpg">
+                <h2 class="w-100 text-center mt-3 mb-3 title">{{ __('Course Group') }} <span id="g_name"></span><br> {{ __('Level') }} <span id="s_level"></span></h2>
+                <p class="text-center mb-4">{{ __('Are you') }} <span id="st_name"></span>?</p>
+                <form method="POST" action="{{ route('login') }}">
+                     @csrf
+                    <input type="hidden" id="course_id" name="course_id" value="test">
+                    <input type="hidden" id="group_id" name="group_id" >
+                    <input type="hidden" id="email2" name="email" >
+                    <input type="hidden" id="password2" name="password" >
+                    <input type="hidden" id="remember" name="remember" value="false">
+                    <div class="d-flex justify-content-center">
+                        <button class=" btn btn-orange mx-2">
+                            <i class='fas fa-check'></i> {{ __('Yes') }}
+                        </button>
+                        <a href="#" class=" btn btn-secondary mx-2" data-dismiss="modal" >
+                        <i class='fas fa-times'></i> {{ __('No') }}
+                        </a>
+                    </div>
+                </form>     
+            </div>
+        </div>
+    </div>
+</div>
         <!-- Scripts -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="{{ asset('/js/custom.js') }}" defer></script>
     </body>
 </html>

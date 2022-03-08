@@ -4,10 +4,10 @@ namespace App\Http\Livewire\Student;
 
 use Livewire\Component;
 
-class Dashboard extends Component
+class Quiz extends Component
 {
     public function render()
     {
-        return view('livewire.student.dashboard')->layout('layouts.students');
+        return view('livewire.student.quiz')->layout('layouts.students');
     }
 }
