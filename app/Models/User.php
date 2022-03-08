@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable
 {
@@ -80,5 +81,9 @@ class User extends Authenticatable
 
     public static function allStudents($id){
         return User::where('trainer_id', $id)->where('role','student')->get();
+    }
+
+    public static function allStudentsOutThisClassroom($id , $class){
+        return User::where('trainer_id', $id)->where('role','student')->whereDoesntHave('classrooms')->orWhereHas('classrooms', function ($query) use($class){ $query->where('classroom_id', '<>', $class); })->get();
     }
 }

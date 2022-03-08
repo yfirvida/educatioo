@@ -13,11 +13,12 @@ use Illuminate\Support\Facades\Hash;
 class Classrooms extends Component
 {
     public $name, $level_id, $namestd, $email;
-    public $levels, $students;
-    public $trainer_id, $classroom_id;
+    public $levels, $students, $extras, $assignST;
+    public $trainer_id, $classroom_id, $st_id, $current;
 
     protected $rules = [
         'students.*.pin' => 'required|string|min:6',
+        'assignST.*.pin' => 'required|string|min:6',
     ];
 
     public function render()
@@ -32,6 +33,7 @@ class Classrooms extends Component
         $this->name = '';
         $this->level_id  = null;
         $this->students = [];
+        $this->current = false;
 
     }
     public function showForm() {
@@ -156,6 +158,18 @@ class Classrooms extends Component
 
     }
 
+    public function removeASt($index, $id)
+    {
+        
+        $this->current->users()->detach($id);
+        $this->extras = User::allStudentsOutThisClassroom($this->trainer_id , $this->current->id);
+        $this->assignST = $this->current->users()->get();
+        foreach($this->assignST as $index => $student){
+            $this->assignST[$index]->pin = $this->assignST[$index]->pivot->pin;
+        }
+
+    }
+
     private function resetInputFieldsSt() {
         
         $this->name = '';
@@ -184,7 +198,7 @@ class Classrooms extends Component
             'email' => 'required',
         ]);
 
-        User::create(['name' => $this->namestd,
+        $st = User::create(['name' => $this->namestd,
             'email' => $this->email,
             'password' => Hash::make('1234'),
             'role' => 'student',
@@ -192,8 +206,50 @@ class Classrooms extends Component
         ]);
 
         self::resetInputFieldsSt();
-        $this->students = User::allStudents($this->trainer_id);
+
+        if($this->current){
+            $pin = bin2hex(random_bytes(4));
+            $this->current->users()->attach($st->id, ['pin' => $pin]);
+            $this->extras = User::allStudentsOutThisClassroom($this->trainer_id , $this->current->id);
+            $this->assignST = $this->current->users()->get();
+            foreach($this->assignST as $index => $student){
+                $this->assignST[$index]->pin = $this->assignST[$index]->pivot->pin;
+            }
+        } 
+        else{
+            $this->students = User::allStudents($this->trainer_id);
+            foreach($this->students as $index => $student){
+                $this->students[$index]->pin = bin2hex(random_bytes(4));
+            }
+        }
         $this->dispatchBrowserEvent('closeStdModal'); // Close modal using jquery
 
     }
+
+    public function showAssignForm($class) {
+        $this->extras = User::allStudentsOutThisClassroom($this->trainer_id , $class);
+
+        $this->current = Classroom::where('id',$class)->first();
+        $this->name = $this->current->name;
+        $this->assignST = $this->current->users()->get();
+        foreach($this->assignST as $index => $student){
+            $this->assignST[$index]->pin = $student->pivot->pin;
+        }
+        $this->resetErrorBag();
+        $this->dispatchBrowserEvent('openAssignModal');
+    }
+
+    public function assign(){
+
+        $pin = bin2hex(random_bytes(4));
+        $this->current->users()->attach($this->st_id, ['pin' => $pin]); 
+
+        $this->assignST = $this->current->users()->get();
+        foreach($this->assignST as $index => $student){
+            $this->assignST[$index]->pin = $this->assignST[$index]->pivot->pin;
+        }
+
+    }
+    
+    
 }

@@ -42,7 +42,7 @@
 
                                         <div class="action-box">
                                             <button class="btn actions mb-2"><i class="fas fa-clipboard-check mr-1"></i> {{ __('Show questionnaries') }}</button> 
-                                            <button class="btn btn-orange mb-2"><i class="fas fa-user-plus"></i> {{ __('Assign students') }}</button> 
+                                            <button class="btn btn-orange mb-2" wire:click="showAssignForm({{$class->id}})"><i class="fas fa-user-plus"></i> {{ __('Assign students') }}</button> 
                                             <button class="btn actions btn-gray "><i class="fas fa-users mr-1"></i> {{ __('Show students') }}</button> 
 
                                         </div>
@@ -110,7 +110,7 @@
                                                 <tbody>
                                                     @if(!empty($students))
                                                         @foreach($students as $index => $student)
-                                                            <tr wire:key="student-{{ $student->id }}">
+                                                            <tr wire:key="studentt-{{ $student->id }}">
                                                                 <td>{{$student->name}}</td>
                                                                 <td>{{$student->email}}</td>
                                                                 <td class="">
@@ -249,7 +249,91 @@
     </div>
 </div>
 
-
+<!-- assign students modal -->
+<div wire:ignore.self class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="assignModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header py-3">
+                <h3 class="modal-title">{{__('Assign Students for')}} {{$name}} {{__('Course Group')}}</h3>
+                <button type="button" class="close" wire:click="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body pt-3">
+                <div class="inside-form">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="question-wrapper">
+                                <div class="row mb-2">
+                                    <div class="col-sm-6 col-md-8 pr-sm-1">
+                                        <div class="form-group mb-2">
+                                            <select wire:model="st_id" id="st_id" class="form-control" :errors="$errors">
+                                                <option value="">{{__('Students')}}</option>
+                                                @if(!empty($extras))
+                                                    @foreach($extras as $option)
+                                                        <option value="{{ $option->id }}">{{$option->name}} ({{$option->email}})</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                            @error('st_id') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4 pl-sm-0">
+                                        <div wire:loading wire:target="assign">
+                                            <img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
+                                        </div>
+                                        <div wire:loading.remove wire:target="assign">
+                                            <button type="button" wire:click.prevent="assign()" class="btn btn-orange w-100" style="min-height: 2rem">{{__('Add to Group')}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="table-responsive users-wrapper">
+                                            <table class="table  users">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">{{ __('Name') }}</th>
+                                                        <th scope="col">{{ __('Email') }}</th>
+                                                        <th scope="col">{{ __('PIN') }}</th>
+                                                        <th scope="col" class="text-center"><a href="#" wire:click="showStForm"><i class="fas fa-plus"></i> </a></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if(!empty($assignST))
+                                                        @foreach($assignST as $index => $student)
+                                                            <tr wire:key="assignST-{{ $student->id }}">
+                                                                <td>{{$student->name}}</td>
+                                                                <td>{{$student->email}}</td>
+                                                                <td class="">
+                                                                    <input wire:model.defer="assignST.{{ $index }}.pin" type="text" class="form-control"  autocomplete="off" />
+                                                                </td>
+                                                                <td class="text-center ">
+                                                                    <a href="#" wire:click="removeASt({{$index}}, {{$student->id}})"><i class="fas fa-minus"></i></a> 
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @else 
+                                                        <tr>
+                                                            <td class="text-center" colspan="4">{{_('There are no students assigned to this group')}}</td>
+                                                        </tr>
+                                                    @endif
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" wire:click.prevent="close" class="btn btn-white btn-fix-size" >{{__('Cancel')}}</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- add new student modal -->
 <div wire:ignore.self class="modal fade" id="createStModal" tabindex="-1" role="dialog" aria-labelledby="createStModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md" role="document">
@@ -303,6 +387,7 @@
         </div>
     </div>
 </div>
+
 </div>
 
 @push('scripts')
@@ -321,6 +406,15 @@
         window.addEventListener('closeUpdateModal', event => {
             $('#updateModal').modal('hide');
         });
+        
+        window.addEventListener('openAssignModal', event => {         
+            $('#assignModal').modal('show');
+        });
+
+        window.addEventListener('closeAssignModal', event => {
+            $('#assignModal').modal('hide');
+        });
+
         window.addEventListener('openStdModal', event => {         
             $('#createStModal').modal('show');
         });
