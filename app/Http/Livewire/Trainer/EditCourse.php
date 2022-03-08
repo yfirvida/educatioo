@@ -13,7 +13,7 @@ class EditCourse extends Component
     public $course;
     public $name, $description, $level_id;
     public $levels;
-    public $questions;
+    public $questions, $current;
 
     protected $rules = [
         'questions.*.answers.*.next_question' => 'nullable',
@@ -139,6 +139,7 @@ class EditCourse extends Component
 
         $this->dispatchBrowserEvent('closeModal'); 
         $this->dispatchBrowserEvent('closeUpdateModal');
+        $this->dispatchBrowserEvent('closeUpdateQModal');
 
     }
     //new question
@@ -183,7 +184,7 @@ class EditCourse extends Component
             'question_id' => $this->question_id,
             'image' => $this->imageA,
         ]);
-        
+
         $this->course->refresh();
         $this->questions = $this->course->questions;
         foreach($this->questions as $q){
@@ -203,6 +204,106 @@ class EditCourse extends Component
         $this->dispatchBrowserEvent('closeAModal'); 
 
 
+    }
+
+    //delete question
+    public function confirm($id)
+    {
+        $this->current = $id;
+        $this->dispatchBrowserEvent('openConfirmModal');
+
+    }
+
+     public function closeConfirm()
+    {
+
+        $this->dispatchBrowserEvent('closeConfirmModal'); 
+
+    }
+
+    public function deleteQuestion($id)
+    {
+        $q = Question::find($id);
+        $q->answers()->delete(); 
+        $q->exams()->detach();
+        $q->delete();
+
+
+        $this->course->refresh();
+        $this->questions = $this->course->questions;
+        foreach($this->questions as $q){
+            $q->latest_question = $q->pivot['latest_question'];
+            $q->show_in_result  =  $q->pivot['show_in_result'];    
+        }  
+        session()->flash('message', 'Question Deleted Successfully.');
+        
+        $this->dispatchBrowserEvent('closeConfirmModal'); 
+
+    }
+
+    //update question
+
+    public function editQ($id) {
+
+        $q = Question::find($id);
+        $this->current = $id;
+        $this->nameq = $q->identifier;
+        $this->q_value = $q->value;
+        $this->explanation = $q->intro;
+        $this->question_name = $q->question;
+        $this->image = $q->image;
+        $this->showR = false;
+        $this->latestQ = false;
+        
+        $this->resetErrorBag();
+        $this->dispatchBrowserEvent('openUpdateQModal');
+    }
+
+    public function updateQ($id)
+    {
+
+        $validatedData = $this->validate([
+            'nameq' => 'required',
+            'q_value' => 'required',
+            'explanation' => 'nullable',
+            'question_name' => 'required',
+            'image' => 'nullable'
+
+        ]);
+        $q = Question::find($id);
+        $q->update(['identifier' => $this->nameq,
+            'value' => $this->q_value,
+            'intro' => $this->explanation,
+            'question' => $this->question_name,
+            'image' => $this->image
+        ]);
+
+        $this->course->refresh();
+        $this->questions = $this->course->questions; 
+        foreach($this->questions as $q){
+            $q->latest_question = $q->pivot['latest_question'];
+            $q->show_in_result  =  $q->pivot['show_in_result'];    
+        }  
+        
+        self::resetInputQFields();
+        $this->dispatchBrowserEvent('closeUpdateQModal'); // Close modal using jquery
+
+    }
+
+    public function copy($id)
+    {
+        $q = Question::find($id);
+        $newQ = $q->replicateRow();
+        $this->course->questions()->attach($newQ->id, ['show_in_result' => $q->exams[0]->pivot['show_in_result'], 'latest_question' => $q->exams[0]->pivot['latest_question']]);
+
+        $this->course->refresh();
+        $this->questions = $this->course->questions; 
+        foreach($this->questions as $q){
+            $q->latest_question = $q->pivot['latest_question'];
+            $q->show_in_result  =  $q->pivot['show_in_result'];    
+        } 
+
+        session()->flash('message', 'Question Copied Successfully.'); 
     }
 
 }

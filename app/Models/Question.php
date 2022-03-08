@@ -35,4 +35,19 @@ class Question extends Model
         return $result;
     }
 
+    public function replicateRow()
+    {
+       $clone = $this->replicate();
+       $clone->push();
+         
+       foreach($this->answers as $answer)
+       {
+           $clone->answers()->create($answer->toArray());
+       }
+  
+       $clone->save();
+
+       return $clone;
+    }
+
 }

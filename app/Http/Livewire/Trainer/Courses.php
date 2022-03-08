@@ -48,7 +48,6 @@ class Courses extends Component
         $this->current = null;
         $this->dispatchBrowserEvent('closeModal'); 
 
-        session()->flash('message', 'Course Deleted Successfully.');
 
     }
 

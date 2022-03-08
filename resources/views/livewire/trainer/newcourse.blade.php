@@ -82,7 +82,9 @@
                                                 <option value="">{{__('Choose an option')}}</option>
                                                     @if(!empty($questions))
                                                         @foreach($questions as $q)
-                                                            <option value="{{ $q->id }}">{{ $q->identifier }}</option>
+                                                            @if($q->id != $question->id)
+                                                                <option value="{{ $q->id }}">{{ $q->identifier }}</option>
+                                                            @endif
                                                         @endforeach
                                                     @endif
                                             </select>
@@ -114,9 +116,9 @@
                                 </label>
                             </div>
                             <div class="icons-wrapper mt-2">
-                                <a href="#" class="mr-2"><i class="far fa-trash-alt"></i></a>
-                                <a href="#" class="mr-2" wire:click="edit()"><i class='fas fa-edit'></i></a>
-                                <a href="#" class="mr-2"><i class='far fa-copy'></i></a>
+                                <a href="#" class="mr-2" wire:click="confirm({{$question->id}})"><i class="far fa-trash-alt"></i></a>
+                                <a href="#" class="mr-2" wire:click="editQ({{$question->id}})"><i class='fas fa-edit'></i></a>
+                                <a href="#" class="mr-2" wire:click="copy({{$question->id}})"><i class='far fa-copy'></i></a>
                                 <a href="#"  wire:click='showA2Form({{$question->id}})'><i class='fab fa-rocketchat'></i></a>
                             </div>
                         </div>
@@ -247,7 +249,7 @@
 </div>
 
 <!-- edit question modal -->
-<div wire:ignore.self class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="editQModal" tabindex="-1" role="dialog" aria-labelledby="editModalQLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg mw-800" role="document">
         <div class="modal-content">
             <div class="modal-header py-3">
@@ -264,9 +266,9 @@
                                 <div class="row">
                                     <div class="col-lg-4 col-md-6">
                                         <div class="form-group">
-                                            <label for="name" class="form-label">{{__('Question Identifier')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="name" type="text" class="form-control" placeholder="{{_('Ex Question 1')}}" :errors="$errors" autocomplete="off" />
-                                            @error('name') <span class="error">{{ $message }}</span> @enderror
+                                            <label for="nameq" class="form-label">{{__('Question Identifier')}} <sup class="text-danger">*</sup></label>
+                                            <input wire:model="nameq" type="text" class="form-control" placeholder="{{_('Ex Question 1')}}" :errors="$errors" autocomplete="off" />
+                                            @error('nameq') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-6">
@@ -313,11 +315,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <div wire:loading wire:target="createModal">
+                <div wire:loading wire:target="editQModal">
                     <img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
                 </div>
-                <div wire:loading.remove wire:target="store">
-                    <button type="button" wire:click.prevent="store" class="btn btn-orange btn-fix-size" >{{__('Save Question')}}</button>
+                <div wire:loading.remove wire:target="updateQ">
+                    <button type="button" wire:click.prevent="updateQ({{$current}})" class="btn btn-orange btn-fix-size" >{{__('Save Question')}}</button>
                 </div>
                 <button type="button" class="btn btn-secondary" wire:click="close" data-dismiss="modal">{{__('Cancel')}}</button>
             </div>
@@ -399,6 +401,28 @@
     </div>
 </div>
 
+<!-- confirm modal -->
+<div wire:ignore.self class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body pb-3">
+                <div class="inside-form text-center">
+                    {{_('Are you sure you want to delete this item?')}}
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <div wire:loading wire:target="deleteQuestion">
+                    <img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
+                </div>
+                <div wire:loading.remove wire:target="deleteQuestion">
+                    <button type="button" wire:click.prevent="deleteQuestion({{$current}})" class="btn btn-orange btn-fix-size" >{{__('Delete')}}</button>
+                </div>
+                <button type="button" wire:click.prevent="closeConfirm" class="btn btn-white btn-fix-size" >{{__('Cancel')}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>
 
 @push('scripts')
@@ -426,6 +450,19 @@
 
         window.addEventListener('closeUpdateModal', event => {
             $('#editModal').modal('hide');
+        });
+        window.addEventListener('openConfirmModal', event => {         
+            $('#confirmModal').modal('show');
+        });
+
+        window.addEventListener('closeConfirmModal', event => {
+            $('#confirmModal').modal('hide');
+        });
+        window.addEventListener('openUpdateQModal', event => {         
+            $('#editQModal').modal('show');
+        });
+        window.addEventListener('closeUpdateQModal', event => {         
+            $('#editQModal').modal('hide');
         });
     </script>
 @endpush
