@@ -19,7 +19,7 @@ class Question extends Model
 
     public function exams()
     {
-        return $this->belongsToMany(Exam::class)->withPivot('show_in_result', 'latest_question');
+        return $this->belongsToMany(Exam::class)->withPivot('show_in_result', 'latest_question')->withPivot('show_in_result', 'latest_question', 'created_at')->orderBy('pivot_created_at','asc');
     }
 
     public function answers()
