@@ -23,11 +23,18 @@ class Courses extends Component
         $this->dispatchBrowserEvent('openModal');
 
     }
+    public function share($id)
+    {
+        $this->current = $id;
+        $this->dispatchBrowserEvent('openSModal');
+
+    }
 
      public function close()
     {
 
         $this->dispatchBrowserEvent('closeModal'); 
+        $this->dispatchBrowserEvent('closeSModal'); 
 
     }
 

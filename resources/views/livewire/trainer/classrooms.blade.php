@@ -43,7 +43,6 @@
                                         <div class="action-box">
                                             <button class="btn actions mb-2"><i class="fas fa-clipboard-check mr-1"></i> {{ __('Show questionnaries') }}</button> 
                                             <button class="btn btn-orange mb-2" wire:click="showAssignForm({{$class->id}})"><i class="fas fa-user-plus"></i> {{ __('Assign students') }}</button> 
-                                            <button class="btn actions btn-gray "><i class="fas fa-users mr-1"></i> {{ __('Show students') }}</button> 
 
                                         </div>
                                     </td>

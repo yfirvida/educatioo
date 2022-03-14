@@ -67,6 +67,12 @@ class User extends Authenticatable
         return $this->belongsTo(Plan::class);
     }
 
+    public function results()
+    {
+        return $this->hasMany(Result::class);
+    }
+
+
     public function isAdmin() {
        return $this->role === 'admin';
     }
@@ -85,5 +91,10 @@ class User extends Authenticatable
 
     public static function allStudentsOutThisClassroom($id , $class){
         return User::where('trainer_id', $id)->where('role','student')->whereDoesntHave('classrooms')->orWhereHas('classrooms', function ($query) use($class){ $query->where('classroom_id', '<>', $class); })->get();
+    }
+
+    public static function getResults($user, $exam , $class){
+        $user = User::find($user);
+        return $user->results->where('exam_id', '=', $exam)->where('classroom_id', '=', $class)->first();
     }
 }

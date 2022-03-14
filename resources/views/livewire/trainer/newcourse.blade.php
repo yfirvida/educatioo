@@ -34,13 +34,13 @@
                 <div class="card accordion-item" wire:key="question-{{ $question->id }}">
                     <div class="card-header" id="heading{{$index}}">
                         <div class="row m-0">
-                            <div class="col-md-3 p-1">
+                            <div class="col-md-3 p-1 order-3 order-md-1">
                                 <div class="box">
                                     <h4>{{$question->question }}</h4>
                                     <button class="collapsed mt-3" type="button" data-toggle="collapse" data-target="#collapse{{$index}}" aria-expanded="true" aria-controls="collapse{{$index}}">{{ __('Answers') }}</button> 
                                 </div>
                             </div>
-                            <div class="col-md-3 p-1">
+                            <div class="col-md-3 p-1 order-2">
                                 <div class="box">
                                     <div class="img-wrapper">
                                         <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
@@ -48,7 +48,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3 p-1">
+                            <div class="col-md-3 p-1 order-1 order-md-3">
                                 <div class="box d-flex justify-content-center align-items-center">
                                     <div class="text-center">
                                         <h4>{{ $question->identifier}}</h4>
@@ -104,6 +104,12 @@
                     <div class="col-md-3 p-1 opt">
                         <div class="box text-center">
                             <div class="form-check">
+                                <input wire:model.defer="questions.{{$index}}.first_question" class="form-check-input" type="checkbox" value=""  >
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    {{ __('First question') }}
+                                </label>
+                            </div>
+                            <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="" wire:model.defer="questions.{{$index}}.latest_question" >
                                 <label class="form-check-label" for="">
                                     {{ __('Last question') }}
@@ -140,7 +146,7 @@
         @endif
     </div>
     <div class="actions-wrapper">
-        <div class="col-md-3 offset-9 actions">
+        <div class="col-md-3 offset-md-9 actions">
            <div class="box text-center"> 
             <button class="btn btn-orange w-100" wire:click="showForm">
                 <i class="far fa-question-circle mr-2"></i>
@@ -211,6 +217,13 @@
                                         </div>
                                     </div>
                                     <div class="col-4 check-group">
+                                        <div class="form-check">
+                                            <input wire:model="firstQ" class="form-check-input" type="checkbox" :errors="$errors">
+                                            <label class="form-check-label" for="firstQ">
+                                                {{ __('First question') }}
+                                            </label>
+                                            @error('firstQ') <span class="error">{{ $message }}</span> @enderror
+                                        </div>
                                         <div class="form-check">
                                             <input wire:model="latestQ" class="form-check-input" type="checkbox" :errors="$errors">
                                             <label class="form-check-label" for="latestQ">

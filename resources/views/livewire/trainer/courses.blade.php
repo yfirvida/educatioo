@@ -50,7 +50,7 @@
                                     <a href="{{ route('course-preview', $course->id) }}" class="btn actions mb-2"><i class="far fa-file"></i> {{ __('Preview') }}</a>
                                     <a href="{{ route('edit-course', $course->id) }}" class="btn actions mb-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
                                     <button class="btn actions mb-2" wire:click="confirm({{$course->id}})"><i class="fas fa-minus"></i> {{ __('Delete') }}</button>
-                                    <button class="btn actions"><i class="fas fa-share-alt"></i> {{ __('Share') }}</button>
+                                    <button class="btn actions" wire:click="share({{$course->id}})"><i class="fas fa-share-alt"></i> {{ __('Share') }}</button>
                                     </div> 
                                 </td>
                             </tr>
@@ -83,6 +83,30 @@
         </div>
     </div>
 </div>
+
+<!-- share modal -->
+<div wire:ignore.self class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header py-3">
+                <h3 class="modal-title">{{__('Share Course URL for Import')}}</h3>
+                <button type="button" class="close" wire:click="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body pb-3">
+                <div class="inside-form text-center">
+                    {{route('import', ['exam' => $current])}}
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" wire:click.prevent="close" class="btn btn-white btn-fix-size" >{{__('Cancel')}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </div>
 @push('scripts')
     <script>
@@ -92,6 +116,13 @@
 
         window.addEventListener('closeModal', event => {
             $('#confirmModal').modal('hide');
+        });
+        window.addEventListener('openSModal', event => {         
+            $('#shareModal').modal('show');
+        });
+
+        window.addEventListener('closeSModal', event => {
+            $('#shareModal').modal('hide');
         });
     </script>
 @endpush

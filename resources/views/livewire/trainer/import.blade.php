@@ -1,4 +1,9 @@
 <div>
+    @if (session()->has('message'))
+        <div class="alert alert-success" style="margin-top:30px;">
+          {{ session('message') }}
+        </div>
+     @endif
     <div class="content-wrapper">
         <div class="content ">
             <h2 class="mb-3">{{ __('Import Course') }}</h2>
@@ -23,7 +28,7 @@
                 <div class="inside-form mt-1 pb-0">
                     <small class="text-danger"><em><sup >*</sup> <apan class="text-muted">{{__('Required fields')}}</apan></em></small>
                 </div>
-                <button type="button" class="btn btn-orange btn-fix-size mt-4" ><i class="fas fa-file-import"></i> {{__('Import')}}</button> 
+                <button type="button" class="btn btn-orange btn-fix-size mt-4" wire:click="import()"><i class="fas fa-file-import"></i> {{__('Import')}}</button> 
             </form> 
         </div>
     </div>

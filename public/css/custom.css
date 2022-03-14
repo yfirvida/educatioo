@@ -452,7 +452,7 @@ input.form-control:focus, select.form-control:focus{
   border: none;
   border-radius: 6px;
   height: 100%;
-  min-height: 105px;
+  min-height: 135px;
 }
 
 .accordion-item .box h4{
@@ -578,6 +578,12 @@ input.form-control:focus, select.form-control:focus{
   bottom: 0;
 }
 
+@media (max-width: 768px){
+ .accordion-item .opt{
+   position: relative;
+ }
+}
+
 .accordion-item .opt .form-check, .check-group{
   margin-top: 0px;
   margin-bottom: 10px;
@@ -613,13 +619,25 @@ input.form-control:focus, select.form-control:focus{
 }
 .actions-wrapper .box{
   background: #fff;
+  padding: 20px 0
 }
 .actions-wrapper .actions{
   position: absolute;
   right: 0px;
   bottom: 12px;
 }
-
+@media (max-width: 768px){
+ .actions-wrapper .actions{
+   position: relative;
+   padding: 5px;
+   bottom: 0;
+ }
+ .actions-wrapper .box {
+    background: #fff;
+    padding: 20px 15px;
+    border-radius: 6px;
+  }
+}
 .modal-header{
   border-bottom: none;
 }

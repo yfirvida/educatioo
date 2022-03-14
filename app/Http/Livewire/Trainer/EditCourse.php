@@ -19,6 +19,7 @@ class EditCourse extends Component
         'questions.*.answers.*.next_question' => 'nullable',
         'questions.*.answers.*.answer' => 'nullable',
         'questions.*.answers.*.correct' => 'nullable',
+        'questions.*.first_question' => 'nullable',
         'questions.*.latest_question' => 'nullable',
         'questions.*.show_in_result' => 'nullable',
 
@@ -32,6 +33,7 @@ class EditCourse extends Component
         $this->description = $this->course->description;
         $this->level_id = $this->course->level_id;
         foreach($this->questions as $q){
+            $q->first_question = $q->pivot['first_question'];
             $q->latest_question = $q->pivot['latest_question'];
             $q->show_in_result  =  $q->pivot['show_in_result'];    
         }
@@ -61,7 +63,7 @@ class EditCourse extends Component
 
         //update the pivot table exam_question
         foreach($this->questions as $q){
-            $this->course->questions()->updateExistingPivot($q->id, ['latest_question' => $q->latest_question, 'show_in_result' => $q->show_in_result]);
+            $this->course->questions()->updateExistingPivot($q->id, ['latest_question' => $q->latest_question, 'show_in_result' => $q->show_in_result, 'first_question' => $q->first_question]);
  
             $answers = $q->answers;
             foreach($q->answers as $a){ 
@@ -91,6 +93,7 @@ class EditCourse extends Component
         $this->image = '';
         $this->showR = false;
         $this->latestQ = false;
+        $this->firstQ = false;
     }
 
     public function showForm() {
@@ -120,11 +123,12 @@ class EditCourse extends Component
 
         $this->question_id = $questionn->id;
 
-        $this->course->questions()->attach($questionn->id, ['show_in_result' => $this->showR, 'latest_question' => $this->latestQ]); 
+        $this->course->questions()->attach($questionn->id, ['show_in_result' => $this->showR, 'latest_question' => $this->latestQ, 'first_question' => $this->firstQ ]); 
 
         $this->course->refresh();
         $this->questions = $this->course->questions; 
         foreach($this->questions as $q){
+            $q->first_question = $q->pivot['first_question'];
             $q->latest_question = $q->pivot['latest_question'];
             $q->show_in_result  =  $q->pivot['show_in_result'];    
         }  
@@ -188,6 +192,7 @@ class EditCourse extends Component
         $this->course->refresh();
         $this->questions = $this->course->questions;
         foreach($this->questions as $q){
+            $q->first_question = $q->pivot['first_question'];
             $q->latest_question = $q->pivot['latest_question'];
             $q->show_in_result  =  $q->pivot['show_in_result'];    
         }  
@@ -232,6 +237,7 @@ class EditCourse extends Component
         $this->course->refresh();
         $this->questions = $this->course->questions;
         foreach($this->questions as $q){
+            $q->first_question = $q->pivot['first_question'];
             $q->latest_question = $q->pivot['latest_question'];
             $q->show_in_result  =  $q->pivot['show_in_result'];    
         }  
@@ -281,6 +287,7 @@ class EditCourse extends Component
         $this->course->refresh();
         $this->questions = $this->course->questions; 
         foreach($this->questions as $q){
+            $q->first_question = $q->pivot['first_question'];
             $q->latest_question = $q->pivot['latest_question'];
             $q->show_in_result  =  $q->pivot['show_in_result'];    
         }  
@@ -294,11 +301,12 @@ class EditCourse extends Component
     {
         $q = Question::find($id);
         $newQ = $q->replicateRow();
-        $this->course->questions()->attach($newQ->id, ['show_in_result' => $q->exams[0]->pivot['show_in_result'], 'latest_question' => $q->exams[0]->pivot['latest_question']]);
+        $this->course->questions()->attach($newQ->id, ['show_in_result' => $q->exams[0]->pivot['show_in_result'], 'latest_question' => $q->exams[0]->pivot['latest_question'], 'first_question' => $q->exams[0]->pivot['first_question']]);
 
         $this->course->refresh();
         $this->questions = $this->course->questions; 
         foreach($this->questions as $q){
+            $q->first_question = $q->pivot['first_question'];
             $q->latest_question = $q->pivot['latest_question'];
             $q->show_in_result  =  $q->pivot['show_in_result'];    
         } 

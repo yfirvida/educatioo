@@ -46,6 +46,7 @@ class Launch extends Component
         $this->start = null;
         $this->end  = null;
         $this->min_points  = null;
+        $this->total_points  = null;
     }
     public function showForm() {
         
@@ -77,6 +78,7 @@ class Launch extends Component
             'start' => 'required',
             'end' => 'required',
             'min_points' => 'required',
+            'total_points' => 'required',
         ]);
 
         //format the dates
@@ -86,7 +88,7 @@ class Launch extends Component
 
         //launch
         $classroom = Classroom::find($this->classroom_id);
-        $classroom->exams()->attach($this->course_id, ['start' => $start, 'end' => $end, 'min_points' => $this->min_points, 'email_instructions' => $this->instructions, 'certificate_id' => $this->certificate_id]);
+        $classroom->exams()->attach($this->course_id, ['start' => $start, 'end' => $end, 'min_points' => $this->min_points, 'total_points' => $this->total_points, 'email_instructions' => $this->instructions, 'certificate_id' => $this->certificate_id]);
         
         $this->dispatchBrowserEvent('closeModal'); // Close modal using jquery
 
@@ -137,6 +139,7 @@ class Launch extends Component
         $this->end = DateTime::createFromFormat('Y-m-d H:i:s', $relation->pivot->end)->format('d/m/Y g:i A');
         $this->certificate_id = $relation->pivot->certificate_id;
         $this->min_points = $relation->pivot->min_points;
+        $this->total_points = $relation->pivot->total_points;
 
         $this->dispatchBrowserEvent('openEditModal');
         
@@ -150,7 +153,7 @@ class Launch extends Component
         $start = DateTime::createFromFormat('d/m/Y g:i A', $this->start)->format('Y-m-d H:i:s');
         $end = DateTime::createFromFormat('d/m/Y g:i A', $this->end)->format('Y-m-d H:i:s');
 
-        $classroom->exams()->updateExistingPivot($this->course_id, ['start' => $start, 'end' => $end, 'min_points' => $this->min_points, 'certificate_id' => $this->certificate_id]);
+        $classroom->exams()->updateExistingPivot($this->course_id, ['start' => $start, 'end' => $end, 'min_points' => $this->min_points, 'total_points' => $this->total_points, 'certificate_id' => $this->certificate_id]);
 
         $this->update_mode = false;
         $this->dispatchBrowserEvent('closeEditModal');

@@ -127,6 +127,11 @@
                                     @error('instructions') <span class="error">{{ $message }}</span> @enderror
                                 </div>
                                 <div class="form-group mb-3">
+                                    <label for="total_points" class="form-label">{{__('Total Points')}} (%)<sup class="text-danger">*</sup></label>
+                                    <input wire:model="total_points" class="form-control"  :errors="$errors" type="number"  class="form-control" autocomplete="off" required>
+                                    @error('total_points') <span class="error">{{ $message }}</span> @enderror
+                                </div>
+                                <div class="form-group mb-3">
                                     <label for="min_points" class="form-label">{{__('Passing Score')}} (%)<sup class="text-danger">*</sup></label>
                                     <input wire:model="min_points" class="form-control"  :errors="$errors" type="number"  class="form-control" autocomplete="off" required>
                                     @error('min_points') <span class="error">{{ $message }}</span> @enderror
@@ -253,11 +258,20 @@
                     <div class="row flex-row">
                         <div class="col-lg-6">
                             <div class="form-group mb-3">
+                                <label for="total_points" class="form-label">{{__('Total Points')}}<sup class="text-danger">*</sup></label>
+                                <input wire:model="total_points" class="form-control"  :errors="$errors" type="number"  class="form-control" autocomplete="off" required>
+                                @error('total_points') <span class="error">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group mb-3">
                                 <label for="min_points" class="form-label">{{__('Passing Score')}} (%)<sup class="text-danger">*</sup></label>
                                 <input wire:model="min_points" class="form-control"  :errors="$errors" type="number"  class="form-control" autocomplete="off" required>
                                 @error('min_points') <span class="error">{{ $message }}</span> @enderror
                             </div>
                         </div>
+                    </div> 
+                    <div class="row flex-row">
                         <div class="col-lg-6">
                             <div class="form-group ">
                                 <label for="certificate_id" class="form-label">{{__('Certificate Design')}} <sup class="text-danger">*</sup></label>
@@ -272,7 +286,7 @@
                                 @error('certificate_id') <span class="error">{{ $message }}</span> @enderror
                             </div>
                         </div>
-                    </div>  
+                    </div> 
                 </div>
             </div>
             <div class="modal-footer">
