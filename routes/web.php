@@ -44,6 +44,7 @@ Route::group(['middleware' => ['web', 'trainer'], 'namespace' => '\App\Http\Live
 	Route::get('/trainer/results',Results::class)->name('results');
 	Route::get('/trainer/archive',Archive::class)->name('archive');
 	Route::get('/trainer/launch',Launch::class)->name('launch');
+	Route::get('/trainer/courses-list/{id}',CoursesList::class)->name('courses-list');
 });
 
 Route::group(['middleware' => ['web', 'student'], 'namespace' => '\App\Http\Livewire\Student'], function ()

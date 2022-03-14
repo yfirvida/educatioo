@@ -41,7 +41,7 @@
                                         <i class='fas fa-ellipsis-h mb-2 text-danger'></i>
 
                                         <div class="action-box">
-                                            <button class="btn actions mb-2"><i class="fas fa-clipboard-check mr-1"></i> {{ __('Show questionnaries') }}</button> 
+                                            <a class="btn actions mb-2" href="{{ route('courses-list', $class->id) }}"><i class="fas fa-clipboard-check mr-1"></i> {{ __('Show questionnaries') }}</a> 
                                             <button class="btn btn-orange mb-2" wire:click="showAssignForm({{$class->id}})"><i class="fas fa-user-plus"></i> {{ __('Assign students') }}</button> 
 
                                         </div>
