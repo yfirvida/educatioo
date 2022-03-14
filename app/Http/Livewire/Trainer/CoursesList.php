@@ -7,15 +7,16 @@ use App\Models\Classroom;
 
 class CoursesList extends Component
 {
-    public $courses, $class;
+    public $class;
+    protected $exams;
 
     public function mount($id)
     {
         $this->class = Classroom::find($id);
-        $this->courses = $this->class->exams;
+        $this->exams = $this->class->exams();
     }
     public function render()
     {
-        return view('livewire.trainer.courses-list')->layout('layouts.main');
+        return view('livewire.trainer.courses-list' , ['courses' => $this->exams->paginate(10)])->layout('layouts.main');
     }
 }

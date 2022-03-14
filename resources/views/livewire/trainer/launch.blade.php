@@ -58,6 +58,9 @@
                     </tbody>
                 </table>
             </div>
+             <div class="pagin d-flex py-4 justify-content-end align-items-center">
+              {{ $launchs->links() }}  
+            </div>
         </div>
 
 <!-- add new launch modal -->

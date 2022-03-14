@@ -25,7 +25,7 @@ class Classrooms extends Component
     {
         $user = Auth::user();
         $this->trainer_id = $user->id;
-        $classrooms = Classroom::where('trainer_id', $this->trainer_id)->paginate(15);
+        $classrooms = Classroom::where('trainer_id', $this->trainer_id)->paginate(10);
         return view('livewire.trainer.classrooms', ['classrooms' => $classrooms])->layout('layouts.main');
     }
     private function resetInputFields() {

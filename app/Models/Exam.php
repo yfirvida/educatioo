@@ -42,13 +42,17 @@ class Exam extends Model
     }
 
     public static function all_items($user) {
+        return Exam::where('author', $user)->orderBy('name', 'asc')->paginate(10);
+    }
+
+    public static function all_items2($user) {
         return Exam::where('author', $user)->orderBy('name', 'asc')->get();
     }
 
     public static function activeExams($id){
         $now = date('Y-m-d H:i:s');
         return Exam::where('author', $id)->WhereHas('classrooms', function ($query) use($now){ 
-            $query->where('start', '<=', $now)->where('end', '>=', $now); })->get();
+            $query->where('start', '<=', $now)->where('end', '>=', $now); })->paginate(10);
     }
 
     public static function currectExam($id){
@@ -75,6 +79,6 @@ class Exam extends Model
     public static function listForResult($id){
         $now = date('Y-m-d H:i:s');
         return Exam::WhereHas('classrooms', function ($query) use($now , $id){ 
-            $query->where('start', '<=', $now)->where('archive', '=', 0)->where('classroom_id', '>=', $id); })->get();
+            $query->where('start', '<=', $now)->where('archive', '=', 0)->where('classroom_id', '>=', $id); })->paginate(1);
     }
 }

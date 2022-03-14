@@ -13,15 +13,17 @@ use DateTime;
 class Launch extends Component
 {
 
-    public $course_id, $classroom_id, $groups, $quiz, $certificate_id, $min_points, $students, $certificates, $instructions, $start, $end; 
-    public $launchs, $current_course, $current_group, $update_mode = false;
+    public $course_id, $classroom_id, $groups,  $certificate_id, $min_points, $students, $certificates, $instructions, $start, $end; 
+    public $current_course, $current_group, $update_mode = false;
+    public $quiz;
+    protected $launch;
 
     public function mount()
     {
         $user = Auth::user();
         $this->certificates = Certificate::all();
         $this->groups = Classroom::all_items($user->id);
-        $this->quiz = Exam::all_items($user->id);
+        $this->quiz = Exam::all_items2($user->id);
     }
 
     public function render()
@@ -33,8 +35,8 @@ class Launch extends Component
         }
 
         $user = Auth::user();
-        $this->launchs = Exam::activeExams($user->id);
-        return view('livewire.trainer.launch')->layout('layouts.main');
+        $this->launch = Exam::activeExams($user->id);
+        return view('livewire.trainer.launch', ['launchs' => $this->launch])->layout('layouts.main');
     }
 
     private function resetInputFields() {

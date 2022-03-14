@@ -65,6 +65,9 @@
                     </tbody>
                 </table>
             </div>
+            <div class="pagin d-flex py-4 justify-content-end align-items-center">
+               @if($courses && $courses->count() > 0) {{ $courses->links('custom-pagination-links-view') }}  @endif
+            </div>
         </div>
     </div>
 

@@ -49,6 +49,9 @@
                     </tbody>
                 </table>
             </div>
+             <div class="pagin d-flex py-4 justify-content-end align-items-center">
+              {{ $courses->links() }}  
+            </div>
         </div>
     </div>   
 </div>

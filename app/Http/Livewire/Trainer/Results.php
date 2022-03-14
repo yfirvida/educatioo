@@ -8,11 +8,16 @@ use App\Models\Exam;
 use App\Models\Certificate;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
+use WithPagination;
 
 class Results extends Component
 {
 
-    public $classroom, $classroom_id, $courses, $students, $total;
+    public $classroom, $classroom_id, $students, $total;
+
+    protected $coursess;
+ 
+    protected $paginationTheme = 'bootstrap';
 
     public function mount()
     {
@@ -22,19 +27,24 @@ class Results extends Component
     
     public function render()
     {
-        return view('livewire.trainer.results')->layout('layouts.main');
+        return view('livewire.trainer.results',['courses' => $this->coursess])->layout('layouts.main');
+    }
+
+    public function paginationView()
+    {
+        return 'custom-pagination-links-view';
     }
 
     public function selectGroup($value)
     {
         $this->classroom = Classroom::find($value);
-        $this->courses = Exam::listForResult($value);
+        $this->coursess = Exam::listForResult($value);
 
-        if($this->courses){
-            foreach($this->courses as $index => $course){
+        if($this->coursess){
+            foreach($this->coursess as $index => $course){
                 $pivot = $course->classrooms->find($value);
-                $this->courses[$index]->start = $pivot->pivot->start;
-                $this->courses[$index]->end = $pivot->pivot->end;
+                $this->coursess[$index]->start = $pivot->pivot->start;
+                $this->coursess[$index]->end = $pivot->pivot->end;
 
             }
         }

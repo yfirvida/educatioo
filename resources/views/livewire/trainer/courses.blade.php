@@ -38,7 +38,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if($courses->isNotEmpty())
+                        @if($courses && $courses->count() > 0)
                             @foreach ($courses as $course)
                             <tr>
                                 <td>{{$course->name }}</td>
@@ -55,10 +55,19 @@
                                 </td>
                             </tr>
                             @endforeach
+                        @else
+                            <tr>
+                                <td colspan="5">{{_('There are no courses to show') }}</td> 
+                                </td>
+                            </tr>
                         @endif
                     </tbody>
                 </table>
             </div>
+            <div class="pagin d-flex py-4 justify-content-end align-items-center">
+              {{ $courses->links() }}  
+            </div>
+            
         </div>
     </div>
 

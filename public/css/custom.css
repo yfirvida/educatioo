@@ -826,3 +826,14 @@ input.form-control:focus, select.form-control:focus{
 .users-wrapper{
   max-height: 264px;
 }
+
+.pagination .page-item .page-link{
+  color:  #999999 !important;
+}
+
+.pagination .page-item.active .page-link, .pagination .page-item:hover .page-link, .pagination .page-item:focus .page-link, .pagination .page-item:active .page-link{
+  color:  #fff !important;
+  background-color: #e4601c !important;
+  border-color: #e4601c !important;
+  border-radius: 6px;
+}
