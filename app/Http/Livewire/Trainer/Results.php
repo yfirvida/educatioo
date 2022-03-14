@@ -8,7 +8,6 @@ use App\Models\Exam;
 use App\Models\Certificate;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
-use WithPagination;
 
 class Results extends Component
 {
@@ -17,22 +16,17 @@ class Results extends Component
 
     protected $coursess;
  
-    protected $paginationTheme = 'bootstrap';
 
     public function mount()
     {
         $user = Auth::user();
         $this->groups = Classroom::all_items($user->id);
+        
     }
     
     public function render()
     {
         return view('livewire.trainer.results',['courses' => $this->coursess])->layout('layouts.main');
-    }
-
-    public function paginationView()
-    {
-        return 'custom-pagination-links-view';
     }
 
     public function selectGroup($value)
@@ -48,6 +42,7 @@ class Results extends Component
 
             }
         }
+
     }
 
     public function archive($course, $class)

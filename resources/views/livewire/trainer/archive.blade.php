@@ -25,38 +25,31 @@
                             <th scope="col">{{ __('Number of students') }}</th>
                             <th scope="col">{{ __('Start date') }}</th>
                             <th scope="col">{{ __('End date') }}</th>
-                            <th scope="col" class="text-center">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Lorem Ipsum</td>
-                            <td class="text-wrap">Quisque velit nisi, pretium ut lacinia in, elementum id enim</td>
-                            <td class="text-center">23</td>
-                            <td>12/05/2022 14:00</td>
-                            <td>12/05/2022 15:00</td>
-                            <td class="d-flex justify-content-center align-items-center">
-                                <div>
-                                    <a href="#" class="btn actions mb-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
-                                    <button class="btn actions mb-2"><i class="fas fa-minus"></i> {{ __('Delete') }}</button>
-                                </div> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Lorem Ipsum 2</td>
-                            <td class="text-wrap">Quisque velit nisi, pretium ut lacinia in, elementum id enim</td>
-                            <td class="text-center">30</td>
-                            <td>12/05/2022 14:00</td>
-                            <td>12/05/2022 15:00</td>
-                            <td class="d-flex justify-content-center align-items-center">
-                                <div>
-                                    <a href="#" class="btn actions mb-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</a>
-                                <button class="btn actions mb-2"><i class="fas fa-minus"></i> {{ __('Delete') }}</button>
-                                </div> 
-                            </td>
-                        </tr>
+                        @if($courses && $courses->count() > 0)
+                            @foreach($courses as $course) 
+                                @foreach ($course->classrooms as $class)
+                                    <tr>
+                                        <td>{{$course->name}}</td>
+                                        <td class="text-wrap">{{$class->name}}</td>
+                                        <td class="text-center">{{$class->users->count()}}</td>
+                                        <td>{{date('d/m/Y g:i A', strtotime($class->pivot->start)) }}</td>
+                                        <td>{{date('d/m/Y g:i A', strtotime($class->pivot->end)) }}</td>
+                                    </tr>
+                                @endforeach
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="5">{{_('No results')}}</td>
+                            </tr> 
+                        @endif
                     </tbody>
                 </table>
+            </div>
+             <div class="pagin d-flex py-4 justify-content-end align-items-center">
+              {{ $courses->links() }}  
             </div>
         </div>
     </div>
