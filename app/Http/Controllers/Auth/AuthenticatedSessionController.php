@@ -15,6 +15,7 @@ class AuthenticatedSessionController extends Controller
      *
      * @return \Illuminate\View\View
      */
+    
     public function create()
     {
         return view('auth.login');
@@ -28,15 +29,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        $course_id = $request->course_id;
-        $group_id = $request->group_id;
-
         $request->authenticate();
-
+        $class_id = $request->class_id;
+        \Session::put('class_id', $class_id);
         $request->session()->regenerate();
 
         //return redirect()->intended(RouteServiceProvider::HOME);
-        return redirect()->intended(self::home($request))->with(['course_id'=> $course_id, 'group_id' => $group_id]);
+        return redirect()->intended(self::home($request));
 
     }
     public static function home(LoginRequest $request) : string {
@@ -47,6 +46,7 @@ class AuthenticatedSessionController extends Controller
 
         // if user is student take him to his dashboard
         if ( Auth::user()->isStudent() ) {
+            
             return '/student/dashboard';
         }
 

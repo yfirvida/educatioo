@@ -16,6 +16,7 @@ class WelcomeController extends Controller
 
     public function authByPin()
     {
+        $response = '';
         $pin = $_POST['pin'];
         $name = $_POST['name'];
         $response = Classroom::with(['users' => function($q) use ($pin) { $q->where('classroom_user.pin', $pin);}])->where('name', $name)->get();

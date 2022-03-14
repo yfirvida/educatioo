@@ -18,7 +18,7 @@ class Classroom extends Model
 
     public function exams()
     {
-        return $this->belongsToMany(Exam::class)->withPivot('start', 'end', 'min_points', 'email_instructions', 'certificate_id')->orderBy('pivot_start','asc');
+        return $this->belongsToMany(Exam::class)->withPivot('start', 'end', 'min_points' , 'total_points', 'email_instructions', 'certificate_id', 'archive')->orderBy('pivot_start','asc');
     }
 
     public function users()
@@ -46,4 +46,8 @@ class Classroom extends Model
         return Classroom::where('trainer_id', $id)->WhereHas('exams', function ($query) use($now){ 
             $query->where('start', '<=', $now)->where('end', '>=', $now); })->get();
     }
+
+    
+
+
 }

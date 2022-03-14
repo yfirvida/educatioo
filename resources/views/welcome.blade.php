@@ -168,8 +168,7 @@
                 <p class="text-center mb-4">{{ __('Are you') }} <span id="st_name"></span>?</p>
                 <form method="POST" action="{{ route('login') }}">
                      @csrf
-                    <input type="hidden" id="course_id" name="course_id" value="test">
-                    <input type="hidden" id="group_id" name="group_id" >
+                    <input type="hidden" id="class_id" name="class_id">
                     <input type="hidden" id="email2" name="email" >
                     <input type="hidden" id="password2" name="password" >
                     <input type="hidden" id="remember" name="remember" value="false">

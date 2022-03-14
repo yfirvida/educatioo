@@ -50,7 +50,7 @@ Route::group(['middleware' => ['web', 'student'], 'namespace' => '\App\Http\Live
 {
 	Route::get('/student/dashboard', Dashboard::class)->name('student_dashboard');
 	Route::get('/student/quiz', Quiz::class)->name('quiz');
-	Route::get('/student/result', Result::class)->name('result');
+	Route::get('/student/result', Results::class)->name('result');
 });
 
 

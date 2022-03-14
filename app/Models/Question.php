@@ -19,7 +19,7 @@ class Question extends Model
 
     public function exams()
     {
-        return $this->belongsToMany(Exam::class)->withPivot('show_in_result', 'latest_question')->withPivot('show_in_result', 'latest_question', 'created_at')->orderBy('pivot_created_at','asc');
+        return $this->belongsToMany(Exam::class)->withPivot('show_in_result', 'latest_question', 'created_at', 'first_question')->orderBy('pivot_created_at','asc');
     }
 
     public function answers()
@@ -49,5 +49,11 @@ class Question extends Model
 
        return $clone;
     }
+
+    public static function firstQuestion($id){
+        return Question::WhereHas('exams', function ($query) use($id){ 
+            $query->where('exam_id', '=', $id)->where('first_question', '=', 1); })->first();
+    }
+
 
 }
