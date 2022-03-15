@@ -7,13 +7,22 @@ use App\Models\Exam;
 use App\Models\Level;
 use App\Models\Answer;
 use App\Models\Question;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Intervention\Image\ImageManagerStatic;
+use Illuminate\Http\Request;
+use Livewire\WithFileUploads;
 
 class EditCourse extends Component
 {
+    use WithFileUploads;
+
     public $course;
     public $name, $description, $level_id;
     public $levels;
     public $questions, $current;
+    public $uimage;
+    protected $listeners = ['fileUpload'];
 
     protected $rules = [
         'questions.*.answers.*.next_question' => 'nullable',
@@ -22,6 +31,7 @@ class EditCourse extends Component
         'questions.*.first_question' => 'nullable',
         'questions.*.latest_question' => 'nullable',
         'questions.*.show_in_result' => 'nullable',
+        'questions.*.image' => 'image|mimes:jpeg,jpg,png,gif|max:500|nullable',
 
     ];
 
@@ -48,6 +58,7 @@ class EditCourse extends Component
 
     public function update()
     {
+
         $validatedData = $this->validate([
             'name' => 'required',
             'description' => 'required',
@@ -312,6 +323,43 @@ class EditCourse extends Component
         } 
 
         session()->flash('message', 'Question Copied Successfully.'); 
+    }
+
+    public function uploadImage(Request $request){
+
+       /* foreach($this->questions as $q){
+            dump($q->image); die();
+        }*/
+        dump($this->uimage); die();
+
+        /*$this->validate([
+            'profile_image' => 'image|mimes:jpeg,jpg,png,gif|max:500|required'
+        ]);*/
+       /* $images = [
+            'name' => $this->profile_image->getClientOriginalName(),
+            'path' => $this->profile_image->getRealPath(),
+            'extension' => $this->profile_image->getClientOriginalExtension(),
+        ];
+        $filenameSmall = substr(md5(microtime() . rand(0, 9999)), 0, 20) . '.' .  $images['extension'];
+        $path = public_path('uploads/' . $filenameSmall);
+        ImageManagerStatic::make( $images['path'])->orientate()->fit(300, 300, function ($constraint) {
+            $constraint->upsize();
+
+        },'top')->save($path);
+
+        $user = User::find(Auth::user()->id);
+
+        if (!empty($user->image)){
+            @unlink(public_path("uploads/".$user->image.""));
+        }
+
+        $user->image =  $filenameSmall;
+        $user->save();
+        $this->uploaded = true;
+
+        $this->profile_image  = $user->image;
+        $this->emit('uploadedImage');
+        session()->flash('successImage', __('Your profile image has been uploaded succesfully.'));*/
     }
 
 }

@@ -27,6 +27,7 @@
             </div>
         </div>
     </div>
+    <a class="blue" wire:click="uploadImage">{{__('Save your new profile image!')}}</a>
     <div id="accordion" class="mt-3">
         @if($questions && $questions->count() > 0) 
             @foreach ($questions as $index => $question)
@@ -42,9 +43,17 @@
                             <div class="col-md-3 p-1 order-2">
                                 <div class="box">
                                     <div class="img-wrapper">
-                                        <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
-                                        <div class="wrapper"><img src=""></div>
+                                        <a href="#" class="add-image"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
+                                        <div class="wrapper">
+                                            @if($question->image != null)
+                                                <img src="<?php echo Theme::url('uploads'); ?>/{{$question->image}}">
+                                            @endif
+                                            
+                                        </div>
+                                        <!-- <input type="file" class="fileI" name="imageFile" wire:model="questions.{{$index}}.image"  :errors="$errors"  style="display:none"/> -->
+                                        <input type="file" class="fileI" name="imageFile" wire:model="uimage"  :errors="$errors"  style="display:none"/>
                                     </div>
+                                     
                                 </div>
                             </div>
                             <div class="col-md-3 p-1 order-1 order-md-3">
@@ -477,6 +486,30 @@
         window.addEventListener('closeUpdateQModal', event => {         
             $('#editQModal').modal('hide');
         });
+
+        document.addEventListener('livewire:load', function () {
+            $(".img-wrapper").on( "click", ".add-image", function() {
+                $(this).parent().find(".fileI").trigger('click');
+            });
+
+        /*    window.livewire.on('fileChoosen', () => {
+
+            let inputField = document.getElementById('file');
+
+            let file = inputField.files[0];
+
+            let reader = new FileReader();
+
+            reader.onloadend = () => {
+
+                window.livewire.emit('uploadImage', reader.result);
+            }
+
+            reader.readAsDataURL(file);
+
+            });*/
+        });
+
     </script>
 @endpush
 
