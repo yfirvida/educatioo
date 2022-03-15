@@ -58,16 +58,22 @@
           </li>
           <li class="nav-item dropdown d-none d-lg-block user-dropdown">
             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-              <img class="img-xs rounded-circle" src="/star-admin/images/faces/face8.jpg" alt="Profile image"> </a>
+              @if(Auth::user()->image != null)
+                <img class="img-xs rounded-circle" src="<?php echo Theme::url('uploads'); ?>/{{Auth::user()->image}}" alt="Profile image"> </a>
+              @else
+                <img class="img-xs rounded-circle" src="/img/profile-image.png" alt="Profile image">
+              @endif
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center">
-                <img class="img-md rounded-circle" src="/star-admin/images/faces/face8.jpg" alt="Profile image">
-                <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
+                @if(Auth::user()->image != null)
+                  <img class="img-profile mx-auto rounded-circle" src="<?php echo Theme::url('uploads'); ?>/{{Auth::user()->image}}" alt="Profile image"> </a>
+                @else
+                  <img class="img-profile mx-auto rounded-circle" src="/img/profile-image.png" alt="Profile image">
+                @endif
+                <p class="mb-0 mt-2 font-weight-semibold">{{Auth::user()->name}}</p>
+                <p class="fw-light text-muted mb-0">{{Auth::user()->email}}</p>
               </div>
-              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
-              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
-              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>
+              <a href="{{ route('profile') }}" class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile </a>
               <a href="javascript:void" onclick="$('#logout-form').submit();" class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
             </div>
           </li>

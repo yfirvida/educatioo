@@ -19,10 +19,43 @@
                 <div class="card-body">
                     <h4 class="card-title">{{ __('Profile') }}</h4>
                     <div class="row">
-                        <div class="col-md-4 profile-wrapper">
+                        <div class="col-md-4 profile-wrapper image-upload">
                             <figure class="profile-pic">
-                                <img src="{{$user->image }}" alt="{{$user->name}}">
+                                @if($image)
+                                    @if (!$uploaded)
+                                        <img src="{{$image}}"  alt="{{__('Profile image')}}" />
+                                    @else
+                                        <img src="<?php echo Theme::url('uploads'); ?>/{{$profile_image}}"  alt="{{__('Profile image')}}" />
+                                        <i class="fas fa-pencil-alt profile"></i>
+                                    @endif
+                                @else
+                                    @if ($profile_image)
+                                        <img src="<?php echo Theme::url('uploads'); ?>/{{$profile_image}}"  alt="{{__('Profile image')}}" />
+                                        <i class="fas fa-pencil-alt profile"></i>
+                                    @else
+                                        <img src="{{asset('/star-admin/images/faces/face21.jpg')}}"   alt="{{__('Profile image')}}">
+                                        <i class="fas fa-pencil-alt profile"></i>
+                                    @endif
+                                @endif
                             </figure>
+                            <input type="file" id="file" name="profile_image" wire:model="profile_image" wire:change="$emit('fileChoosen')" :errors="$errors"  style="display:none"/>
+                            @if($image)
+                                @if (!$uploaded)
+                                    <div class="row text-center">
+                                    <span class="mt-2" >
+                                        <a class="blue" wire:click="uploadImage">{{__('Save your new profile image!')}}</a>
+                                    </span>
+                                    </div>
+                                @endif
+                            @endif
+
+                            @error('profile_image') <span class="error">{{ $message }}</span> @enderror
+
+                            @if (session()->has('successImage'))
+                                <div class="alert alert-success" style="margin-top:30px;">
+                                  {{ session('successImage') }}
+                                </div>
+                            @endif
                         </div>
                         <div class="col-md-8">
                             <table class="table">
@@ -92,10 +125,6 @@
                                     @endif
                                 </select>
                                 @error('land_id') <span class="error">{{ $message }}</span> @enderror
-                            </div> 
-                            <div class="form-group">
-                                <label for="picture">{{__('Profile Image')}}</label>
-                                <input wire:model="image" type="file" class="form-control-file" id="picture">
                             </div> 
                         </div>
                     </div>
@@ -171,6 +200,31 @@
         window.addEventListener('closePassModal', event => {
             $('#passModal').modal('hide');
         });
+
+        document.addEventListener('livewire:load', function () {
+            $(".profile-wrapper").on( "click", ".fa-pencil-alt.profile", function() {
+                $('input#file').trigger('click');
+            });
+
+            window.livewire.on('fileChoosen', () => {
+
+            let inputField = document.getElementById('file');
+
+            let file = inputField.files[0];
+
+            let reader = new FileReader();
+
+            reader.onloadend = () => {
+
+                window.livewire.emit('fileUpload', reader.result);
+            }
+
+            reader.readAsDataURL(file);
+
+            });
+        });
+
+        
     </script>
 @endpush
 

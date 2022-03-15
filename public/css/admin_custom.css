@@ -76,6 +76,38 @@ select.form-control{
   border-radius: 4px;
 }
 
+.profile-wrapper a.blue{
+    text-align: center;
+    font-size: 14px;
+    color: blue;
+    text-decoration: underline
+}
+
+.profile-wrapper a.blue:hover{
+  cursor: pointer;
+}
+
+.profile-pic{
+  position: relative;
+}
+.profile-pic i{
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  z-index: 10;
+  color: #fff;
+  background: #e4601c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 14px
+}
+.profile-pic i:hover{
+  cursor: pointer;
+}
 .profile-pic img{
   width: 100%;
   height: 100%;
@@ -83,4 +115,14 @@ select.form-control{
 }
 .content-wrapper{
   min-height: calc(100vh - 175px) !important;
+}
+.img-profile{
+  background: #f1f1f1;
+  width: 50px;
+  height: 50px;
+  border: 3px solid #2b388f
+}
+
+#UserDropdown img{
+  border: 3px solid #2b388f
 }
