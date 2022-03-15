@@ -43,15 +43,20 @@
                             <div class="col-md-3 p-1 order-2">
                                 <div class="box">
                                     <div class="img-wrapper">
-                                        <a href="#" class="add-image"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
+                                        <a href="#" class="add-image" wire:click="indexImage({{ $index }})"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
+                                        
                                         <div class="wrapper">
                                             @if($question->image != null)
                                                 <img src="<?php echo Theme::url('uploads'); ?>/{{$question->image}}">
                                             @endif
-                                            
+
+                                            @if (!empty($images_temp[$index]))
+                                                <img src="{{ $images_temp[$index]->temporaryUrl() }}">
+                                            @endif
+                                        
                                         </div>
                                         <!-- <input type="file" class="fileI" name="imageFile" wire:model="questions.{{$index}}.image"  :errors="$errors"  style="display:none"/> -->
-                                        <input type="file" class="fileI" name="imageFile" wire:model="uimage"  :errors="$errors"  style="display:none"/>
+                                        <input type="file" class="fileI" name="imageFile" wire:model="uimage" :errors="$errors"  style="display:none"/>
                                     </div>
                                      
                                 </div>

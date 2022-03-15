@@ -22,6 +22,8 @@ class EditCourse extends Component
     public $levels;
     public $questions, $current;
     public $uimage;
+    public $images_temp = [];
+    public $index_question;
     protected $listeners = ['fileUpload'];
 
     protected $rules = [
@@ -59,12 +61,22 @@ class EditCourse extends Component
     public function update()
     {
 
+        dd($this->images_temp);
+
+        foreach ($this->questions as $key => $value) {
+            $name       = date('YmdHis').$key;
+            $extension  = $item['image']->getClientOriginalExtension();
+            $filename   = $name .'.'. $extension;
+            $path       = 'public/accommodation';
+            $url_image  = $storage  = 'storage/accommodation/'.$filename;
+            $this->images_temp[$key]->storeAs($path, $filename);
+        }
+
         $validatedData = $this->validate([
             'name' => 'required',
             'description' => 'required',
             'level_id' => 'required'
         ]);
-
     
         $this->course->update([
             'name' => $this->name,
@@ -362,4 +374,12 @@ class EditCourse extends Component
         session()->flash('successImage', __('Your profile image has been uploaded succesfully.'));*/
     }
 
+    public function indexImage($index){
+        $this->index_question = $index;
+    }
+
+    public function updatedUimage($value)
+    {
+        $this->images_temp[$this->index_question] = $value;
+    }
 }
