@@ -3,15 +3,16 @@
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-        <form method="POST" action="{{ route('register', $plan) }}">
+        <form method="POST" action="{{ route('register', $plan) }}" enctype="multipart/form-data">
             @csrf
             <div class="w-100 d-flex justify-center">
                 <img class="mylogo" src="/img/small_logo.png" alt="logo" />
             </div>
             <div class="w-100 d-flex justify-center mt-3">
-                <img class="profile-pic" src="/img/picture.jpg" alt="logo" />
+                <img id="profilePrev" class="profile-pic" src="/img/profile-image.png" alt="logo" />
             </div>
-            <div class="text-center mb-2"><a class="upload-link" href="#">{{ __('Upload photo') }} </a></div>
+            <div class="text-center mb-2"><span class="upload-link">{{ __('Upload photo') }} </span></div>
+            <input type="file" id="file" name="profile_image" style="display:none"/>
             <h2 class="text-center reg-title mb-2">{{ __('Register') }}</h2>
             <div class="row">
                 <div class="col-md-6">

@@ -31,7 +31,8 @@ class User extends Authenticatable
         'subscription_date',
         'plan',
         'total_students',
-        'trainer_id'
+        'trainer_id',
+        'image'
     ];
 
     /**

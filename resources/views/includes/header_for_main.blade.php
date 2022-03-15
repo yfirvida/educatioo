@@ -64,11 +64,19 @@
           </li>
           <li class="nav-item dropdown  user-dropdown">
             <a class="nav-link" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-              <img class="img-xs rounded-circle" src="/star-admin/images/faces/face8.jpg" alt="Profile image"> </a>
+              @if(Auth::user()->image != null)
+                <img class="img-xs rounded-circle" src="<?php echo Theme::url('uploads'); ?>/{{Auth::user()->image}}" alt="Profile image"> </a>
+              @else
+                <img class="img-xs rounded-circle" src="/img/profile-image.png" alt="Profile image">
+              @endif
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               <div class="dropdown-header text-center b-bottom">
-                <img class="img-md mx-auto rounded-circle" src="/star-admin/images/faces/face8.jpg" alt="Profile image">
-                <p class="mb-1 mt-3 font-weight-semibold">{{Auth::user()->name}}</p>
+                @if(Auth::user()->image != null)
+                  <img class="img-profile mx-auto rounded-circle" src="<?php echo Theme::url('uploads'); ?>/{{Auth::user()->image}}" alt="Profile image"> </a>
+                @else
+                  <img class="img-profile mx-auto rounded-circle" src="/img/profile-image.png" alt="Profile image">
+                @endif
+                <p class="mb-1 mt-2 font-weight-semibold">{{Auth::user()->name}}</p>
                 <p class="mb-1 font-weight-bold">{{Auth::user()->plan}}</p>
                 <p class="fw-light text-muted mb-0">{{Auth::user()->email}}</p>
               </div>
@@ -82,6 +90,6 @@
       </div>
     </nav>
 
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    <form id="logout-form" action="{{ route('logout-web') }}" method="POST" style="display: none;">
       @csrf
     </form>

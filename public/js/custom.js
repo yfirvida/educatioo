@@ -3,6 +3,21 @@ $(function(){
   	$(this).parent().find('.action-box').toggleClass('show');
   });
 
+  $('.upload-link').click(function(){
+        $('input#file').trigger('click');
+  });
+
+  $('input#file').change(function(){
+    const file = this.files[0];
+        if (file){
+          let reader = new FileReader();
+          reader.onload = function(event){
+            $('#profilePrev').attr('src', event.target.result);
+          }
+          reader.readAsDataURL(file);
+        }
+  });
+
 //answeers checkboxs only can check one at the same time
     $('.radio-checks input[type="checkbox"]').on('change', function() {
         $('.radio-checks input[type="checkbox"]').not(this).prop('checked', false);
