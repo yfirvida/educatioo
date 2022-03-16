@@ -16,7 +16,7 @@
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-top"> 
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item dropdown"> 
+          <!-- <li class="nav-item dropdown"> 
             <a class="nav-link count-indicator" id="countDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="icon-bell"></i>
               <span class="count"></span>
@@ -55,7 +55,7 @@
                 </div>
               </a>
             </div>
-          </li>
+          </li> -->
           <li class="nav-item dropdown d-none d-lg-block user-dropdown">
             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
               @if(Auth::user()->image != null)
