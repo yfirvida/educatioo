@@ -12,7 +12,8 @@ use DateTime;
 class Results extends Component
 {
 
-    public $classroom, $classroom_id, $students, $total;
+    public $classroom, $classroom_id, $students;
+    public $total = 0, $min_points = 0; 
 
     protected $coursess;
  
@@ -37,8 +38,11 @@ class Results extends Component
         if($this->coursess){
             foreach($this->coursess as $index => $course){
                 $pivot = $course->classrooms->find($value);
-                $this->coursess[$index]->start = $pivot->pivot->start;
-                $this->coursess[$index]->end = $pivot->pivot->end;
+                if($pivot){
+                    $this->coursess[$index]->start = $pivot->pivot->start;
+                    $this->coursess[$index]->end = $pivot->pivot->end;
+                }
+                
 
             }
         }
@@ -64,10 +68,14 @@ class Results extends Component
         $this->students = $this->classroom->users;
 
         $pivot = $this->classroom->exams->find($course);
-        $this->total = $pivot->pivot->total_points;
+        if($pivot){
+          $this->total = $pivot->pivot->total_points;
+          $this->min_points = $pivot->pivot->min_points;
+        }
+        
 
         //calc the aproved
-        $required = ($this->total * $pivot->pivot->min_points)/100;
+        $required = ($this->total * $this->min_points)/100;
 
         if($this->students){
             foreach($this->students as $index => $student){

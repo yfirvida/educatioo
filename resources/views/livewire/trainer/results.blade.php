@@ -101,7 +101,7 @@
                                                 <span class="d-block">{{$student->aproved}}</span>
                                             </td>
                                             <td class="d-flex justify-content-center align-items-center">
-                                                    <button class="btn actions my-1" wire:click="print({{$course->id}}, {{ $classroom->id}})"><i class='fas fa-print mr-2'></i> {{ __('Certificade') }}</button>
+                                                    <button class="btn actions my-1" wire:click="print"><i class='fas fa-print mr-2'></i> {{ __('Certificade') }}</button>
                                             </td>
                                         </tr>
                                     @endforeach

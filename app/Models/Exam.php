@@ -79,7 +79,7 @@ class Exam extends Model
     public static function listForResult($id){
         $now = date('Y-m-d H:i:s');
         return Exam::WhereHas('classrooms', function ($query) use($now , $id){ 
-            $query->where('start', '<=', $now)->where('archive', '=', 0)->where('classroom_id', '>=', $id); })->get();
+            $query->where('start', '<=', $now)->where('archive', '=', 0)->where('classroom_id', '=', $id); })->get();
     }
 
     public static function archive($id){
