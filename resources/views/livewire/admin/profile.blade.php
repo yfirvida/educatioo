@@ -138,7 +138,7 @@
                     <img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
                 </div>
                 <div wire:loading.remove wire:target="update">
-                    <button type="button" wire:click="update" data-dismiss="modal" class="btn btn-primary" >{{__('Update Trainer')}}</button>
+                    <button type="button" wire:click="update" data-dismiss="modal" class="btn btn-primary" >{{__('Update')}}</button>
                 </div>
                 <button type="button" class="btn btn-secondary" wire:click="close" data-dismiss="modal">{{__('Cancel')}}</button>
             </div>

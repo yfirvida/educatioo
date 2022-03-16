@@ -854,3 +854,10 @@ input.form-control:focus, select.form-control:focus{
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown .dropdown-item{
   border-bottom: none !important;
 }
+
+.modal{
+  background: #1f1f1f73;
+}
+.modal.show .modal-dialog {
+    max-height: 80%;
+}

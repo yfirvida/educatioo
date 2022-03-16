@@ -105,7 +105,7 @@ class Profile extends Component
         if ($this->user_id) {
             $user = Auth::user();
             $user->update([
-                'password' => $this->password,
+                'password' => Hash::make($this->password),
             ]);
 
             $this->updateMode = false;

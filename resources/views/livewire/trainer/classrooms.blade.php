@@ -64,7 +64,7 @@
 
 <!-- add new group modal -->
 <div wire:ignore.self class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header py-3">
                 <h3 class="modal-title">{{__('Add New Group')}}</h3>
@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="table-responsive mt-4 users-wrapper">
+                                        <div class="table-responsive mt-4">
                                             <table class="table  users">
                                                 <thead>
                                                     <tr>
@@ -161,7 +161,7 @@
 
 <!-- edit group modal -->
 <div wire:ignore.self class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header py-3">
                 <h3 class="modal-title">{{__('Edit Course Group')}}</h3>
@@ -201,7 +201,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="table-responsive mt-4 users-wrapper">
+                                        <div class="table-responsive mt-4">
                                             <table class="table  users">
                                                 <thead>
                                                     <tr>
@@ -258,7 +258,7 @@
 
 <!-- assign students modal -->
 <div wire:ignore.self class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="assignModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header py-3">
                 <h3 class="modal-title">{{__('Assign Students for')}} {{$name}} {{__('Course Group')}}</h3>
@@ -343,7 +343,7 @@
 </div>
 <!-- add new student modal -->
 <div wire:ignore.self class="modal fade" id="createStModal" tabindex="-1" role="dialog" aria-labelledby="createStModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header py-3">
                 <h3 class="modal-title">{{__('Add New Student')}}</h3>

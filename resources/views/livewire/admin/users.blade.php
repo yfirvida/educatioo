@@ -78,7 +78,7 @@
                                         <td>
                                             <button class="bt badge badge-warning "  wire:click="edit({{$user->id}})"><i class=" mdi mdi-pencil-box-outline"></i> {{ __('Edit') }}</button>
                                             <button class="bt badge badge-danger" wire:click="delete({{ $user->id }})"><i class=" mdi mdi-minus-circle-outline" ></i> {{ __('Delete') }}</button>
-                                            <button class="bt badge badge-danger" wire:click="cancelsubscription({{ $user->id }})"><i class=" mdi mdi-minus-circle-outline" ></i> {{ __('Cancel') }}</button>
+                                            <button class="bt badge badge-danger" wire:click="cancelsubscription({{ $user->id }})"><i class=" mdi mdi-minus-circle-outline" ></i> {{ __('Cancel subcription ') }}</button>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -176,7 +176,7 @@
                     <img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
                 </div>
                 <div wire:loading.remove wire:target="store">
-                    <button type="button" wire:click="store" data-dismiss="modal" class="btn btn-primary" >{{__('Save Trainer')}}</button>
+                    <button type="button" wire:click="store" data-dismiss="modal" class="btn btn-primary" >{{__('Save')}}</button>
                 </div>
                 <button type="button" class="btn btn-secondary" wire:click="close" data-dismiss="modal">{{__('Cancel')}}</button>
             </div>
@@ -255,7 +255,7 @@
                     <img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
                 </div>
                 <div wire:loading.remove wire:target="update">
-                    <button type="button" wire:click="update" data-dismiss="modal" class="btn btn-primary" >{{__('Update Trainer')}}</button>
+                    <button type="button" wire:click="update" data-dismiss="modal" class="btn btn-primary" >{{__('Update')}}</button>
                 </div>
                 <button type="button" class="btn btn-secondary" wire:click="close" data-dismiss="modal">{{__('Cancel')}}</button>
             </div>
