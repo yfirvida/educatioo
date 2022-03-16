@@ -23,6 +23,9 @@ class EditCourse extends Component
     public $images_temp = [];
     public $index_question;
 
+    public $imagesA_temp = [];
+    public $index_answerID;
+
     protected $listeners = ['fileUpload'];
 
     protected $rules = [
@@ -73,6 +76,20 @@ class EditCourse extends Component
                 
                 $question = Question::find($q->id);
                 $question->update(['image' => $filename]);
+            }
+
+            foreach($q->answers as $a){ 
+                if (array_key_exists($a->id, $this->imagesA_temp)) {
+                    $name       = date('YmdHis').$a->id;
+                    $extension  = $this->imagesA_temp[$a->id]->getClientOriginalExtension();
+                    $fname   = $name .'.'. $extension;
+                    $path       = 'public/answers';
+                    $url_image  = $storage  = 'storage/answers/'.$fname;
+                    $this->imagesA_temp[$a->id]->storeAs($path, $fname);
+
+                    $ans = Answer::find($a->id);
+                    $ans->update(['image' => $fname]);
+                }
             }
         }
 
@@ -374,5 +391,20 @@ class EditCourse extends Component
             'image' => 'mimes:jpeg,jpg,png,gif|max:500|required|image'
         ]);
         $this->images_temp[$this->index_question] = $value;
+    }
+
+    public function indexImageA($id){
+        $this->index_answerID = $id;
+    }
+
+    public function updatedImageA($value)
+    {
+        $this->validate([
+            'imageA' => 'mimes:jpeg,jpg,png,gif|max:500|required|image'
+        ]);
+        $this->imagesA_temp[$this->index_answerID] = $value;
+       
+
+
     }
 }

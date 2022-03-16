@@ -20,13 +20,16 @@ class Newcourse extends Component
     public $name, $description, $author, $level_id;
     public $nameq, $q_value, $explanation, $question_name, $showR, $latestQ, $firstQ; 
     public $levels, $questions;
-    public $answer, $next_question, $right, $imageA;
-    public $course_id = 18;
+    public $answer, $next_question, $right, $imagea;
+    public $course_id = 0;
     public $question_id, $current;
 
     public $image;
     public $images_temp = [];
     public $index_question;
+
+    public $imagesA_temp = [];
+    public $index_answerID;
     protected $listeners = ['fileUpload'];
 
     protected $rules = [
@@ -85,6 +88,7 @@ class Newcourse extends Component
 
     public function save()
     {
+        
         $user = Auth::user();
         if($this->course_id == 0){ //need save the course first
             $validatedData = $this->validate([
@@ -119,6 +123,20 @@ class Newcourse extends Component
                         
                         $question = Question::find($q->id);
                         $question->update(['image' => $filename]);
+                    }
+
+                    foreach($q->answers as $a){ 
+                        if (array_key_exists($a->id, $this->imagesA_temp)) {
+                            $name       = date('YmdHis').$a->id;
+                            $extension  = $this->imagesA_temp[$a->id]->getClientOriginalExtension();
+                            $fname   = $name .'.'. $extension;
+                            $path       = 'public/answers';
+                            $url_image  = $storage  = 'storage/answers/'.$fname;
+                            $this->imagesA_temp[$a->id]->storeAs($path, $fname);
+
+                            $ans = Answer::find($a->id);
+                            $ans->update(['image' => $fname]);
+                        }
                     }
                 }
 
@@ -258,19 +276,19 @@ class Newcourse extends Component
          $validatedData = $this->validate([
             'answer' => 'required',
             'next_question' => 'nullable',
-            'imageA' => 'image|mimes:jpeg,jpg,png,gif|max:500|nullable',
+            'imagea' => 'image|mimes:jpeg,jpg,png,gif|max:500|nullable',
             'right' => 'nullable'
 
         ]);
 
-        if($this->imageA != ''){
+        if($this->imagea != ''){
             //save image
                 $name       = substr(md5(microtime() . rand(0, 9999)), 0, 20);
-                $extension  = $this->imageA->getClientOriginalExtension();
+                $extension  = $this->imagea->getClientOriginalExtension();
                 $filename   = $name .'.'. $extension;
                 $path       = 'public/answers';
                 $url_image  = $storage  = 'storage/answers/'.$filename;
-                $this->imageA->storeAs($path, $filename);
+                $this->imagea->storeAs($path, $filename);
         }
         else{
             $filename = null;
@@ -416,5 +434,18 @@ class Newcourse extends Component
             'image' => 'mimes:jpeg,jpg,png,gif|max:500|required|image'
         ]);
         $this->images_temp[$this->index_question] = $value;
+    }
+
+    public function indexImageA($id){
+        $this->index_answerID = $id;
+    }
+
+    public function updatedImagea($value)
+    {
+        $this->validate([
+            'imagea' => 'mimes:jpeg,jpg,png,gif|max:500|required|image'
+        ]);
+        $this->imagesA_temp[$this->index_answerID] = $value;
+
     }
 }

@@ -82,16 +82,18 @@
                                     <div class="col-md-3 p-1">
                                         <div class="box">
                                             <div class="img-wrapper">
-                                                <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
+                                                <a href="#" class="add-image" wire:click="indexImageA({{ $answer->id }})"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
                                                 <div class="wrapper">
-                                                    @if (!empty($images_temp[$index]))
-                                                        <img src="{{ $images_temp[$index]->temporaryUrl() }}">
+
+                                                    @if (!empty($imagesA_temp[$answer->id]))
+                                                        <img src="{{ $imagesA_temp[$answer->id]->temporaryUrl() }}">
                                                     @else
                                                         @if($answer->image != null)
                                                             <img src="<?php echo Theme::url('storage/answers'); ?>/{{$answer->image}}">
                                                         @endif
                                                     @endif
                                                 </div>
+                                                <input type="file" class="fileI" name="imageFile" wire:model="imagea" :errors="$errors"  style="display:none"/>
                                             </div>
                                         </div>
                                     </div>
@@ -406,12 +408,12 @@
                                 <label for="image" class="form-label">{{__('Image')}} </label>
                                     <div class="img-wrapper">
                                         <a href="#" class="add-image"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
-                                        @if ($imageA != null)
-                                            <img class="form-img ml-3" src="{{ $imageA->temporaryUrl() }}"> 
+                                        @if ($imagea != null)
+                                            <img class="form-img ml-3" src="{{ $imagea->temporaryUrl() }}"> 
                                         @endif
-                                        <input type="file" class="fileI" name="imageFile" wire:model="imageA" :errors="$errors"  style="display:none" accept="image/*"/>
+                                        <input type="file" class="fileI" name="imageFile" wire:model="imagea" :errors="$errors"  style="display:none" accept="image/*"/>
                                     </div>
-                                @error('imageA') <span class="error">{{ $message }}</span> @enderror
+                                @error('imagea') <span class="error">{{ $message }}</span> @enderror
                             </div>
                         </div>
                         <div class="col-6 check-group">

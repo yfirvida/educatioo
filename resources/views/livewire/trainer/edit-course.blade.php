@@ -86,16 +86,17 @@
                                     <div class="col-md-3 p-1">
                                         <div class="box">
                                             <div class="img-wrapper">
-                                                <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
+                                                <a href="#" class="add-image" wire:click="indexImageA({{ $answer->id }})"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
                                                 <div class="wrapper">
-                                                    @if (!empty($images_temp[$index]))
-                                                        <img src="{{ $images_temp[$index]->temporaryUrl() }}">
+                                                     @if (!empty($imagesA_temp[$answer->id]))
+                                                        <img src="{{ $imagesA_temp[$answer->id]->temporaryUrl() }}">
                                                     @else
                                                         @if($answer->image != null)
                                                             <img src="<?php echo Theme::url('storage/answers'); ?>/{{$answer->image}}">
                                                         @endif
                                                     @endif
                                                 </div>
+                                                <input type="file" class="fileI" name="imageFile" wire:model="imageA" :errors="$errors"  style="display:none"/>
                                             </div>
                                         </div>
                                     </div>
