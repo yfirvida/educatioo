@@ -27,7 +27,11 @@
             </div>
         </div>
     </div>
-    <a class="blue" wire:click="uploadImage">{{__('Save your new profile image!')}}</a>
+    @error('image') 
+        <div class="alert alert-danger" style="margin-top:30px;">
+          {{ $message }}
+        </div>
+     @enderror
     <div id="accordion" class="mt-3">
         @if($questions && $questions->count() > 0) 
             @foreach ($questions as $index => $question)
@@ -44,21 +48,19 @@
                                 <div class="box">
                                     <div class="img-wrapper">
                                         <a href="#" class="add-image" wire:click="indexImage({{ $index }})"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
-                                        
                                         <div class="wrapper">
-                                            @if($question->image != null)
-                                                <img src="<?php echo Theme::url('uploads'); ?>/{{$question->image}}">
-                                            @endif
 
                                             @if (!empty($images_temp[$index]))
                                                 <img src="{{ $images_temp[$index]->temporaryUrl() }}">
+                                            @else
+                                                @if($question->image != null)
+                                                    <img src="<?php echo Theme::url('storage/questions'); ?>/{{$question->image}}">
+                                                @endif
                                             @endif
                                         
                                         </div>
-                                        <!-- <input type="file" class="fileI" name="imageFile" wire:model="questions.{{$index}}.image"  :errors="$errors"  style="display:none"/> -->
-                                        <input type="file" class="fileI" name="imageFile" wire:model="uimage" :errors="$errors"  style="display:none"/>
+                                        <input type="file" class="fileI" name="imageFile" wire:model="image" :errors="$errors"  style="display:none"/>
                                     </div>
-                                     
                                 </div>
                             </div>
                             <div class="col-md-3 p-1 order-1 order-md-3">
@@ -289,27 +291,18 @@
                         <div class="col-12">
                             <div class="question-wrapper">
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-6">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="nameq" class="form-label">{{__('Question Identifier')}} <sup class="text-danger">*</sup></label>
                                             <input wire:model="nameq" type="text" class="form-control" placeholder="{{_('Ex Question 1')}}" :errors="$errors" autocomplete="off" />
                                             @error('nameq') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-6">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="q_value" class="form-label">{{__('Value')}} <sup class="text-danger">*</sup></label>
                                             <input wire:model="q_value" type="number" class="form-control"  :errors="$errors" autocomplete="off" />
                                             @error('q_value') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="form-group mb-lg-0">
-                                            <label for="image" class="form-label">{{__('Image')}} </label>
-                                            <div class="img-wrapper">
-                                                <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
-                                            </div>
-                                            @error('image') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -496,23 +489,6 @@
             $(".img-wrapper").on( "click", ".add-image", function() {
                 $(this).parent().find(".fileI").trigger('click');
             });
-
-        /*    window.livewire.on('fileChoosen', () => {
-
-            let inputField = document.getElementById('file');
-
-            let file = inputField.files[0];
-
-            let reader = new FileReader();
-
-            reader.onloadend = () => {
-
-                window.livewire.emit('uploadImage', reader.result);
-            }
-
-            reader.readAsDataURL(file);
-
-            });*/
         });
 
     </script>

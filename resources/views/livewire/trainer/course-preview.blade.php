@@ -23,7 +23,7 @@
                                 <div class="box">
                                     <div class="img-wrapper">
                                         <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
-                                        <div class="wrapper"><img src=""></div>
+                                        <div class="wrapper"><img src="<?php echo Theme::url('storage/questions'); ?>/{{$question->image}}"></div>
                                     </div>
                                 </div>
                             </div>

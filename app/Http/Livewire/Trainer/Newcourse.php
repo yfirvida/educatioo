@@ -7,19 +7,27 @@ use App\Models\Exam;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Level;
+use Illuminate\Support\Facades\Storage;
+use Livewire\WithFileUploads;
 
 use Livewire\Component;
 
 class Newcourse extends Component
 {
     
+    use WithFileUploads;
 
     public $name, $description, $author, $level_id;
-    public $nameq, $q_value, $explanation, $question_name, $image, $showR, $latestQ, $firstQ; 
+    public $nameq, $q_value, $explanation, $question_name, $showR, $latestQ, $firstQ; 
     public $levels, $questions;
     public $answer, $next_question, $right, $imageA;
-    public $course_id = 18;
+    public $course_id = 0;
     public $question_id, $current;
+
+    public $image;
+    public $images_temp = [];
+    public $index_question;
+    protected $listeners = ['fileUpload'];
 
     protected $rules = [
         'questions.*.answers.*.next_question' => 'nullable',
@@ -96,6 +104,22 @@ class Newcourse extends Component
 
         if($course){
             $this->course_id = $course->id; 
+            //save images for questions
+            foreach ($this->questions as $key => $q) {
+                if (array_key_exists($key, $this->images_temp)) {
+                    $name       = date('YmdHis').$key;
+                    $extension  = $this->images_temp[$key]->getClientOriginalExtension();
+                    $filename   = $name .'.'. $extension;
+                    $path       = 'public/questions';
+                    $url_image  = $storage  = 'storage/questions/'.$filename;
+                    $this->images_temp[$key]->storeAs($path, $filename);
+
+                    
+                    $question = Question::find($q->id);
+                    $question->update(['image' => $filename]);
+                }
+            }
+
             foreach($this->questions as $q){   
                 $course->questions()->updateExistingPivot($q->id, ['latest_question' => $q->latest_question, 'show_in_result' => $q->show_in_result, 'first_question' => $q->first_question]);
      
@@ -152,6 +176,8 @@ class Newcourse extends Component
             'image' => 'nullable'
 
         ]);
+
+        //subir imagen
 
         $questionn = Question::create(['identifier' => $this->nameq,
             'value' => $this->q_value,
@@ -295,7 +321,6 @@ class Newcourse extends Component
         $this->q_value = $q->value;
         $this->explanation = $q->intro;
         $this->question_name = $q->question;
-        $this->image = $q->image;
         $this->showR = false;
         $this->latestQ = false;
         
@@ -311,7 +336,6 @@ class Newcourse extends Component
             'q_value' => 'required',
             'explanation' => 'nullable',
             'question_name' => 'required',
-            'image' => 'nullable'
 
         ]);
         $q = Question::find($id);
@@ -319,7 +343,6 @@ class Newcourse extends Component
             'value' => $this->q_value,
             'intro' => $this->explanation,
             'question' => $this->question_name,
-            'image' => $this->image
         ]);
 
         $course = Exam::find($this->course_id);
@@ -352,5 +375,17 @@ class Newcourse extends Component
         } 
 
         session()->flash('message', 'Question Copied Successfully.'); 
+    }
+
+    public function indexImage($index){
+        $this->index_question = $index;
+    }
+
+    public function updatedImage($value)
+    {
+        $this->validate([
+            'image' => 'mimes:jpeg,jpg,png,gif|max:500|required|image'
+        ]);
+        $this->images_temp[$this->index_question] = $value;
     }
 }

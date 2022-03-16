@@ -8,9 +8,6 @@ use App\Models\Level;
 use App\Models\Answer;
 use App\Models\Question;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManager;
-use Intervention\Image\ImageManagerStatic;
-use Illuminate\Http\Request;
 use Livewire\WithFileUploads;
 
 class EditCourse extends Component
@@ -21,7 +18,7 @@ class EditCourse extends Component
     public $name, $description, $level_id;
     public $levels;
     public $questions, $current;
-    public $uimage;
+    public $image;
     public $images_temp = [];
     public $index_question;
     protected $listeners = ['fileUpload'];
@@ -33,7 +30,7 @@ class EditCourse extends Component
         'questions.*.first_question' => 'nullable',
         'questions.*.latest_question' => 'nullable',
         'questions.*.show_in_result' => 'nullable',
-        'questions.*.image' => 'image|mimes:jpeg,jpg,png,gif|max:500|nullable',
+        
 
     ];
 
@@ -60,16 +57,21 @@ class EditCourse extends Component
 
     public function update()
     {
+        
+        //save images for questions
+        foreach ($this->questions as $key => $q) {
+            if (array_key_exists($key, $this->images_temp)) {
+                $name       = date('YmdHis').$key;
+                $extension  = $this->images_temp[$key]->getClientOriginalExtension();
+                $filename   = $name .'.'. $extension;
+                $path       = 'public/questions';
+                $url_image  = $storage  = 'storage/questions/'.$filename;
+                $this->images_temp[$key]->storeAs($path, $filename);
 
-        dd($this->images_temp);
-
-        foreach ($this->questions as $key => $value) {
-            $name       = date('YmdHis').$key;
-            $extension  = $item['image']->getClientOriginalExtension();
-            $filename   = $name .'.'. $extension;
-            $path       = 'public/accommodation';
-            $url_image  = $storage  = 'storage/accommodation/'.$filename;
-            $this->images_temp[$key]->storeAs($path, $filename);
+                
+                $question = Question::find($q->id);
+                $question->update(['image' => $filename]);
+            }
         }
 
         $validatedData = $this->validate([
@@ -280,7 +282,6 @@ class EditCourse extends Component
         $this->q_value = $q->value;
         $this->explanation = $q->intro;
         $this->question_name = $q->question;
-        $this->image = $q->image;
         $this->showR = false;
         $this->latestQ = false;
         
@@ -296,7 +297,6 @@ class EditCourse extends Component
             'q_value' => 'required',
             'explanation' => 'nullable',
             'question_name' => 'required',
-            'image' => 'nullable'
 
         ]);
         $q = Question::find($id);
@@ -304,7 +304,6 @@ class EditCourse extends Component
             'value' => $this->q_value,
             'intro' => $this->explanation,
             'question' => $this->question_name,
-            'image' => $this->image
         ]);
 
         $this->course->refresh();
@@ -336,50 +335,15 @@ class EditCourse extends Component
 
         session()->flash('message', 'Question Copied Successfully.'); 
     }
-
-    public function uploadImage(Request $request){
-
-       /* foreach($this->questions as $q){
-            dump($q->image); die();
-        }*/
-        dump($this->uimage); die();
-
-        /*$this->validate([
-            'profile_image' => 'image|mimes:jpeg,jpg,png,gif|max:500|required'
-        ]);*/
-       /* $images = [
-            'name' => $this->profile_image->getClientOriginalName(),
-            'path' => $this->profile_image->getRealPath(),
-            'extension' => $this->profile_image->getClientOriginalExtension(),
-        ];
-        $filenameSmall = substr(md5(microtime() . rand(0, 9999)), 0, 20) . '.' .  $images['extension'];
-        $path = public_path('uploads/' . $filenameSmall);
-        ImageManagerStatic::make( $images['path'])->orientate()->fit(300, 300, function ($constraint) {
-            $constraint->upsize();
-
-        },'top')->save($path);
-
-        $user = User::find(Auth::user()->id);
-
-        if (!empty($user->image)){
-            @unlink(public_path("uploads/".$user->image.""));
-        }
-
-        $user->image =  $filenameSmall;
-        $user->save();
-        $this->uploaded = true;
-
-        $this->profile_image  = $user->image;
-        $this->emit('uploadedImage');
-        session()->flash('successImage', __('Your profile image has been uploaded succesfully.'));*/
-    }
-
     public function indexImage($index){
         $this->index_question = $index;
     }
 
-    public function updatedUimage($value)
+    public function updatedImage($value)
     {
+        $this->validate([
+            'image' => 'mimes:jpeg,jpg,png,gif|max:500|required|image'
+        ]);
         $this->images_temp[$this->index_question] = $value;
     }
 }
