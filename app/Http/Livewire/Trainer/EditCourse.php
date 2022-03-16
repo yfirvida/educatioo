@@ -19,6 +19,7 @@ class EditCourse extends Component
     public $levels;
     public $questions, $current;
     public $image;
+    public $imageA;
     public $images_temp = [];
     public $index_question;
 
@@ -142,7 +143,7 @@ class EditCourse extends Component
         ]);
 
         if($this->image != ''){
-            //save images for questions
+            //save image
                 $name       = substr(md5(microtime() . rand(0, 9999)), 0, 20);
                 $extension  = $this->image->getClientOriginalExtension();
                 $filename   = $name .'.'. $extension;
@@ -217,16 +218,29 @@ class EditCourse extends Component
         $validatedData = $this->validate([
             'answer' => 'required',
             'next_question' => 'nullable',
-            'imageA' => 'nullable',
+            'imageA' => 'image|mimes:jpeg,jpg,png,gif|max:500|nullable',
             'right' => 'nullable'
 
         ]);
+
+        if($this->imageA != ''){
+            //save image
+                $name       = substr(md5(microtime() . rand(0, 9999)), 0, 20);
+                $extension  = $this->imageA->getClientOriginalExtension();
+                $filename   = $name .'.'. $extension;
+                $path       = 'public/answers';
+                $url_image  = $storage  = 'storage/answers/'.$filename;
+                $this->imageA->storeAs($path, $filename);
+        }
+        else{
+            $filename = null;
+        }
 
         $answer = Answer::create(['answer' => $this->answer,
             'next_question' => $this->next_question,
             'correct' => $this->right,
             'question_id' => $this->question_id,
-            'image' => $this->imageA,
+            'image' => $filename,
         ]);
 
         $this->course->refresh();

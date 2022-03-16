@@ -21,7 +21,7 @@ class Newcourse extends Component
     public $nameq, $q_value, $explanation, $question_name, $showR, $latestQ, $firstQ; 
     public $levels, $questions;
     public $answer, $next_question, $right, $imageA;
-    public $course_id = 0;
+    public $course_id = 18;
     public $question_id, $current;
 
     public $image;
@@ -255,20 +255,34 @@ class Newcourse extends Component
     public function saveAnswer()
     {
 
-        $validatedData = $this->validate([
+         $validatedData = $this->validate([
             'answer' => 'required',
             'next_question' => 'nullable',
-            'imageA' => 'nullable',
+            'imageA' => 'image|mimes:jpeg,jpg,png,gif|max:500|nullable',
             'right' => 'nullable'
 
         ]);
+
+        if($this->imageA != ''){
+            //save image
+                $name       = substr(md5(microtime() . rand(0, 9999)), 0, 20);
+                $extension  = $this->imageA->getClientOriginalExtension();
+                $filename   = $name .'.'. $extension;
+                $path       = 'public/answers';
+                $url_image  = $storage  = 'storage/answers/'.$filename;
+                $this->imageA->storeAs($path, $filename);
+        }
+        else{
+            $filename = null;
+        }
 
         $answer = Answer::create(['answer' => $this->answer,
             'next_question' => $this->next_question,
             'correct' => $this->right,
             'question_id' => $this->question_id,
-            'image' => $this->imageA,
+            'image' => $filename,
         ]);
+
         $course = Exam::find($this->course_id);
         $this->questions = $course->questions;
         foreach($this->questions as $q){

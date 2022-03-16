@@ -87,7 +87,15 @@
                                         <div class="box">
                                             <div class="img-wrapper">
                                                 <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
-                                                <div class="wrapper"><img src=""></div>
+                                                <div class="wrapper">
+                                                    @if (!empty($images_temp[$index]))
+                                                        <img src="{{ $images_temp[$index]->temporaryUrl() }}">
+                                                    @else
+                                                        @if($answer->image != null)
+                                                            <img src="<?php echo Theme::url('storage/answers'); ?>/{{$answer->image}}">
+                                                        @endif
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -399,8 +407,14 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="image" class="form-label">{{__('Image')}} </label>
-                                <input wire:model="image" type="file" class="form-control-file" :errors="$errors" autocomplete="off" />
-                                @error('image') <span class="error">{{ $message }}</span> @enderror
+                                    <div class="img-wrapper">
+                                        <a href="#" class="add-image"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
+                                        @if ($imageA != null)
+                                            <img class="form-img ml-3" src="{{ $imageA->temporaryUrl() }}"> 
+                                        @endif
+                                        <input type="file" class="fileI" name="imageFile" wire:model="imageA" :errors="$errors"  style="display:none" accept="image/*"/>
+                                    </div>
+                                @error('imageA') <span class="error">{{ $message }}</span> @enderror
                             </div>
                         </div>
                         <div class="col-6 check-group">
