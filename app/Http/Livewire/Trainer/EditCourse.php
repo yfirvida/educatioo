@@ -103,6 +103,7 @@ class EditCourse extends Component
 
 
         $this->course->refresh();
+        $images_temp = array();
         session()->flash('message', 'Course Updated Successfully.');
 
     }
@@ -136,15 +137,28 @@ class EditCourse extends Component
             'q_value' => 'required',
             'explanation' => 'nullable',
             'question_name' => 'required',
-            'image' => 'nullable'
+            'image' => 'image|mimes:jpeg,jpg,png,gif|max:500|nullable'
 
         ]);
+
+        if($this->image != ''){
+            //save images for questions
+                $name       = substr(md5(microtime() . rand(0, 9999)), 0, 20);
+                $extension  = $this->image->getClientOriginalExtension();
+                $filename   = $name .'.'. $extension;
+                $path       = 'public/questions';
+                $url_image  = $storage  = 'storage/questions/'.$filename;
+                $this->image->storeAs($path, $filename);
+        }
+        else{
+            $filename = null;
+        }
 
         $questionn = Question::create(['identifier' => $this->nameq,
             'value' => $this->q_value,
             'intro' => $this->explanation,
             'question' => $this->question_name,
-            'image' => $this->image
+            'image' => $filename
         ]);
 
         $this->question_id = $questionn->id;

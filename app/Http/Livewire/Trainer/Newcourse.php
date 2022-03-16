@@ -21,7 +21,7 @@ class Newcourse extends Component
     public $nameq, $q_value, $explanation, $question_name, $showR, $latestQ, $firstQ; 
     public $levels, $questions;
     public $answer, $next_question, $right, $imageA;
-    public $course_id = 0;
+    public $course_id = 18;
     public $question_id, $current;
 
     public $image;
@@ -73,6 +73,7 @@ class Newcourse extends Component
         $this->question_name = '';
         $this->image = '';
         $this->showR = false;
+        $this->firstQ = false;
         $this->latestQ = false;
     }
 
@@ -176,17 +177,28 @@ class Newcourse extends Component
             'q_value' => 'required',
             'explanation' => 'nullable',
             'question_name' => 'required',
-            'image' => 'nullable'
+            'image' => 'image|mimes:jpeg,jpg,png,gif|max:500|nullable'
 
         ]);
 
-        //subir imagen
+        if($this->image != ''){
+            //save images for questions
+                $name       = substr(md5(microtime() . rand(0, 9999)), 0, 20);
+                $extension  = $this->image->getClientOriginalExtension();
+                $filename   = $name .'.'. $extension;
+                $path       = 'public/questions';
+                $url_image  = $storage  = 'storage/questions/'.$filename;
+                $this->image->storeAs($path, $filename);
+        }
+        else{
+            $filename = null;
+        }
 
         $questionn = Question::create(['identifier' => $this->nameq,
             'value' => $this->q_value,
             'intro' => $this->explanation,
             'question' => $this->question_name,
-            'image' => $this->image
+            'image' => $filename
         ]);
 
         $this->question_id = $questionn->id;

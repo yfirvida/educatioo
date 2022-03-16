@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Land;
 use Livewire\WithPagination;
 
+use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
 
 use Livewire\Component;
@@ -49,8 +50,8 @@ class Users extends Component
     {
         $validatedData = $this->validate([
             'name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', Rules\Password::defaults()],
             'role' => 'required',
             'school' => 'nullable',
             'land_id' => 'required',

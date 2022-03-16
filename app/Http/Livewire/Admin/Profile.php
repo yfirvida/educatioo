@@ -64,7 +64,7 @@ class Profile extends Component
     {
         $validatedData = $this->validate([
             'name' => 'required',
-            'email' => 'required',
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'land_id' => 'required',
 
         ]);

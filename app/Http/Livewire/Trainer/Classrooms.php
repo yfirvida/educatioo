@@ -195,7 +195,7 @@ class Classrooms extends Component
 
         $validatedData = $this->validate([
             'namestd' => 'required',
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255'],
         ]);
 
         $st = User::create(['name' => $this->namestd,

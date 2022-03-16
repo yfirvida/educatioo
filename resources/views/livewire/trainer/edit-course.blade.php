@@ -59,7 +59,7 @@
                                             @endif
                                         
                                         </div>
-                                        <input type="file" class="fileI" name="imageFile" wire:model="image" :errors="$errors"  style="display:none"/>
+                                        <input type="file" class="fileI" name="imageFile" wire:model="image" :errors="$errors"  style="display:none" accept="image/*"/>
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                     </div>
                     <div id="collapse{{$index}}" class="collapse" aria-labelledby="heading{{$index}}" data-parent="#accordion">
                       <div class="card-body">
-                        @if($question->answers)
+                        @if($question->answers && $question->answers->count() > 0)
                             @foreach ($question->answers as $ind => $answer)
                                 <div class="row m-0" wire:key="answer-{{ $answer->id }}">
                                     <div class="col-md-3 p-1">
@@ -113,6 +113,14 @@
                                     </div>
                                 </div>
                             @endforeach
+                        @else
+                            <div class="row m-0">
+                                <div class="col-9 p-1">
+                                    <div class="box">
+                                        {{_('There are no answers yet')}} 
+                                    </div>
+                                </div>
+                            </div>
                         @endif
                       </div>
                     </div>
@@ -207,7 +215,11 @@
                                         <div class="form-group mb-lg-0">
                                             <label for="image" class="form-label">{{__('Image')}} </label>
                                             <div class="img-wrapper">
-                                                <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
+                                                <a href="#" class="add-image"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
+                                                @if ($image != null)
+                                                    <img class="form-img ml-3" src="{{ $image->temporaryUrl() }}"> 
+                                                @endif
+                                                <input type="file" class="fileI" name="imageFile" wire:model="image" :errors="$errors"  style="display:none" accept="image/*"/>
                                             </div>
                                             @error('image') <span class="error">{{ $message }}</span> @enderror
                                         </div>
