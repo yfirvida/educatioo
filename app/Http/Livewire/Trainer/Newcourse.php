@@ -104,40 +104,43 @@ class Newcourse extends Component
 
         if($course){
             $this->course_id = $course->id; 
-            //save images for questions
-            foreach ($this->questions as $key => $q) {
-                if (array_key_exists($key, $this->images_temp)) {
-                    $name       = date('YmdHis').$key;
-                    $extension  = $this->images_temp[$key]->getClientOriginalExtension();
-                    $filename   = $name .'.'. $extension;
-                    $path       = 'public/questions';
-                    $url_image  = $storage  = 'storage/questions/'.$filename;
-                    $this->images_temp[$key]->storeAs($path, $filename);
+            if($this->questions != null){
+                //save images for questions
+                foreach ($this->questions as $key => $q) {
+                    if (array_key_exists($key, $this->images_temp)) {
+                        $name       = date('YmdHis').$key;
+                        $extension  = $this->images_temp[$key]->getClientOriginalExtension();
+                        $filename   = $name .'.'. $extension;
+                        $path       = 'public/questions';
+                        $url_image  = $storage  = 'storage/questions/'.$filename;
+                        $this->images_temp[$key]->storeAs($path, $filename);
 
-                    
-                    $question = Question::find($q->id);
-                    $question->update(['image' => $filename]);
-                }
-            }
-
-            foreach($this->questions as $q){   
-                $course->questions()->updateExistingPivot($q->id, ['latest_question' => $q->latest_question, 'show_in_result' => $q->show_in_result, 'first_question' => $q->first_question]);
-     
-                $answers = $q->answers;
-                foreach($q->answers as $a){ 
-                    $ans = Answer::find($a->id);
-                    $ans->update(['answer' => $a->answer,
-                        'next_question' => $a->next_question,
-                        'correct' => $a->correct]);
+                        
+                        $question = Question::find($q->id);
+                        $question->update(['image' => $filename]);
                     }
                 }
 
-                $this->questions = $course->questions; 
-                foreach($this->questions as $q){
-                    $q->first_question = $q->pivot['first_question'];
-                    $q->latest_question = $q->pivot['latest_question'];
-                    $q->show_in_result  =  $q->pivot['show_in_result'];    
-                }     
+                foreach($this->questions as $q){   
+                    $course->questions()->updateExistingPivot($q->id, ['latest_question' => $q->latest_question, 'show_in_result' => $q->show_in_result, 'first_question' => $q->first_question]);
+         
+                    $answers = $q->answers;
+                    foreach($q->answers as $a){ 
+                        $ans = Answer::find($a->id);
+                        $ans->update(['answer' => $a->answer,
+                            'next_question' => $a->next_question,
+                            'correct' => $a->correct]);
+                        }
+                    }
+
+                    $this->questions = $course->questions; 
+                    foreach($this->questions as $q){
+                        $q->first_question = $q->pivot['first_question'];
+                        $q->latest_question = $q->pivot['latest_question'];
+                        $q->show_in_result  =  $q->pivot['show_in_result'];    
+                    }     
+                }
+            
             }
             $course->refresh();
             session()->flash('message', 'Course Saved Successfully.');
