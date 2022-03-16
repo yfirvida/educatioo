@@ -41,17 +41,10 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request, $plan)
     {
-       /* $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+       $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', Rules\Password::defaults()],
-            'profile_image' => ['nullable','mimes:jpeg,jpg,png,gif', 'max:500']
-        ]);*/
-
-
-
-        $request->validate([
             'profile_image' => ['nullable','image','mimes:jpeg,jpg,png,gif', 'max:500']
         ]);
 
