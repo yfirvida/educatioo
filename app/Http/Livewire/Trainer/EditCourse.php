@@ -21,6 +21,7 @@ class EditCourse extends Component
     public $image;
     public $images_temp = [];
     public $index_question;
+
     protected $listeners = ['fileUpload'];
 
     protected $rules = [
