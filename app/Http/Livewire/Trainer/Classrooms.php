@@ -14,7 +14,7 @@ class Classrooms extends Component
 {
     public $name, $level_id, $namestd, $email;
     public $levels, $students, $extras, $assignST;
-    public $trainer_id, $classroom_id, $st_id, $current;
+    public $trainer_id, $classroom_id, $st_id, $current, $current_class;
 
     protected $rules = [
         'students.*.pin' => 'required|string|min:6',
@@ -143,13 +143,30 @@ class Classrooms extends Component
         }
     }
 
+    //delete question
+    public function confirm($id)
+    {
+        $this->current_class = $id;
+        $this->dispatchBrowserEvent('openConfirmModal');
+
+    }
+
+     public function closeConfirm()
+    {
+
+        $this->dispatchBrowserEvent('closeConfirmModal'); 
+
+    }
+
     public function delete($id)
     {
         if($id){
             $classroom = Classroom::find($id);
             $classroom->users()->detach();
+            $classroom->exams()->detach();
             Classroom::where('id',$id)->delete();
-            session()->flash('message', 'Plan Deleted Successfully.');
+            session()->flash('message', 'Group Deleted Successfully.');
+            $this->dispatchBrowserEvent('closeConfirmModal'); 
         }
     }
     public function removeSt($index)

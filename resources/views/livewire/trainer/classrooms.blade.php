@@ -1,4 +1,9 @@
 <div>
+    @if (session()->has('message'))
+        <div class="alert alert-success" style="margin-top:30px;">
+          {{ session('message') }}
+        </div>
+     @endif
     <div class="content-wrapper">
         <div class="content b-bottom pb-4">
             <div class="d-flex justify-content-between align-items-center mt-3 ">
@@ -37,7 +42,7 @@
                                     <td class="text-center">{{$class->getCountUsers();}}</td>
                                     <td class="d-flex justify-content-between align-items-center act">
                                         <button wire:click="edit({{$class->id}})" class="btn actions mb-2 mr-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</button>
-                                        <button wire:click="delete({{$class->id}})" class="btn actions mb-2 mr-2"><i class="fas fa-minus"></i> {{ __('Delete') }}</button> 
+                                        <button wire:click="confirm({{$class->id}})" class="btn actions mb-2 mr-2"><i class="fas fa-minus"></i> {{ __('Delete') }}</button> 
                                         <i class='fas fa-ellipsis-h mb-2 text-danger'></i>
 
                                         <div class="action-box">
@@ -395,6 +400,29 @@
     </div>
 </div>
 
+
+<!-- confirm modal -->
+<div wire:ignore.self class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body pb-3">
+                <div class="inside-form text-center">
+                    {{_('Are you sure you want to delete this item?')}}
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <div wire:loading wire:target="delete">
+                    <img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
+                </div>
+                <div wire:loading.remove wire:target="delete">
+                    <button type="button" wire:click.prevent="delete({{$current_class}})" class="btn btn-orange btn-fix-size" >{{__('Delete')}}</button>
+                </div>
+                <button type="button" wire:click.prevent="closeConfirm" class="btn btn-white btn-fix-size" >{{__('Cancel')}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>
 
 @push('scripts')
@@ -428,6 +456,13 @@
 
         window.addEventListener('closeStdModal', event => {
             $('#createStModal').modal('hide');
+        });
+        window.addEventListener('openConfirmModal', event => {         
+            $('#confirmModal').modal('show');
+        });
+
+        window.addEventListener('closeConfirmModal', event => {
+            $('#confirmModal').modal('hide');
         });
     </script>
 @endpush
