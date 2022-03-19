@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\ImageManagerStatic;
 use Livewire\WithFileUploads;
+use Mail;
+use App\Mail\Register;
 
 class RegisteredUserController extends Controller
 {
@@ -43,11 +45,11 @@ class RegisteredUserController extends Controller
     {
        $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', Rules\Password::defaults()],
             'profile_image' => ['nullable','image','mimes:jpeg,jpg,png,gif', 'max:500']
         ]);
-
+       //, 'unique:users'
 
 
         $filenameSmall = null;
@@ -68,7 +70,7 @@ class RegisteredUserController extends Controller
         }
 
 
-        $user = User::create([
+       /* $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -77,7 +79,15 @@ class RegisteredUserController extends Controller
             'school' => $request->school,
             'land_id' => $request->land_id,
             'image' => $filenameSmall
-        ]);
+        ]);*/
+
+        $user = User::find(44);
+
+        //send mail
+
+        Mail::to($user)->send(new Register($user));
+
+
 
         event(new Registered($user));
 

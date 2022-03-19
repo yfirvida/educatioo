@@ -9,7 +9,7 @@ class Plan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name','intro','upgrade','link'];
 
     public function users()
     {
@@ -18,5 +18,9 @@ class Plan extends Model
 
     public static function all_items($sort = 'name', $order = 'asc') {
         return Plan::orderBy($sort, $order)->get();
+    }
+
+    public static function getByName($name) {
+        return Plan::where('name', $name)->first();
     }
 }
