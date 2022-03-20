@@ -18,11 +18,19 @@
     <li class="nav-item nav-category">{{ __('Management') }}</li>
     <li class="nav-item {{request()->routeIs('lands') ? 'active' : '' }}">
       <a class="nav-link" href="{{ route('lands') }}" >
-        <i class="menu-icon mdi mdi mdi-map-marker"></i>
+        <i class="menu-icon mdi mdi-map-marker"></i>
         <span class="menu-title">{{ __('Lands') }}</span>
         <i class="menu-arrow"></i> 
       </a>
     </li>
+    <li class="nav-item {{request()->routeIs('plans') ? 'active' : '' }}">
+      <a class="nav-link" href="{{ route('plans') }}" >
+        <i class="menu-icon mdi mdi-poll-box"></i>
+        <span class="menu-title">{{ __('Plans') }}</span>
+        <i class="menu-arrow"></i> 
+      </a>
+    </li>
+
     <li class="nav-item nav-category">{{ __('Profile') }}</li>
     <li class="nav-item {{request()->routeIs('profile') ? 'active' : '' }}">
       <a class="nav-link" href="{{ route('profile') }}" >

@@ -27,6 +27,7 @@ class Register extends Mailable
         //
         $this->user = $user; 
         $this->plan = Plan::getByName($user->plan);
+
     }
 
     /**

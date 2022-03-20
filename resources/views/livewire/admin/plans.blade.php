@@ -24,6 +24,12 @@
                                         {{ __('Plan') }}
                                     </th>
                                     <th>
+                                        {{ __('Mail Message') }}
+                                    </th>
+                                    <th>
+                                        {{ __('Upgrade Link') }}
+                                    </th>
+                                    <th>
                                         {{ __('Actions') }}
                                     </th>
                                 </tr>
@@ -34,6 +40,12 @@
                                     <tr>
                                         <td class="py-1">
                                             {{ $plan->name }}
+                                        </td>
+                                        <td class="py-1">
+                                            <?php echo nl2br($plan->intro); ?>
+                                        </td>
+                                        <td class="py-1">
+                                            {{ $plan->link }}
                                         </td>
                                         <td>
                                             <button class="bt badge badge-warning" wire:click="edit({{$plan->id}})"><i class=" mdi mdi-pencil-box-outline"></i> {{ __('Edit') }}</button>
@@ -66,7 +78,7 @@
 
 <!-- add new land modal -->
 <div wire:ignore.self class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg mw-800" role="document">
+    <div class="modal-dialog modal-dialog-centered mt-0 modal-lg mw-800" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">{{__('Create New Plan')}}</h4>
@@ -81,6 +93,16 @@
                         <label for="name" class="form-label">{{__('Plan Name')}} <sup class="text-danger">*</sup></label>
                         <input wire:model="name" type="text" class="form-control"  :errors="$errors" autocomplete="off" />
                         @error('name') <span class="error">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="intro" class="form-label">{{__('Mail Message')}} <sup class="text-danger">*</sup></label>
+                        <textarea wire:model="intro" class="form-control" rows="6"  :errors="$errors" autocomplete="off"></textarea>
+                        @error('intro') <span class="error">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="link" class="form-label">{{__('Upgrade Link')}}</label>
+                        <input wire:model="link" type="text" class="form-control"  :errors="$errors" autocomplete="off" />
+                        @error('link') <span class="error">{{ $message }}</span> @enderror
                     </div>
                     <div class="inside-form mt-1 pb-0">
                         <small class="text-danger"><em><sup >*</sup> <apan class="text-muted">{{__('Required fields')}}</apan></em></small>
@@ -101,7 +123,7 @@
 </div>
 <!-- edit land modal -->
 <div wire:ignore.self class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg mw-800" role="document">
+    <div class="modal-dialog modal-dialog-centered mt-0 modal-lg mw-800" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">{{__('Edit Plan')}}</h4>
@@ -116,6 +138,16 @@
                         <label for="name" class="form-label">{{__('Plan Name')}} <sup class="text-danger">*</sup></label>
                         <input wire:model="name" type="text" class="form-control"  :errors="$errors" autocomplete="off" />
                         @error('name') <span class="error text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="intro" class="form-label">{{__('Mail Message')}} <sup class="text-danger">*</sup></label>
+                        <textarea wire:model="intro" class="form-control" rows="6"  :errors="$errors" autocomplete="off"></textarea>
+                        @error('intro') <span class="error">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="link" class="form-label">{{__('Upgrade Link')}}</label>
+                        <input wire:model="link" type="text" class="form-control"  :errors="$errors" autocomplete="off" />
+                        @error('link') <span class="error">{{ $message }}</span> @enderror
                     </div>
                     <div class="inside-form mt-1 pb-0">
                         <small class="text-danger"><em><sup >*</sup> <apan class="text-muted">{{__('Required fields')}}</apan></em></small>

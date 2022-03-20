@@ -70,7 +70,7 @@ class RegisteredUserController extends Controller
         }
 
 
-       /* $user = User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -79,9 +79,8 @@ class RegisteredUserController extends Controller
             'school' => $request->school,
             'land_id' => $request->land_id,
             'image' => $filenameSmall
-        ]);*/
+        ]);
 
-        $user = User::find(44);
 
         //send mail
 

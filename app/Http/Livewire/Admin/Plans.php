@@ -10,7 +10,7 @@ class Plans extends Component
 {
 	use WithPagination;
     
-    public $name;
+    public $name, $intro, $link;
     public $updateMode = false;
 
     public function render()
@@ -20,6 +20,8 @@ class Plans extends Component
     private function resetInputFields() {
         
         $this->name = '';
+        $this->intro = '';
+        $this->link = '';
     }
 
     public function showForm() {
@@ -33,6 +35,8 @@ class Plans extends Component
     {
         $validatedData = $this->validate([
             'name' => 'required',
+            'intro' => 'required',
+            'link' => 'nullable|url',
         ]);
 
         Plan::create($validatedData);
@@ -51,6 +55,8 @@ class Plans extends Component
         $plan = Plan::where('id',$id)->first();
         $this->plan_id = $id;
         $this->name = $plan->name;
+        $this->intro = $plan->intro;
+        $this->link = $plan->link;
 
         $this->dispatchBrowserEvent('openUpdateModal');
         
@@ -68,12 +74,16 @@ class Plans extends Component
     {
         $validatedData = $this->validate([
             'name' => 'required',
+            'intro' => 'required',
+            'link' => 'nullable|url',
         ]);
 
         if ($this->plan_id) {
             $plan = Plan::find($this->plan_id);
             $plan->update([
                 'name' => $this->name,
+                'intro' => $this->intro,
+                'link' => $this->link
             ]);
             $this->updateMode = false;
             session()->flash('message', 'Plan Updated Successfully.');
