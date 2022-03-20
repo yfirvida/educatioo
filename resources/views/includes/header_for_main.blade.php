@@ -1,10 +1,10 @@
 <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
       <div class="text-center  d-flex align-items-center justify-content-start">
         <div>
-          <a class="navbar-brand brand-logo d-none d-sm-block" href="#">
+          <a class="navbar-brand brand-logo d-none d-sm-block" href="{{ route('trainer_dashboard') }}">
             <img src="/star-admin/images/logo.png" alt="logo" />
           </a>
-          <a class="navbar-brand brand-logo-mini d-inline d-sm-none" href="#">
+          <a class="navbar-brand brand-logo-mini d-inline d-sm-none" href="{{ route('trainer_dashboard') }}">
             <img src="/star-admin/images/logo-mini.png" alt="logo" />
           </a>
         </div>
@@ -80,6 +80,7 @@
                 <p class="mb-1 font-weight-bold">{{Auth::user()->plan}}</p>
                 <p class="fw-light text-muted mb-0">{{Auth::user()->email}}</p>
               </div>
+              <a href="{{ route('my-profile') }}" class="dropdown-item justify-content-center"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>{{ __('Profile') }}</a>
               <a href="javascript:void" onclick="$('#logout-form').submit();" class="dropdown-item justify-content-center"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>{{ __('Sign Out') }}</a>
             </div>
           </li>

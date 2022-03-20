@@ -852,7 +852,11 @@ input.form-control:focus, select.form-control:focus{
   border: 3px solid #2b388f
 }
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown .dropdown-item{
-  border-bottom: none !important;
+  padding: 10px 25px
+}
+
+.navbar .navbar-menu-wrapper .navbar-nav .nav-item .nav-link{
+  padding-bottom: 0px !important;
 }
 
 .modal{

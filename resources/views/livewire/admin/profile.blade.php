@@ -38,7 +38,7 @@
                                     @endif
                                 @endif
                             </figure>
-                            <input type="file" id="file" name="profile_image" wire:model="profile_image" wire:change="$emit('fileChoosen')" :errors="$errors"  style="display:none"/>
+                            <input type="file" id="file" name="profile_image" wire:model="profile_image" wire:change="$emit('fileChoosen')" :errors="$errors"  style="display:none" accept="image/*"/>
                             @if($image)
                                 @if (!$uploaded)
                                     <div class="row text-center">

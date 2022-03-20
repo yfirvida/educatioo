@@ -46,6 +46,7 @@ Route::group(['middleware' => ['web', 'trainer'], 'namespace' => '\App\Http\Live
 	Route::get('/trainer/archive',Archive::class)->name('archive');
 	Route::get('/trainer/launch',Launch::class)->name('launch');
 	Route::get('/trainer/courses-list/{id}',CoursesList::class)->name('courses-list');
+	Route::get('/trainer/profile',Profile::class)->name('my-profile');
 });
 
 Route::group(['middleware' => ['web', 'student'], 'namespace' => '\App\Http\Livewire\Student'], function ()
@@ -53,6 +54,7 @@ Route::group(['middleware' => ['web', 'student'], 'namespace' => '\App\Http\Live
 	Route::get('/student/dashboard', Dashboard::class)->name('student_dashboard');
 	Route::get('/student/quiz', Quiz::class)->name('quiz');
 	Route::get('/student/result', Results::class)->name('result');
+	Route::get('/student/profile', Profile::class)->name('st-profile');
 });
 
 
