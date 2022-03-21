@@ -41,6 +41,9 @@ class AuthenticatedSessionController extends Controller
     public static function home(LoginRequest $request) : string {
 
         if ( Auth::user()->isTrainer() ) {
+            $user = Auth::user();
+            $now = date('Y-m-d');
+            $user->update(['last_session' => $now]);
             return '/trainer/dashboard';
         }
 

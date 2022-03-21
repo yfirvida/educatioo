@@ -56,28 +56,32 @@
                                         <td>
                                             {{ $user->email }}
                                         </td>
-                                        <td class="lowercase">
+                                        <td class="">
                                             {{ $user->land->name }}
                                         </td>
-                                        <td>
-                                            {{ $user->total_students }}
+                                        <td class="text-center">
+                                            {{ $user->allStudents($user->id)->count() }}
                                         </td>
-                                        <td>
-                                            {{ $total_quiz }}
+                                        <td class="text-center">
+                                            {{ $user->quiz()->count(); }}
                                         </td>
-                                        <td>
-                                            {{ $user->last_session }}
+                                        <td class="text-center">
+                                            @if($user->last_session != null) 
+                                                {{date('d/m/Y', strtotime($user->last_session))}}
+                                            @else
+                                                <span class="">--</span>
+                                            @endif
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             @if($user->subscription_date != null) 
-                                                {{ $user->subscription_date }}
+                                                {{date('d/m/Y', strtotime($user->subscription_date))}}
                                             @else
                                                 <span class="text-danger">{{ __('Canceled') }}</span>
                                             @endif
                                         </td>
                                         <td>
                                             <button class="bt badge badge-warning "  wire:click="edit({{$user->id}})"><i class=" mdi mdi-pencil-box-outline"></i> {{ __('Edit') }}</button>
-                                            <button class="bt badge badge-danger" wire:click="delete({{ $user->id }})"><i class=" mdi mdi-minus-circle-outline" ></i> {{ __('Delete') }}</button>
+                                            <button class="bt badge badge-danger" wire:click="confirm({{$user->id}})"><i class=" mdi mdi-minus-circle-outline" ></i> {{ __('Delete') }}</button>
                                             <button class="bt badge badge-danger" wire:click="cancelsubscription({{ $user->id }})"><i class=" mdi mdi-minus-circle-outline" ></i> {{ __('Cancel subcription ') }}</button>
                                         </td>
                                     </tr>
@@ -263,6 +267,28 @@
     </div>
 </div>
 
+<!-- confirm modal -->
+<div wire:ignore.self class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-body pb-3">
+                <div class="inside-form text-center">
+                    {{_('Are you sure you want delete this Trainer?')}}
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <div wire:loading wire:target="end">
+                    <img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
+                </div>
+                <div wire:loading.remove wire:target="end">
+                    <button type="button" wire:click.prevent="delete({{ $current }})" class="btn btn-primary" >{{__('Delete')}}</button>
+                </div>
+                <button type="button" wire:click.prevent="closeconfirm" class="btn btn-secondary" >{{__('Cancel')}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>
 @push('scripts')
     <script>
@@ -294,6 +320,13 @@
         });
         window.addEventListener('closeUpdateModal', event => {
             $('#editModal').modal('hide');
+        });
+        window.addEventListener('openconfirmModal', event => {         
+            $('#confirmModal').modal('show');
+        });
+
+        window.addEventListener('closeconfirmModal', event => {
+            $('#confirmModal').modal('hide');
         });
     </script>
 @endpush

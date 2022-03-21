@@ -16,7 +16,7 @@ class Users extends Component
 
 	public $name, $role, $email, $password, $school, $plan_id, $land_id, $subscription_date;
     public $updateMode = false;
-    public $lands;
+    public $lands, $current;
 
     public function render()
     {
@@ -151,6 +151,20 @@ class Users extends Component
             $this->dispatchBrowserEvent('closeUpdateModal');
 
         }
+    }
+
+    public function confirm($user)
+    {
+        $this->current = $user; 
+        $this->dispatchBrowserEvent('openconfirmModal');
+
+    }
+
+     public function closeconfirm()
+    {
+
+        $this->dispatchBrowserEvent('closeconfirmModal'); 
+
     }
 
     public function delete($id)

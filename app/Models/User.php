@@ -68,6 +68,11 @@ class User extends Authenticatable
         return $this->belongsTo(Plan::class);
     }
 
+    public function quiz()
+    {
+        return $this->hasMany(Exam::class, 'author');
+    }
+
     public function results()
     {
         return $this->hasMany(Result::class);

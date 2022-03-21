@@ -36,6 +36,11 @@ class Exam extends Model
         return $this->belongsTo(Level::class, 'level_id');
     }
 
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author');
+    }
+
     public function countQuestions() 
     {
         return $this->questions()->count();
