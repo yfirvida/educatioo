@@ -10,6 +10,9 @@ use App\Models\Classroom;
 
 use Illuminate\Support\Facades\Hash;
 
+use Mail;
+use App\Mail\Assign;
+
 class Classrooms extends Component
 {
     public $name, $level_id, $namestd, $email;
@@ -17,8 +20,8 @@ class Classrooms extends Component
     public $trainer_id, $classroom_id, $st_id, $current, $current_class;
 
     protected $rules = [
-        'students.*.pin' => 'required|string|min:6',
-        'assignST.*.pin' => 'required|string|min:6',
+        'students.*.pin' => 'required|string|min:6|unique',
+        'assignST.*.pin' => 'required|string|min:6|unique',
     ];
 
     public function render()
@@ -73,6 +76,10 @@ class Classrooms extends Component
         for ($x = 0; $x < $length = count($this->students); $x++) {
             if($this->students[$x]->pin != null){
                $classroom->users()->attach($this->students[$x]->id, ['pin' => $this->students[$x]->pin]); 
+
+               //send mail
+                $user = User::find($this->students[$x]->id);
+                Mail::to($user)->send(new Assign($this->students[$x]->id, $classroom->id));
             }
             
         }
@@ -129,6 +136,9 @@ class Classrooms extends Component
             for ($x = 0; $x < $length = count($this->students); $x++) {
                 if($this->students[$x]->pin != null){
                    $classroom->users()->updateExistingPivot($this->students[$x]->id, ['pin' => $this->students[$x]->pin]); 
+                   //send mail
+                    $user = User::find($this->students[$x]->id);
+                    Mail::to($user)->send(new Assign($this->students[$x]->id, $classroom->id));
                 }
                 
             }
@@ -260,6 +270,10 @@ class Classrooms extends Component
 
         $pin = bin2hex(random_bytes(4));
         $this->current->users()->attach($this->st_id, ['pin' => $pin]); 
+
+        //send mail
+        $user = User::find($this->st_id);
+        Mail::to($user)->send(new Assign($this->st_id, $this->current->id));
 
         $this->assignST = $this->current->users()->get();
         foreach($this->assignST as $index => $student){
