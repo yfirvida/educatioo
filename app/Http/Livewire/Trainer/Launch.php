@@ -9,6 +9,9 @@ use App\Models\Certificate;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
 
+use Mail;
+use App\Mail\LaunchMail;
+
 
 class Launch extends Component
 {
@@ -91,6 +94,17 @@ class Launch extends Component
         //launch
         $classroom = Classroom::find($this->classroom_id);
         $classroom->exams()->attach($this->course_id, ['start' => $start, 'end' => $end, 'min_points' => $this->min_points, 'total_points' => $this->total_points, 'email_instructions' => $this->instructions, 'certificate_id' => $this->certificate_id]);
+
+        //get course name for email
+
+        $course = Exam::find($this->course_id);
+
+        //send mail
+        $users = $classroom->users;
+        foreach($users as $user){
+            Mail::to($user)->send(new LaunchMail($classroom->name, $course->name, $this->instructions, $this->start, $this->end));
+        }
+        
         
         $this->dispatchBrowserEvent('closeModal'); // Close modal using jquery
 
