@@ -41,10 +41,11 @@ class AuthenticatedSessionController extends Controller
     public static function home(LoginRequest $request) : string {
 
         if ( Auth::user()->isTrainer() ) {
-            $user = Auth::user();
-            $now = date('Y-m-d');
-            $user->update(['last_session' => $now]);
-            return '/trainer/dashboard';
+               $user = Auth::user();
+                $now = date('Y-m-d');
+                $user->update(['last_session' => $now]);
+                return '/trainer/dashboard'; 
+            
         }
 
         // if user is student take him to his dashboard
@@ -58,7 +59,7 @@ class AuthenticatedSessionController extends Controller
             return '/admin/dashboard';
         }
 
-        return '/dashboard';
+        return '/';
 
     }
 

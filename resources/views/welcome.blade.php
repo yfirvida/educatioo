@@ -32,7 +32,15 @@
                     @endauth
                 </div>
             @endif
+
         </div>
+    <div class="text-center">
+     @if (session()->has('message'))
+        <div class="alert alert-danger" style="margin-top:30px;">
+          {{ session('message') }}
+        </div>
+    @endif
+    </div>
 
 <!-- login as modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">

@@ -91,6 +91,10 @@ class User extends Authenticatable
        return $this->role === 'student';
     }
 
+    public function isActive() {
+       return $this->subscription_date !== null;
+    }
+
     public static function allStudents($id){
         return User::where('trainer_id', $id)->where('role','student')->get();
     }

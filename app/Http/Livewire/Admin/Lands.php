@@ -10,7 +10,7 @@ class Lands extends Component
 {
     use WithPagination;
     
-	public $name, $iso, $phonecode;
+	public $name, $iso, $phonecode, $current;
     public $updateMode = false;
 
     public function render()
@@ -94,7 +94,19 @@ class Lands extends Component
 
         }
     }
+    public function confirm($land)
+    {
+        $this->current = $land; 
+        $this->dispatchBrowserEvent('openconfirmModal');
 
+    }
+
+     public function closeconfirm()
+    {
+
+        $this->dispatchBrowserEvent('closeconfirmModal'); 
+
+    }
     public function delete($id)
     {
         if($id){

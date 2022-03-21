@@ -19,11 +19,18 @@ class Trainer
     {
     
         if(Auth::check()){
-            if(Auth::user()->isTrainer()){
+            if(Auth::user()->isTrainer() && Auth::user()->isActive()){
                 return $next($request);
             }
             else{
-                abort(404);//for the others users
+                
+                Auth::guard('web')->logout();
+
+                $request->session()->invalidate();
+
+                $request->session()->regenerateToken();
+                session()->flash('message', 'Your subscription has expired.');
+                return redirect(route('home'));//for the others users
             }
         }
         else{

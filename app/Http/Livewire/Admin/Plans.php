@@ -10,7 +10,7 @@ class Plans extends Component
 {
 	use WithPagination;
     
-    public $name, $intro, $link;
+    public $name, $intro, $link, $current;
     public $updateMode = false;
 
     public function render()
@@ -92,6 +92,20 @@ class Plans extends Component
 
 
         }
+    }
+
+    public function confirm($plan)
+    {
+        $this->current = $plan; 
+        $this->dispatchBrowserEvent('openconfirmModal');
+
+    }
+
+     public function closeconfirm()
+    {
+
+        $this->dispatchBrowserEvent('closeconfirmModal'); 
+
     }
 
     public function delete($id)
