@@ -114,6 +114,14 @@
             <div class="flex items-center justify-center mt-3 back">
                 <a href="#" data-toggle="modal" data-target="#loginModal" data-dismiss="modal"><i class="fas fa-arrow-left"></i> {{ __('Back') }}</a>
             </div>
+
+             <div class="flex items-center justify-center mt-3 back">
+                @if (Route::has('password.request'))
+                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                        {{ __('Forgot your password?') }}
+                    </a>
+                @endif
+            </div>
             
         </form>
             </div>
@@ -158,6 +166,14 @@
             </div>
             <div class="flex items-center justify-center mt-3 back">
                 <a href="#" data-toggle="modal" data-target="#loginModal" data-dismiss="modal"><i class="fas fa-arrow-left"></i> {{ __('Back') }}</a>
+            </div>
+
+            <div class="flex items-center justify-center mt-3 back">
+                @if (Route::has('password.request'))
+                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                        {{ __('Forgot your password?') }}
+                    </a>
+                @endif
             </div>
             
         </form>
