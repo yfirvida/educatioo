@@ -6,13 +6,7 @@
      @endif
     <div class="content-wrapper">
         <div class="content b-bottom pb-4">
-            <div class="d-flex justify-content-between align-items-center mt-3 ">
-                <form class="d-none d-sm-inline-block form-inline mw-100 navbar-search">
-                    <div class="input-group">
-                        <i class='fas fa-search'></i>
-                        <input type="text" class="form-control search-input" placeholder="Search..." >
-                    </div>
-                </form> 
+            <div class="d-flex justify-content-end align-items-center mt-3 ">
                 <div>
                     <a href="{{ route('import') }}" class="btn mr-3 btn-white btn-fix-size">   
                         <i class="fas fa-file-import"></i> {{ __('Import') }}
