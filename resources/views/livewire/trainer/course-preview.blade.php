@@ -22,8 +22,11 @@
                             <div class="col-md-3 p-1 order-2">
                                 <div class="box">
                                     <div class="img-wrapper">
-                                        <a href="#"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
-                                        <div class="wrapper"><img src="<?php echo Theme::url('storage/questions'); ?>/{{$question->image}}"></div>
+                                        @if($question->image)
+                                            <div class="wrapper"><img src="<?php echo Theme::url('storage/questions'); ?>/{{$question->image}}"></div>
+                                        @else
+                                            <div class="wrapper"><img src=""></div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -43,14 +46,18 @@
                             @foreach ($question->answers as $answer)
                                 <div class="row m-0">
                                         <div class="col-md-3 p-1">
-                                            <div class="box">
-                                                <p class=" w-100">{{$answer->answer}}</p>
+                                            <div class="box d-flex align-items-center">
+                                                <p class="text-center w-100">{{$answer->answer}}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-3 p-1">
                                             <div class="box">
                                                 <div class="img-wrapper">
-                                                    <div class="wrapper"><img src=""></div>
+                                                     @if($answer->image)
+                                                        <div class="wrapper"><img src="<?php echo Theme::url('storage/answers'); ?>/{{$answer->image}}"></div>
+                                                    @else
+                                                        <div class="wrapper"><img src=""></div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>

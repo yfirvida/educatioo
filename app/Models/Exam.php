@@ -57,7 +57,7 @@ class Exam extends Model
     public static function activeExams($id){
         $now = date('Y-m-d H:i:s');
         return Exam::where('author', $id)->WhereHas('classrooms', function ($query) use($now){ 
-            $query->where('start', '<=', $now)->where('end', '>=', $now); })->paginate(10);
+            $query->where('end', '>=', $now); })->paginate(10);
     }
 
     public static function currectExam($id){

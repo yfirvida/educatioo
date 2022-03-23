@@ -130,7 +130,7 @@
                                     @error('instructions') <span class="error">{{ $message }}</span> @enderror
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="total_points" class="form-label">{{__('Total Points')}} (%)<sup class="text-danger">*</sup></label>
+                                    <label for="total_points" class="form-label">{{__('Total Points')}}<sup class="text-danger">*</sup></label>
                                     <input wire:model="total_points" class="form-control"  :errors="$errors" type="number"  class="form-control" autocomplete="off" required>
                                     @error('total_points') <span class="error">{{ $message }}</span> @enderror
                                 </div>

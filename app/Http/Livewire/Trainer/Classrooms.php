@@ -199,7 +199,7 @@ class Classrooms extends Component
 
     private function resetInputFieldsSt() {
         
-        $this->name = '';
+        $this->namestd = '';
         $this->email  = '';
     }
 

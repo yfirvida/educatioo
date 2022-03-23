@@ -62,6 +62,7 @@
                                         <input type="file" class="fileI" name="imageFile" wire:model="image" :errors="$errors"  style="display:none" accept="image/*"/>
                                     </div>
                                 </div>
+                                @error('image') <span class="error">{{ $message }}</span> @enderror
                             </div>
                             <div class="col-md-3 p-1 order-1 order-md-3">
                                 <div class="box d-flex justify-content-center align-items-center">
@@ -99,6 +100,7 @@
                                                 <input type="file" class="fileI" name="imageFile" wire:model="imageA" :errors="$errors"  style="display:none"/>
                                             </div>
                                         </div>
+                                         @error('imageA') <span class="error">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="col-md-3 p-1">
                                         <div class="box"> 

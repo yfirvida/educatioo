@@ -233,7 +233,7 @@ class Newcourse extends Component
         }  
     
         $this->dispatchBrowserEvent('openAnswers'); // Close modal using jquery
-        //self::resetInputFields();
+       
         //$this->dispatchBrowserEvent('closeModal'); // Close modal using jquery
 
     }
@@ -315,7 +315,7 @@ class Newcourse extends Component
     
     public function closeA()
     {
-
+        self::resetInputFields();
         $this->dispatchBrowserEvent('closeAModal'); 
 
 

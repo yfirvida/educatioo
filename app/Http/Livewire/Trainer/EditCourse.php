@@ -276,7 +276,7 @@ class EditCourse extends Component
     
     public function closeA()
     {
-
+        self::resetInputQFields();
         $this->dispatchBrowserEvent('closeAModal'); 
 
 

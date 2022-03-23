@@ -8,10 +8,10 @@
         <div class="content ">
             <h2 class="mb-3">{{ __('New Course') }}</h2>
             <h5 class="">{{ __('Course Name') }} <sup class="text-danger">*</sup></h5>
-                <input wire:model="name" type="text" class="dotted-input w-100 mb-3 mt-2"  :errors="$errors" autocomplete="off" />
+                <input wire:model="name" id="cName" type="text" class="dotted-input w-100 mb-3 mt-2"  :errors="$errors" autocomplete="off" />
                 @error('name') <span class="error">{{ $message }}</span> @enderror
             <h5 >{{ __('Instruction') }} <sup class="text-danger">*</sup></h5>
-                <textarea wire:model="description"rows="3" name="description" class="dotted-input w-100 mt-2 mb-2"  :errors="$errors" autocomplete="off" /></textarea> 
+                <textarea wire:model="description"rows="3" name="description" id="cDescrip" class="dotted-input w-100 mt-2 mb-2"  :errors="$errors" autocomplete="off" /></textarea> 
                 @error('description') <span class="error">{{ $message }}</span> @enderror
             <div class="form-group">
                 <h5 class="mb-1">{{__('Level')}} <sup class="text-danger">*</sup></h5>
@@ -57,6 +57,7 @@
                                         </div>
                                         <input type="file" class="fileI" name="imageFile" wire:model="image" :errors="$errors"  style="display:none"/>
                                     </div>
+                                    @error('image') <span class="error">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             <div class="col-md-3 p-1 order-1 order-md-3">
@@ -95,6 +96,7 @@
                                                 </div>
                                                 <input type="file" class="fileI" name="imageFile" wire:model="imagea" :errors="$errors"  style="display:none"/>
                                             </div>
+                                             @error('imagea') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3 p-1">
@@ -177,7 +179,7 @@
     <div class="actions-wrapper">
         <div class="col-md-3 offset-md-9 actions">
            <div class="box text-center"> 
-            <button class="btn btn-orange w-100" wire:click="showForm">
+            <button class="btn btn-orange w-100" wire:click="showForm" id="addQ" > 
                 <i class="far fa-question-circle mr-2"></i>
                 {{ __('Add new question') }}
             </button>

@@ -18,6 +18,18 @@ $(function(){
         }
   });
 
+  if(!$('#cName').val() || !$('#cDescrip').val()){
+    $('#addQ').prop('disabled', true);
+    }
+
+    $('#cName, #cDescrip').on('input', function() { 
+          var val = $('#cName, #cDescrip').filter(function() {
+                return this.value.trim().length !== 0;
+        }).length === 0;
+
+        $('#addQ').prop('disabled', val);
+    });
+
 //answeers checkboxs only can check one at the same time
     $('.radio-checks input[type="checkbox"]').on('change', function() {
         $('.radio-checks input[type="checkbox"]').not(this).prop('checked', false);
