@@ -14,12 +14,7 @@
           </button>
         </div>
       </div>
-      <form class="d-none d-md-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-        <div class="input-group">
-          <i class='fas fa-search'></i>
-          <input type="text" class="form-control search-input" placeholder="Search for..." >
-        </div>
-      </form>
+      
       <div class="navbar-menu-wrapper d-flex align-items-top"> 
         <ul class="navbar-nav ms-auto">
           <!-- <li class="nav-item dropdown"> 
