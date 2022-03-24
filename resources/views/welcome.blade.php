@@ -143,7 +143,7 @@
 
             <!-- Course Name(Code) -->
             <div>
-                <x-label for="name" :value="__('Course(Code)')" />
+                <x-label for="name" :value="__('Course Group (Code)')" />
 
                 <x-input id="name" class="block mt-1 w-full" type="text" name="name"  required autofocus />
             </div>

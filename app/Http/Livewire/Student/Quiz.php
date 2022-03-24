@@ -60,6 +60,7 @@ class Quiz extends Component
                 }
                 if(!$this->latest){$this->next = $a->next_question;}else{$this->next = 0;}
 
+
                 Result::updateOrCreate(
                     ['user_id' => $this->user->id, 'exam_id' => $this->course_id, 'classroom_id' => $this->class_id],
                     ['result' => $this->value, 'next_question' => $this->next]
