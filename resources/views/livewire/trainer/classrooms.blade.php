@@ -34,7 +34,7 @@
                                 <tr>
                                     <td>{{ $class->name }}</td>
                                     <td>{{ $class->level->level }}</td>
-                                    <td class="text-center">{{$class->getCountUsers();}}</td>
+                                    <td>{{$class->getCountUsers();}}</td>
                                     <td class="d-flex justify-content-between align-items-center act">
                                         <button wire:click="edit({{$class->id}})" class="btn actions mb-2 mr-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</button>
                                         <button wire:click="confirm({{$class->id}})" class="btn actions mb-2 mr-2"><i class="fas fa-minus"></i> {{ __('Delete') }}</button> 

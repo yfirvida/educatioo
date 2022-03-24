@@ -23,7 +23,7 @@
                 <h2 class="text-left mb-3">{{$current->identifier}}</h2>
                 <h5 class="text-left mb-4">{{$current->question}}</h5>
                 @if($current->image )
-                    <img class="position-relative mx-auto centered" src="{{$current->image}}">
+                    <img class="position-relative mx-auto centered" src="<?php echo Theme::url('storage/questions'); ?>/{{$current->image}}">
                 @endif
             </div>
             <div class="col-lg-6 radio-checks">
@@ -37,8 +37,8 @@
                                         {{$answer->answer }}
                                     </label>
                                 </div>
-                                @if($current->image )
-                                    <div class="image-wrapper"><img class="position-relative centered" src="{{$answer->image}}"></div>
+                                @if($answer->image )
+                                    <div class="image-wrapper"><img class="position-relative centered" src="<?php echo Theme::url('storage/answers'); ?>/{{$answer->image}}"></div>
                                 @endif
                             </div>
                         </div>
