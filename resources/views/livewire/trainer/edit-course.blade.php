@@ -103,7 +103,7 @@
                                          @error('imageA') <span class="error">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="col-md-3 p-1">
-                                        <div class="box"> 
+                                        <div class="box">
                                             <select class="form-select" wire:model.defer="questions.{{$index}}.answers.{{ $ind }}.next_question">
                                                 <option value="">{{__('Choose an option')}}</option>
                                                     @if(!empty($questions))
@@ -137,13 +137,13 @@
                     </div>
                     <div class="col-md-3 p-1 opt">
                         <div class="box text-center">
-                            <div class="form-check">
+                            <div class="form-check first-checks">
                                 <input wire:model.defer="questions.{{$index}}.first_question" class="form-check-input" type="checkbox" value=""  >
                                 <label class="form-check-label" for="flexCheckDefault">
                                     {{ __('First question') }}
                                 </label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check last-checks">
                                 <input wire:model.defer="questions.{{$index}}.latest_question" class="form-check-input" type="checkbox" value=""  >
                                 <label class="form-check-label" for="flexCheckDefault">
                                     {{ __('Last question') }}

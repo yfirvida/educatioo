@@ -24,7 +24,8 @@ class Quiz extends Component
         $this->course_id = \Session::get('course_id');
         $this->classroom = Classroom::find($this->class_id);
         $this->course = Exam::find($this->course_id);
-        $this->next = 0;
+        $this->next = Result::getNext($this->course_id, $this->user->id, $this->class_id);
+
     }
 
     public function render()

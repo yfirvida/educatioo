@@ -30,6 +30,16 @@ $(function(){
         $('#addQ').prop('disabled', val);
     });
 
+//first question checkboxs only can check one at the same time
+    $('.first-checks input[type="checkbox"]').on('change', function() {
+        $('.first-checks input[type="checkbox"]').not(this).prop('checked', false);
+    });
+
+//last question checkboxs only can check one at the same time
+    $('.last-checks input[type="checkbox"]').on('change', function() {
+        $('.last-checks input[type="checkbox"]').not(this).prop('checked', false);
+    });
+
 //answeers checkboxs only can check one at the same time
     $('.radio-checks input[type="checkbox"]').on('change', function() {
         $('.radio-checks input[type="checkbox"]').not(this).prop('checked', false);

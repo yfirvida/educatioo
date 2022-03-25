@@ -42,6 +42,7 @@ class Question extends Model
          
        foreach($this->answers as $answer)
        {
+            $answer->next_question = null;
            $clone->answers()->create($answer->toArray());
        }
   

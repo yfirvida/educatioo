@@ -69,7 +69,7 @@ class RegisteredUserController extends Controller
 
         }
 
-
+        $now = date('Y-m-d');
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -78,6 +78,7 @@ class RegisteredUserController extends Controller
             'plan' => $plan,
             'school' => $request->school,
             'land_id' => $request->land_id,
+            'subscription_date' => $now,
             'image' => $filenameSmall
         ]);
 
