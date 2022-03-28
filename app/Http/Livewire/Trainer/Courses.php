@@ -6,10 +6,12 @@ use Livewire\Component;
 use App\Models\Exam;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Import;
+
 
 class Courses extends Component
 {
-    public $current;
+    public $current, $code;
     public function render()
     {
         $user = Auth::user();
@@ -26,6 +28,14 @@ class Courses extends Component
     public function share($id)
     {
         $this->current = $id;
+        $this->code = bin2hex(random_bytes(4));
+
+        Import::create([
+            'exam_id' => $this->current,
+            'code' => $this->code,
+            'active' => true
+        ]);
+
         $this->dispatchBrowserEvent('openSModal');
 
     }

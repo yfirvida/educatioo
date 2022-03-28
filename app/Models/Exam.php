@@ -41,6 +41,11 @@ class Exam extends Model
         return $this->belongsTo(User::class, 'author');
     }
 
+    public function imports()
+    {
+        return $this->hasMany(Import::class);
+    }
+
     public function countQuestions() 
     {
         return $this->questions()->count();

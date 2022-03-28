@@ -38,7 +38,7 @@ Route::group(['middleware' => ['web', 'trainer'], 'namespace' => '\App\Http\Live
 	Route::get('/trainer/dashboard', Dashboard::class)->name('trainer_dashboard');
 	Route::get('/trainer/classrooms',Classrooms::class)->name('classrooms');
 	Route::get('/trainer/courses',Courses::class)->name('courses');
-	Route::get('/trainer/import',Import::class)->name('import');
+	Route::get('/trainer/import',Imports::class)->name('import');
 	Route::get('/trainer/newcourse',Newcourse::class)->name('newcourse');
 	Route::get('/trainer/edit-course/{id}',EditCourse::class)->name('edit-course');
 	Route::get('/trainer/course-preview/{id}',CoursePreview::class)->name('course-preview');

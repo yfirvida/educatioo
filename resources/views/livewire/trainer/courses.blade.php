@@ -99,7 +99,7 @@
             </div>
             <div class="modal-body pb-3">
                 <div class="inside-form text-center">
-                    {{route('import', ['exam' => $current])}}
+                    {{route('import', ['exam' => $current, 'code' => $code])}}
                 </div>
             </div>
             <div class="modal-footer justify-content-center">
