@@ -143,7 +143,7 @@
 
             <!-- Course Name(Code) -->
             <div>
-                <x-label for="name" :value="__('Course Group (Code)')" />
+                <x-label for="name" :value="__('Course(Code)')" />
 
                 <x-input id="name" class="block mt-1 w-full" type="text" name="name"  required autofocus />
             </div>
@@ -193,6 +193,7 @@
                 <form method="POST" action="{{ route('login') }}">
                      @csrf
                     <input type="hidden" id="class_id" name="class_id">
+                    <input type="hidden" id="course_id" name="course_id">
                     <input type="hidden" id="email2" name="email" >
                     <input type="hidden" id="password2" name="password" >
                     <input type="hidden" id="remember" name="remember" value="false">

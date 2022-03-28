@@ -12,6 +12,9 @@
     <h3 style="margin-bottom: 0px;">Instructions</h3>
     <p style="margin-bottom: 40px;">{{$instructions}}</p>
 
+
+    <p>Now you can login with the course name and your PIN for this group</p>
+
     <a style="background-color:#2b388f;border-radius:0.25rem;color:#fff;padding:10px 45px;text-decoration:none;font-weight:700;font-size:22px;" href="{{ url('')}}">{{_('Login')}}</a>
 
 </div>

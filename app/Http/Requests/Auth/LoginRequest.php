@@ -32,6 +32,7 @@ class LoginRequest extends FormRequest
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
             'class_id' => ['nullable', 'string'],
+            'course_id' => ['nullable', 'string'],
         ];
     }
 

@@ -16,7 +16,7 @@
         	<p class="text-justify mr-5 pr-5">{{$course->description}}</p>
         	<a href="{{ route('quiz') }}" class="btn btn-orange mx-auto mt-5" >{{ __('Start') }}</a>
         @else
-        <p class="text-center">{{_('There are no active courses at the moment')}}</p>
+        <p class="text-center">{{_('This course is not active at this moment')}}</p>
         @endif
     	<img src="/img/girl.png">
     </div>

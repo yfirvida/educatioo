@@ -17,9 +17,13 @@ class Dashboard extends Component
     {
         $class_id = \Session::get('class_id');
         $this->classroom = Classroom::find($class_id);
-        $this->course = Exam::currectExam($class_id);
-        if($this->course){
-         \Session::put('course_id', $this->course->id);
+        $course_id = \Session::get('course_id');
+        $now = date('Y-m-d H:i:s');
+        $course = Exam::find($course_id); 
+        $active = $course->classrooms()->where('start', '<=', $now)->where('end', '>=', $now)->get();
+        
+        if($active->count()){
+          $this->course = $course;
         }
         $this->user = Auth::user();
 

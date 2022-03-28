@@ -19,7 +19,9 @@ class WelcomeController extends Controller
         $response = '';
         $pin = $_POST['pin'];
         $name = $_POST['name'];
-        $response = Classroom::with(['users' => function($q) use ($pin) { $q->where('classroom_user.pin', $pin);}])->where('name', $name)->get();
+        $response = Classroom::with(['users' => function($q) use ($pin) { $q->where('classroom_user.pin', $pin);}])->with(['exams' => function($qq) use ($name) { $qq->where('exams.name', $name);}])->get();
+
+        
         if(!$response->isEmpty()){
             $level = Level::find($response[0]->level_id);
             $response['level'] = $level->level;

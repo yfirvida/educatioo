@@ -54,11 +54,10 @@ class Exam extends Model
     public static function all_items($user) {
         return Exam::where('author', $user)->orderBy('name', 'asc')->paginate(10);
     }
-
+    
     public static function all_items2($user) {
         return Exam::where('author', $user)->orderBy('name', 'asc')->get();
     }
-
     public static function activeExams($id){
         $now = date('Y-m-d H:i:s');
         return Exam::where('author', $id)->WhereHas('classrooms', function ($query) use($now){ 
@@ -68,7 +67,7 @@ class Exam extends Model
     public static function currectExam($id){
         $now = date('Y-m-d H:i:s');
         return Exam::WhereHas('classrooms', function ($query) use($now , $id){ 
-            $query->where('start', '<=', $now)->where('end', '>=', $now)->where('classroom_id', '>=', $id); })->first();
+            $query->where('start', '<=', $now)->where('end', '>=', $now)->where('exam_id', '>=', $id); })->first();
     }
 
     public static function getTotalPoints($exam_id, $class_id){

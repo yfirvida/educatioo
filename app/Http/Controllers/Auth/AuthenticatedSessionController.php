@@ -32,6 +32,8 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
         $class_id = $request->class_id;
         \Session::put('class_id', $class_id);
+         $exam_id = $request->course_id;
+        \Session::put('course_id', $exam_id);
         $request->session()->regenerate();
 
         //return redirect()->intended(RouteServiceProvider::HOME);

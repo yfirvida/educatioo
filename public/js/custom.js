@@ -68,12 +68,13 @@ $(function(){
                 alert('No user found, Please check the data');
               }
               else{
-                if(data[0].users.length > 0){
+                if(data[0].users.length > 0 && data[0].exams.length){
                     $('#g_name').replaceWith("<span id='g_name'>"+data[0].name+"</span>");
                     $('#st_name').replaceWith("<span id='g_name'>"+data[0].users[0].name+"</span>");
                     $('#s_level').replaceWith("<span id='s_level'>"+data['level']+"</span>");
-
+                    
                     $('#class_id').val(data[0].id);
+                    $('#course_id').val(data[0].exams[0].id);
                     $('#email2').val(data[0].users[0].email);
                     $('#password2').val('1234');
                     $('#loginStdModal').modal('show');
