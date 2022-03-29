@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 04-01-2022 a las 19:06:01
--- Versión del servidor: 5.7.28
--- Versión de PHP: 7.4.0
+-- Tiempo de generación: 29-03-2022 a las 02:17:25
+-- Versión del servidor: 5.7.36
+-- Versión de PHP: 7.4.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -33,12 +32,53 @@ CREATE TABLE IF NOT EXISTS `answers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `answer` varchar(255) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `correct_answ` tinyint(1) NOT NULL,
+  `value` int(2) DEFAULT NULL,
+  `correct` tinyint(1) NOT NULL DEFAULT '0',
+  `next_question` int(11) DEFAULT NULL,
   `question_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `answers`
+--
+
+INSERT INTO `answers` (`id`, `answer`, `image`, `value`, `correct`, `next_question`, `question_id`, `created_at`, `updated_at`) VALUES
+(1, 'No, it is not a circle', NULL, NULL, 1, 2, 1, '2022-03-23 23:06:23', '2022-03-23 23:07:30'),
+(2, 'Yes, it is a circle', NULL, NULL, 0, 3, 1, '2022-03-23 23:06:38', '2022-03-23 23:25:56'),
+(3, '6', NULL, NULL, 0, 3, 2, '2022-03-23 23:11:07', '2022-03-23 23:21:54'),
+(4, '4', NULL, NULL, 1, 3, 2, '2022-03-23 23:11:14', '2022-03-23 23:25:56'),
+(5, '10', NULL, NULL, 0, 3, 2, '2022-03-23 23:11:23', '2022-03-23 23:21:54'),
+(6, '9', NULL, NULL, 1, 4, 3, '2022-03-23 23:16:19', '2022-03-23 23:25:56'),
+(7, '10', NULL, NULL, 0, 2, 3, '2022-03-23 23:19:49', '2022-03-23 23:25:56'),
+(8, '10', NULL, NULL, 1, NULL, 4, '2022-03-23 23:24:35', '2022-03-23 23:24:35'),
+(9, '20', NULL, NULL, 0, NULL, 4, '2022-03-23 23:24:39', '2022-03-23 23:24:39');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `certificates`
+--
+
+DROP TABLE IF EXISTS `certificates`;
+CREATE TABLE IF NOT EXISTS `certificates` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `preview` varchar(150) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `certificates`
+--
+
+INSERT INTO `certificates` (`id`, `name`, `preview`, `created_at`, `updated_at`) VALUES
+(1, 'Simple', '', '2022-03-09 14:53:35', '2022-03-09 14:53:35'),
+(2, 'Premium', '', '2022-03-09 14:53:35', '2022-03-09 14:53:35');
 
 -- --------------------------------------------------------
 
@@ -50,29 +90,76 @@ DROP TABLE IF EXISTS `classrooms`;
 CREATE TABLE IF NOT EXISTS `classrooms` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
+  `level_id` int(11) NOT NULL,
   `trainer_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `classrooms`
+--
+
+INSERT INTO `classrooms` (`id`, `name`, `level_id`, `trainer_id`, `created_at`, `updated_at`) VALUES
+(1, 'My First Group', 1, 2, '2022-03-23 22:26:24', '2022-03-24 20:01:03');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `classroom_student`
+-- Estructura de tabla para la tabla `classroom_exam`
 --
 
-DROP TABLE IF EXISTS `classroom_student`;
-CREATE TABLE IF NOT EXISTS `classroom_student` (
+DROP TABLE IF EXISTS `classroom_exam`;
+CREATE TABLE IF NOT EXISTS `classroom_exam` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `exam_id` int(11) NOT NULL,
   `classroom_id` int(11) NOT NULL,
-  `student_id` int(11) NOT NULL,
-  `pin` varchar(50) NOT NULL,
+  `start` datetime NOT NULL,
+  `end` datetime NOT NULL,
+  `total_points` int(3) NOT NULL,
+  `min_points` int(3) NOT NULL,
+  `archive` tinyint(1) NOT NULL DEFAULT '0',
+  `email_instructions` text,
+  `certificate_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `classroom_exam`
+--
+
+INSERT INTO `classroom_exam` (`id`, `exam_id`, `classroom_id`, `start`, `end`, `total_points`, `min_points`, `archive`, `email_instructions`, `certificate_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, '2022-03-24 05:51:00', '2022-03-31 15:51:00', 60, 80, 0, 'Here some instructions for this course, this is for the email.', 1, '2022-03-23 19:52:14', '2022-03-23 19:52:14');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `classroom_user`
+--
+
+DROP TABLE IF EXISTS `classroom_user`;
+CREATE TABLE IF NOT EXISTS `classroom_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `classroom_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `pin` varchar(50) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `pin` (`pin`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `classroom_user`
+--
+
+INSERT INTO `classroom_user` (`id`, `classroom_id`, `user_id`, `pin`, `created_at`, `updated_at`) VALUES
+(1, 1, 3, '8a89ac48', '2022-03-23 18:26:24', '2022-03-23 18:26:24'),
+(2, 1, 4, 'afd96cf4', '2022-03-23 18:26:25', '2022-03-23 18:26:25');
 
 -- --------------------------------------------------------
 
@@ -83,35 +170,65 @@ CREATE TABLE IF NOT EXISTS `classroom_student` (
 DROP TABLE IF EXISTS `exams`;
 CREATE TABLE IF NOT EXISTS `exams` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(50) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `min_points` int(11) NOT NULL,
-  `start_at` datetime NOT NULL,
-  `ends_at` datetime NOT NULL,
+  `description` text NOT NULL,
   `author` int(11) NOT NULL,
+  `level_id` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `exams`
+--
+
+INSERT INTO `exams` (`id`, `name`, `description`, `author`, `level_id`, `created_at`, `updated_at`) VALUES
+(1, 'My First Course', 'Here are some instructions for this course.\r\nDonec rutrum congue leo eget malesuada. Proin eget tortor risus. Donec sollicitudin molestie malesuada. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis lorem ut libero malesuada feugiat. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem.', 2, 1, '2022-03-23 23:06:03', '2022-03-23 23:06:03');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `exam_questions`
+-- Estructura de tabla para la tabla `exam_question`
 --
 
-DROP TABLE IF EXISTS `exam_questions`;
-CREATE TABLE IF NOT EXISTS `exam_questions` (
+DROP TABLE IF EXISTS `exam_question`;
+CREATE TABLE IF NOT EXISTS `exam_question` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `quiz_id` int(11) NOT NULL,
+  `exam_id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL,
-  `value` int(5) NOT NULL,
-  `next_question` int(11) DEFAULT NULL,
-  `show_in_resukt` tinyint(1) NOT NULL DEFAULT '0',
+  `show_in_result` tinyint(1) NOT NULL DEFAULT '0',
   `latest_question` tinyint(1) NOT NULL DEFAULT '0',
+  `first_question` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=76 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `exam_question`
+--
+
+INSERT INTO `exam_question` (`id`, `exam_id`, `question_id`, `show_in_result`, `latest_question`, `first_question`, `created_at`, `updated_at`) VALUES
+(53, 1, 4, 1, 1, 0, '2022-03-23 23:24:15', '2022-03-23 19:24:15'),
+(52, 1, 3, 0, 0, 0, '2022-03-23 23:15:37', '2022-03-23 19:15:37'),
+(51, 1, 2, 1, 0, 0, '2022-03-23 23:10:54', '2022-03-23 19:10:54'),
+(50, 1, 1, 1, 0, 1, '2022-03-23 23:06:03', '2022-03-23 19:06:03');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `imports`
+--
+
+DROP TABLE IF EXISTS `imports`;
+CREATE TABLE IF NOT EXISTS `imports` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `exam_id` int(11) NOT NULL,
+  `code` varchar(10) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `updated_at` timestamp NOT NULL,
+  `created_at` timestamp NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -392,14 +509,43 @@ CREATE TABLE IF NOT EXISTS `levels` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `levels`
 --
 
 INSERT INTO `levels` (`id`, `level`, `created_at`, `updated_at`) VALUES
-(2, 'eeeee', '2021-12-23 02:49:14', '2021-12-23 02:49:25');
+(2, 'Medium', '2021-12-23 02:49:14', '2022-02-11 00:04:41'),
+(3, 'Hard', '2022-02-23 02:45:03', '2022-02-23 02:45:03'),
+(1, 'Easy', '2022-03-02 22:55:10', '2022-03-02 22:55:10');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `migrations`
+--
+
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE IF NOT EXISTS `migrations` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `password_resets`
+--
+
+DROP TABLE IF EXISTS `password_resets`;
+CREATE TABLE IF NOT EXISTS `password_resets` (
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -411,17 +557,20 @@ DROP TABLE IF EXISTS `plans`;
 CREATE TABLE IF NOT EXISTS `plans` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
+  `intro` text NOT NULL,
+  `link` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `plans`
 --
 
-INSERT INTO `plans` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'Example Plan', '2021-12-23 03:05:57', '2021-12-23 03:05:57');
+INSERT INTO `plans` (`id`, `name`, `intro`, `link`, `created_at`, `updated_at`) VALUES
+(1, 'Basic', 'You have the Basic Plan.\nYou can upgrade your plan at the following link.', 'http://www.linkforpremium.com', '2021-12-23 03:05:57', '2022-03-20 18:18:49'),
+(2, 'Premium', '', NULL, '2022-02-11 00:04:53', '2022-02-11 00:04:53');
 
 -- --------------------------------------------------------
 
@@ -432,11 +581,43 @@ INSERT INTO `plans` (`id`, `name`, `created_at`, `updated_at`) VALUES
 DROP TABLE IF EXISTS `questions`;
 CREATE TABLE IF NOT EXISTS `questions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `identifier` varchar(255) NOT NULL,
   `question` varchar(255) NOT NULL,
+  `intro` varchar(500) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `value` int(5) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `questions`
+--
+
+INSERT INTO `questions` (`id`, `identifier`, `question`, `intro`, `image`, `value`, `created_at`, `updated_at`) VALUES
+(1, 'Question 1', 'Does the figure show a circle?', '', '2b06cd6338fc18394047.png', 20, '2022-03-23 23:06:03', '2022-03-23 23:06:03'),
+(2, 'Question 2', '2x2=', '', NULL, 20, '2022-03-23 23:10:54', '2022-03-23 23:10:54'),
+(3, 'Question 3', '3x3=', 'Some explanation here, for the question, because they chose the wrong option before.', NULL, 18, '2022-03-23 23:15:37', '2022-03-23 23:15:37'),
+(4, 'Question 4', '5+5=', '', NULL, 20, '2022-03-23 23:24:15', '2022-03-23 23:24:15');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `results`
+--
+
+DROP TABLE IF EXISTS `results`;
+CREATE TABLE IF NOT EXISTS `results` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `exam_id` int(11) NOT NULL,
+  `classroom_id` int(11) NOT NULL,
+  `result` int(11) NOT NULL,
+  `detail` json NOT NULL,
+  `next_question` int(11) DEFAULT '0',
+  `created_at` timestamp NOT NULL,
+  `updated_at` timestamp NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -455,25 +636,28 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(255) NOT NULL,
   `role` enum('admin','trainer','student') NOT NULL,
   `school` varchar(255) DEFAULT NULL,
-  `land_id` int(11) NOT NULL,
+  `land_id` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_session` date DEFAULT NULL,
   `subscription_date` date DEFAULT NULL,
-  `plan_id` int(11) DEFAULT NULL,
+  `plan` enum('Basic','Premium') DEFAULT NULL,
   `total_students` int(11) DEFAULT NULL,
+  `trainer_id` int(11) DEFAULT NULL,
   `remember_token` varchar(255) DEFAULT NULL,
+  `pin` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `image`, `name`, `email`, `password`, `role`, `school`, `land_id`, `created_at`, `updated_at`, `last_session`, `subscription_date`, `plan_id`, `total_students`, `remember_token`) VALUES
-(1, '/star-admin/images/faces/face10.jpg', 'Yeny Firvida ', 'yfirvida@yahoo.es', '$2y$10$.P.ebgafhpIVCdYjMXlF/O6T7c.JUB7V5lclU3mAiMvsrtl1cdVte', 'admin', NULL, 150, '2021-12-18 19:32:53', '2022-01-03 19:03:18', NULL, '2021-12-09', NULL, 0, NULL),
-(2, NULL, 'Trainer one l', 'admin@me.com', '$2y$10$.P.ebgafhpIVCdYjMXlF/O6T7c.JUB7V5lclU3mAiMvsrtl1cdVte', 'trainer', 'some school', 150, '2021-12-23 03:25:35', '2021-12-23 09:19:45', NULL, '2021-12-22', 1, NULL, NULL),
-(3, NULL, 'teriner two', 'otheremail@mail.com', '$2y$10$.P.ebgafhpIVCdYjMXlF/O6T7c.JUB7V5lclU3mAiMvsrtl1cdVte', 'trainer', '', 19, '2021-12-23 03:29:26', '2021-12-23 03:29:26', NULL, '2021-12-23', 1, NULL, NULL);
+INSERT INTO `users` (`id`, `image`, `name`, `email`, `password`, `role`, `school`, `land_id`, `created_at`, `updated_at`, `last_session`, `subscription_date`, `plan`, `total_students`, `trainer_id`, `remember_token`, `pin`) VALUES
+(1, '96bb2a0989203dad7314.jpg', 'Yeny Firvida ', 'yfirvida@yahoo.es', '$2y$10$.P.ebgafhpIVCdYjMXlF/O6T7c.JUB7V5lclU3mAiMvsrtl1cdVte', 'admin', NULL, 150, '2021-12-18 19:32:53', '2022-03-20 20:55:02', NULL, '2021-12-09', 'Basic', 0, NULL, NULL, NULL),
+(2, '99ace34bddfb64c074a1.jpg', 'Yeny', 'me@me.com', '$2y$10$r2whwT5WabR0rTgIFPN4cuYDLeIXCWB/xc0ISV5Y2uG.Z9uCJx7nm', 'trainer', 'testg', 150, '2022-01-19 21:48:18', '2022-03-29 05:36:20', '2022-03-29', '2022-03-03', 'Basic', NULL, NULL, NULL, NULL),
+(3, NULL, 'Jane Doe', 'jane@email.com', '$2y$10$kiD49J6nhzlbn.AP.Io/CuOPVkPO9gfiTfA9xads0qqCC.jH/GCJS', 'student', NULL, NULL, '2022-03-23 22:26:11', '2022-03-23 22:26:11', NULL, NULL, NULL, NULL, 2, NULL, NULL),
+(4, NULL, 'John Doe', 'john@mail.com', '$2y$10$Do/SfbNqId3RwFj3V3DhK.wDsw4VLH7vjQ2fWvvZc190dDQjLJPHu', 'student', NULL, NULL, '2022-03-23 22:23:34', '2022-03-23 22:23:34', NULL, NULL, NULL, NULL, 2, NULL, NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

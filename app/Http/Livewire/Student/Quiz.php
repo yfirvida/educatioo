@@ -11,7 +11,7 @@ use App\Models\Result;
 
 class Quiz extends Component
 {
-    public $classroom, $course, $user, $class_id, $course_id, $current, $next, $latest, $answers, $value;
+    public $classroom, $course, $user, $class_id, $course_id, $current, $next, $latest, $answers, $value, $detail;
 
     protected $rules = [
         'answers.*.resp' => 'nullable',
@@ -39,6 +39,7 @@ class Quiz extends Component
 
             $this->current = Question::find($this->next);
             $this->value = Result::getValue($this->course_id, $this->user->id, $this->class_id);
+            $this->detail = Result::getDetail($this->course_id, $this->user->id, $this->class_id);
 
         }
 
@@ -56,15 +57,21 @@ class Quiz extends Component
 
         foreach($this->answers as $a){
               if($a->resp == 1){
+                $this->detail[$this->current->id] = $a->id;
                 if($a->correct){ 
-                    $this->value+= $this->current->value;
+                    //check if the question is show in results
+                    $rel = $this->current->exams;
+                    $show = $rel[0]->pivot->show_in_result;
+                    if($show){
+                        $this->value+= $this->current->value;
+                    }
                 }
                 if(!$this->latest){$this->next = $a->next_question;}else{$this->next = 0;}
-
+                
 
                 Result::updateOrCreate(
                     ['user_id' => $this->user->id, 'exam_id' => $this->course_id, 'classroom_id' => $this->class_id],
-                    ['result' => $this->value, 'next_question' => $this->next]
+                    ['result' => $this->value, 'next_question' => $this->next, 'detail' => $this->detail]
                 );
               }      
         }

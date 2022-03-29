@@ -35,6 +35,14 @@ class Question extends Model
         return $result;
     }
 
+    public static function literalById($id)
+    {
+        $q = Question::find($id);
+        $result = 'None';
+        if($q): $result = $q->question; endif;
+        return $result;
+    }
+
     public function replicateRow()
     {
        $clone = $this->replicate();

@@ -15,8 +15,11 @@ class Result extends Model
         'classroom_id',
         'result',
         'next_question',
-        'archive'
+        'archive',
+        'detail'
     ];
+
+    protected $casts = ['detail' => 'array'];
 
     public static function getValue($exam_id, $user_id, $class_id)
     {
@@ -31,6 +34,14 @@ class Result extends Model
         $q = Result::where('exam_id', $exam_id)->where('user_id', $user_id)->where('classroom_id', $class_id)->first();
         $result = 0;
         if($q): $result = $q->next_question; endif;
+        return $result;
+    }
+
+    public static function getDetail($exam_id, $user_id, $class_id)
+    {
+        $q = Result::where('exam_id', $exam_id)->where('user_id', $user_id)->where('classroom_id', $class_id)->first();
+        $result = 0;
+        if($q): $result = $q->detail; endif;
         return $result;
     }
 }

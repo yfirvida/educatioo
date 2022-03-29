@@ -100,8 +100,10 @@
                                                 {{$student->result}}/{{$total}}
                                                 <span class="d-block">{{$student->aproved}}</span>
                                             </td>
-                                            <td class="d-flex justify-content-center align-items-center">
-                                                    <button class="btn actions my-1" wire:click="print"><i class='fas fa-print mr-2'></i> {{ __('Certificade') }}</button>
+                                            <td class="d-flex flex-wrap justify-content-center align-items-center">
+                                                
+                                                <button class="btn actions my-1" wire:click="detail({{$classroom->id}},{{$current}}, {{$student->id}})"><i class="fas fa-info-circle mr-2"></i> {{ __('Details') }}</button>
+                                                <button class="btn actions my-1" wire:click="print"><i class='fas fa-print mr-2'></i> {{ __('Certificade') }}</button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -122,6 +124,50 @@
     </div>
 </div>
 
+<!-- STdetail modal -->
+<div wire:ignore.self class="modal fade" id="detailSTModal" tabindex="-1" role="dialog" aria-labelledby="detailSTModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header py-3">
+                <h3 class="modal-title">{{__('Student Detail')}}</h3>
+                <button type="button" class="close" wire:click="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body py-3">
+                <div class="inside-form text-left">
+                    <div class="table-responsive ">
+                        <table class="table  ">
+                            <thead>
+                                <tr>
+                                    <th scope="col">{{ __('Question') }}</th>
+                                    <th scope="col">{{ __('Answer') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if(!empty($results))
+                                    @foreach($results as $question => $answer) 
+                                        <tr>
+                                            <td>{{App\Models\Question::literalById($question)}}</td>
+                                            <td >{{App\Models\Answer::literalById($answer)}}</td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="2">{{_('No results')}}</td>
+                                    </tr> 
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-end">
+                <button type="button" wire:click.prevent="closeD" class="btn btn-orange btn-fix-size" >{{__('Cancel')}}</button>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 @push('scripts')
@@ -132,6 +178,14 @@
 
         window.addEventListener('closeModal', event => {
             $('#detailModal').modal('hide');
+        });
+
+         window.addEventListener('openDModal', event => {         
+            $('#detailSTModal').modal('show');
+        });
+
+        window.addEventListener('closeDModal', event => {
+            $('#detailSTModal').modal('hide');
         });
 
         

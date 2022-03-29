@@ -21,4 +21,12 @@ class Answer extends Model
     {
         return $this->belongsTo(Question::class, 'question_id');
     }
+
+    public static function literalById($id)
+    {
+        $q = Answer::find($id);
+        $result = 'None';
+        if($q): $result = $q->answer; endif;
+        return $result;
+    }
 }
