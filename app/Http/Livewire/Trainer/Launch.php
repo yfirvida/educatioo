@@ -18,7 +18,7 @@ class Launch extends Component
 
     public $course_id, $classroom_id, $groups,  $certificate_id, $min_points, $students, $certificates, $instructions, $start, $end; 
     public $current_course, $current_group, $update_mode = false;
-    public $quiz;
+    public $quiz, $today;
     protected $launch;
 
     public function mount()
@@ -39,6 +39,8 @@ class Launch extends Component
 
         $user = Auth::user();
         $this->launch = Exam::activeExams($user->id);
+
+        $this->today = date('Y-m-d H:i:s');
         return view('livewire.trainer.launch', ['launchs' => $this->launch])->layout('layouts.main');
     }
 

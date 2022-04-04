@@ -34,6 +34,7 @@
                         @if($launchs->isNotEmpty())
                             @foreach ($launchs as $launch)
                                  @foreach ($launch->classrooms as $course)
+                                 @if($course->pivot->end >= $today)
                                     <tr>
                                         <td>{{$launch->name}}</td>
                                         <td class="text-wrap">{{$course->name}}</td>
@@ -47,6 +48,7 @@
                                             </div> 
                                         </td>
                                     </tr>
+                                @endif
                                 @endforeach
                             @endforeach
                         @else
