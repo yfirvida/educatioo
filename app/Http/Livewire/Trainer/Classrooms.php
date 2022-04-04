@@ -15,7 +15,7 @@ use App\Mail\Assign;
 
 class Classrooms extends Component
 {
-    public $name, $level_id, $namestd, $email;
+    public $name, $level_id, $namestd, $email, $sendMailError;
     public $levels, $students, $extras, $assignST;
     public $trainer_id, $classroom_id, $st_id, $current, $current_class;
 
@@ -48,6 +48,7 @@ class Classrooms extends Component
         foreach($this->students as $index => $student){
             $this->students[$index]->pin = bin2hex(random_bytes(4));
         }
+        \Session::put('students', $this->students);
         $this->dispatchBrowserEvent('openModal');
     }
     public function close()
@@ -77,9 +78,9 @@ class Classrooms extends Component
             if($this->students[$x]->pin != null){
                $classroom->users()->attach($this->students[$x]->id, ['pin' => $this->students[$x]->pin]); 
 
-               //send mail
-                $user = User::find($this->students[$x]->id);
-                Mail::to($user)->send(new Assign($this->students[$x]->id, $classroom->id));
+                   //send mail
+                    $user = User::find($this->students[$x]->id);
+                    Mail::to($user)->send(new Assign($this->students[$x]->id, $classroom->id));
             }
             
         }
@@ -102,6 +103,7 @@ class Classrooms extends Component
         foreach($this->students as $index => $student){
             $this->students[$index]->pin = $this->students[$index]->pivot->pin;
         }
+        \Session::put('students', $this->students);
         $this->dispatchBrowserEvent('openUpdateModal');
         
     }
@@ -111,6 +113,7 @@ class Classrooms extends Component
         $classroom = Classroom::find($this->classroom_id);
         $classroom->users()->detach($this->students[$index]->id); 
         unset($this->students[$index]);
+        \Session::put('students', $this->students);
 
     }
 
@@ -143,7 +146,7 @@ class Classrooms extends Component
                 
             }
 
-
+            \Session::put('students', $this->students);
             $this->updateMode = false;
             session()->flash('message', 'Course Group Updated Successfully.');
             $this->resetInputFields();
@@ -153,7 +156,7 @@ class Classrooms extends Component
         }
     }
 
-    //delete question
+    //delete
     public function confirm($id)
     {
         $this->current_class = $id;
@@ -177,11 +180,13 @@ class Classrooms extends Component
             Classroom::where('id',$id)->delete();
             session()->flash('message', 'Group Deleted Successfully.');
             $this->dispatchBrowserEvent('closeConfirmModal'); 
+            \Session::put('students', null);
         }
     }
     public function removeSt($index)
     {
         unset($this->students[$index]);
+        \Session::put('students', $this->students);
 
     }
 
@@ -194,6 +199,16 @@ class Classrooms extends Component
         foreach($this->assignST as $index => $student){
             $this->assignST[$index]->pin = $this->assignST[$index]->pivot->pin;
         }
+
+        \Session::put('students', $this->assignST);
+
+    }
+
+    public function deleteAll()
+    {
+        
+        $this->students = array();
+        \Session::put('students', $this->students);
 
     }
 
@@ -238,13 +253,16 @@ class Classrooms extends Component
             $pin = bin2hex(random_bytes(4));
             $this->current->users()->attach($st->id, ['pin' => $pin]);
             $this->extras = User::allStudentsOutThisClassroom($this->trainer_id , $this->current->id);
-            $this->assignST = $this->current->users()->get();
+            $this->assignST = \Session::get('students');
+            $this->assignST->push($st);
             foreach($this->assignST as $index => $student){
                 $this->assignST[$index]->pin = $this->assignST[$index]->pivot->pin;
             }
         } 
         else{
-            $this->students = User::allStudents($this->trainer_id);
+            //$this->students = User::allStudents($this->trainer_id);
+            $this->students = \Session::get('students');
+            $this->students->push($st);
             foreach($this->students as $index => $student){
                 $this->students[$index]->pin = bin2hex(random_bytes(4));
             }
@@ -262,6 +280,7 @@ class Classrooms extends Component
         foreach($this->assignST as $index => $student){
             $this->assignST[$index]->pin = $student->pivot->pin;
         }
+        \Session::put('students', $this->assignST);
         $this->resetErrorBag();
         $this->dispatchBrowserEvent('openAssignModal');
     }
@@ -279,6 +298,7 @@ class Classrooms extends Component
         foreach($this->assignST as $index => $student){
             $this->assignST[$index]->pin = $this->assignST[$index]->pivot->pin;
         }
+        \Session::put('students', $this->assignST);
 
     }
     

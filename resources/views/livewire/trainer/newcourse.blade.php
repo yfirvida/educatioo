@@ -8,13 +8,13 @@
         <div class="content ">
             <h2 class="mb-3">{{ __('New Course') }}</h2>
             <h5 class="">{{ __('Course Name') }} <sup class="text-danger">*</sup></h5>
-                <input wire:model="name" id="cName" type="text" class="dotted-input w-100 mb-3 mt-2"  :errors="$errors" autocomplete="off" />
-                @error('name') <span class="error">{{ $message }}</span> @enderror
-            <h5 >{{ __('Instruction') }} <sup class="text-danger">*</sup></h5>
-                <textarea wire:model="description"rows="3" name="description" id="cDescrip" class="dotted-input w-100 mt-2 mb-2"  :errors="$errors" autocomplete="off" /></textarea> 
+                <input wire:model="name" id="cName" type="text" class="dotted-input w-100 mb-0 mt-2"  :errors="$errors" autocomplete="off" />
+                @error('name') <span class="error ">{{ $message }}</span> @enderror
+            <h5 class="mt-3">{{ __('Instruction') }} <sup class="text-danger">*</sup></h5>
+                <textarea wire:model="description"rows="3" name="description" id="cDescrip" class="dotted-input w-100 mt-2 mb-0"  :errors="$errors" autocomplete="off" /></textarea> 
                 @error('description') <span class="error">{{ $message }}</span> @enderror
             <div class="form-group">
-                <h5 class="mb-1">{{__('Level')}} <sup class="text-danger">*</sup></h5>
+                <h5 class="mb-1 mt-3">{{__('Level')}} <sup class="text-danger">*</sup></h5>
                 <select wire:model="level_id" id="level_id" class="form-control" :errors="$errors">
                     <option value="">{{__('Choose an option')}}</option>
                     @if(!empty($levels))

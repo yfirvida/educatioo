@@ -4,6 +4,7 @@
           {{ session('message') }}
         </div>
      @endif
+
     <div class="content-wrapper">
         <div class="content b-bottom pb-4">
             <div class="d-flex justify-content-end align-items-center mt-3 ">
@@ -67,6 +68,11 @@
     <div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header py-3">
+                @if ($sendMailError)
+                    <div class="alert alert-success" style="margin-top:30px;">
+                      {{ sendMailError}}
+                    </div>
+                 @endif
                 <h3 class="modal-title">{{__('Add New Group')}}</h3>
                 <button type="button" class="close" wire:click="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
@@ -111,7 +117,9 @@
                                                         <th scope="col">{{ __('Name') }}</th>
                                                         <th scope="col">{{ __('Email') }}</th>
                                                         <th scope="col">{{ __('PIN') }}</th>
-                                                        <th scope="col" class="text-center"><a href="#" wire:click="showStForm"><i class="fas fa-plus"></i> </a></th>
+                                                        <th scope="col" class="text-center">
+                                                            <a href="#" wire:click="deleteAll"><i class="far fa-trash-alt"></i> </a> </a>
+                                                            <a href="#" wire:click="showStForm"><i class="fas fa-plus"></i> </a></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

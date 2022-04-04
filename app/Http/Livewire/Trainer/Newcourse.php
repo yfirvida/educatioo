@@ -92,7 +92,7 @@ class Newcourse extends Component
         $user = Auth::user();
         if($this->course_id == 0){ //need save the course first
             $validatedData = $this->validate([
-                'name' => 'required',
+                'name' => 'required | unique:exams',
                 'description' => 'required',
                 'level_id' => 'required',
                 ]);
@@ -172,7 +172,7 @@ class Newcourse extends Component
         //check if the course is saved
         if($this->course_id == 0){ //need save the course first
             $validatedData = $this->validate([
-                'name' => 'required',
+                'name' => 'required | unique:exams',
                 'description' => 'required',
                 'level_id' => 'required',
                 ]);
