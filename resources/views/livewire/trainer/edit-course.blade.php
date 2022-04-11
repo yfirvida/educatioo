@@ -8,14 +8,14 @@
         <div class="content ">
             <h2 class="mb-3">{{ __('Edit Course') }}</h2>
             <h5 class="">{{ __('Course Name') }} <sup class="text-danger">*</sup></h5>
-                <input wire:model="name" type="text" class="dotted-input w-100 mb-3 mt-2"  :errors="$errors" autocomplete="off" />
+                <input wire:model="name" type="text" class="dotted-input w-100 mt-2"  autocomplete="off" />
                 @error('name') <span class="error">{{ $message }}</span> @enderror
-            <h5 >{{ __('Instruction') }} <sup class="text-danger">*</sup></h5>
-                <textarea wire:model="description" rows="3" name="description" class="dotted-input w-100 mt-2 mb-2"  :errors="$errors" autocomplete="off" /></textarea> 
+            <h5 class="mt-3">{{ __('Instruction') }} <sup class="text-danger">*</sup></h5>
+                <textarea wire:model="description" rows="3" name="description" class="dotted-input w-100 mt-2"   autocomplete="off" /></textarea> 
                 @error('description') <span class="error">{{ $message }}</span> @enderror
             <div class="form-group">
-                <h5 class="mb-1">{{__('Level')}} <sup class="text-danger">*</sup></h5>
-                <select wire:model="level_id" id="level_id" class="form-control" :errors="$errors">
+                <h5 class="mb-1 mt-2">{{__('Level')}} <sup class="text-danger">*</sup></h5>
+                <select wire:model="level_id" id="level_id" class="form-control" >
                     <option value="">{{__('Choose an option')}}</option>
                     @if(!empty($levels))
                         @foreach($levels as $option)
@@ -60,7 +60,7 @@
                                             @endif
                                         
                                         </div>
-                                        <input type="file" class="fileI" name="imageFile" wire:model="image" :errors="$errors"  style="display:none" accept="image/*"/>
+                                        <input type="file" class="fileI" name="imageFile" wire:model="image" style="display:none" accept="image/*"/>
                                     </div>
                                 </div>
                                 @error('image') <span class="error">{{ $message }}</span> @enderror
@@ -98,7 +98,7 @@
                                                         @endif
                                                     @endif
                                                 </div>
-                                                <input type="file" class="fileI" name="imageFile" wire:model="imageA" :errors="$errors"  style="display:none"/>
+                                                <input type="file" class="fileI" name="imageFile" wire:model="imageA"  style="display:none" accept="image/*" />
                                             </div>
                                         </div>
                                          @error('imageA') <span class="error">{{ $message }}</span> @enderror
@@ -212,14 +212,14 @@
                                     <div class="col-lg-4 col-md-6">
                                         <div class="form-group">
                                             <label for="nameq" class="form-label">{{__('Question Identifier')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="nameq" type="text" class="form-control" placeholder="{{_('Ex Question 1')}}" :errors="$errors" autocomplete="off" />
+                                            <input wire:model="nameq" type="text" class="form-control" placeholder="{{_('Ex Question 1')}}" autocomplete="off" />
                                             @error('nameq') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-6">
                                         <div class="form-group">
                                             <label for="q_value" class="form-label">{{__('Value')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="q_value" type="number" class="form-control"  :errors="$errors" autocomplete="off" />
+                                            <input wire:model="q_value" type="number" class="form-control"  autocomplete="off" />
                                             @error('q_value') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
@@ -231,7 +231,7 @@
                                                 @if ($image != null)
                                                     <img class="form-img ml-3" src="{{ $image->temporaryUrl() }}"> 
                                                 @endif
-                                                <input type="file" class="fileI" name="imageFile" wire:model="image" :errors="$errors"  style="display:none" accept="image/*"/>
+                                                <input type="file" class="fileI" name="imageFile" wire:model="image"  style="display:none" accept="image/*"/>
                                             </div>
                                             @error('image') <span class="error">{{ $message }}</span> @enderror
                                         </div>
@@ -241,7 +241,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="explanation" class="form-label">{{__('Explanation')}} </label>
-                                            <textarea  wire:model="explanation" rows="6" class="form-control"  :errors="$errors" ></textarea>
+                                            <textarea  wire:model="explanation" rows="6" class="form-control"   ></textarea>
                                             @error('explanation') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
@@ -256,21 +256,21 @@
                                     </div>
                                     <div class="col-4 check-group">
                                         <div class="form-check">
-                                            <input wire:model="firstQ" class="form-check-input" type="checkbox" :errors="$errors">
+                                            <input wire:model="firstQ" class="form-check-input" type="checkbox" >
                                             <label class="form-check-label" for="firstQ">
                                                 {{ __('First question') }}
                                             </label>
                                             @error('firstQ') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                         <div class="form-check">
-                                            <input wire:model="latestQ" class="form-check-input" type="checkbox" :errors="$errors">
+                                            <input wire:model="latestQ" class="form-check-input" type="checkbox" >
                                             <label class="form-check-label" for="latestQ">
                                                 {{ __('Last question') }}
                                             </label>
                                             @error('latestQ') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                         <div class="form-check">
-                                            <input wire:model="showR" class="form-check-input" type="checkbox"  :errors="$errors">
+                                            <input wire:model="showR" class="form-check-input" type="checkbox" >
                                             <label class="form-check-label" for="showR">
                                                 {{ __('Show in results') }}
                                             </label>
@@ -291,7 +291,7 @@
                     <img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
                 </div>
                 <div wire:loading.remove wire:target="store">
-                    <button type="button" wire:click.prevent="store" class="btn btn-orange btn-fix-size" >{{__('Save Question')}}</button>
+                    <button type="button" id="btnqsave" wire:click.prevent="store" class="btn btn-orange btn-fix-size" >{{__('Save Question')}}</button>
                 </div>
                 <button type="button" id="btnsave" wire:click.prevent="showAForm" class="btn btn-white btn-fix-size" disabled><i class='fas fa-plus-circle'></i> {{__('Add Answers')}}</button>
             </div>
@@ -318,14 +318,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="nameq" class="form-label">{{__('Question Identifier')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="nameq" type="text" class="form-control" placeholder="{{_('Ex Question 1')}}" :errors="$errors" autocomplete="off" />
+                                            <input wire:model="nameq" type="text" class="form-control" placeholder="{{_('Ex Question 1')}}"  autocomplete="off" />
                                             @error('nameq') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="q_value" class="form-label">{{__('Value')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="q_value" type="number" class="form-control"  :errors="$errors" autocomplete="off" />
+                                            <input wire:model="q_value" type="number" class="form-control"   autocomplete="off" />
                                             @error('q_value') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
@@ -343,7 +343,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="question_name" class="form-label">{{__('Question')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="question_name" type="text" class="form-control"  :errors="$errors" autocomplete="off" />
+                                            <input wire:model="question_name" type="text" class="form-control"   autocomplete="off" />
                                             @error('question_name') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
@@ -385,7 +385,7 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="answer" class="form-label">{{__('Answer')}} <sup class="text-danger">*</sup></label>
-                                <input wire:model="answer" type="text" class="form-control" :errors="$errors" autocomplete="off" />
+                                <input wire:model="answer" type="text" class="form-control"  autocomplete="off" />
                                 @error('answer') <span class="error">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -394,7 +394,7 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="next_question" class="form-label">{{__('Next Question')}} </label>
-                                <select wire:model="next_question" class="form-control" aria-label="" :errors="$errors">
+                                <select wire:model="next_question" class="form-control" aria-label="" >
                                     <option value="">{{__('Choose an option')}}</option>
                                     @if(!empty($questions))
                                         @foreach($questions as $q)
@@ -416,14 +416,14 @@
                                         @if ($imageA != null)
                                             <img class="form-img ml-3" src="{{ $imageA->temporaryUrl() }}"> 
                                         @endif
-                                        <input type="file" class="fileI" name="imageFile" wire:model="imageA" :errors="$errors"  style="display:none" accept="image/*"/>
+                                        <input type="file" class="fileI" name="imageFile" wire:model="imageA"  style="display:none" accept="image/*"/>
                                     </div>
                                 @error('imageA') <span class="error">{{ $message }}</span> @enderror
                             </div>
                         </div>
                         <div class="col-6 check-group">
                             <div class="form-check">
-                                <input wire:model="right" class="form-check-input" type="checkbox" :errors="$errors">
+                                <input wire:model="right" class="form-check-input" type="checkbox" >
                                 <label class="form-check-label" for="right">
                                     {{ __('Right Answer') }}
                                 </label>
@@ -482,7 +482,8 @@
             $('#createModal').modal('hide');
         });
         window.addEventListener('openAnswers', event => {         
-            document.getElementById("btnsave").disabled = false
+            document.getElementById("btnsave").disabled = false;
+            document.getElementById("btnqsave").textContent = 'Next Question';
         });
         window.addEventListener('openAModal', event => {         
             $('#createAModal').modal('show');

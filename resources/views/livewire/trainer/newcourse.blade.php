@@ -289,7 +289,7 @@
                     <img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
                 </div>
                 <div wire:loading.remove wire:target="store">
-                    <button type="button" wire:click.prevent="store" class="btn btn-orange btn-fix-size" >{{__('Save Question')}}</button>
+                    <button type="button" id="btnqsave" wire:click.prevent="store" class="btn btn-orange btn-fix-size" >{{__('Save Question')}}</button>
                 </div>
                 <button type="button" id="btnsave" wire:click.prevent="showAForm" class="btn btn-white btn-fix-size" disabled><i class='fas fa-plus-circle'></i> {{__('Add Answers')}}</button>
             </div>
@@ -480,7 +480,9 @@
             $('#createModal').modal('hide');
         });
         window.addEventListener('openAnswers', event => {         
-            document.getElementById("btnsave").disabled = false
+            document.getElementById("btnsave").disabled = false;
+            document.getElementById("btnqsave").textContent = 'Next Question';
+
         });
         window.addEventListener('openAModal', event => {         
             $('#createAModal').modal('show');
