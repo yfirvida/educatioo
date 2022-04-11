@@ -176,14 +176,15 @@
             </div>
         @endif
     </div>
-    <div class="actions-wrapper">
-        <div class="col-md-3 offset-md-9 actions">
-           <div class="box text-center"> 
-            <button class="btn btn-orange w-100" wire:click="showForm" id="addQ" > 
-                <i class="far fa-question-circle mr-2"></i>
+
+    <div class="actions-wrapper p-1 mt-1">
+        <div class=" actions pt-2">
+           <div class="box text-right"> 
+            <button class="btn btn-orange mx-1 btn-fix-size" wire:click="showForm" id="addQ">
+                <i class="far fa-question-circle"></i>
                 {{ __('Add new question') }}
             </button>
-            <a href="#" wire:click="save" class="btn btn-white w-100 mt-2">   
+            <a href="#" class="btn btn-white mx-1 btn-fix-size" wire:click="save">   
                 {{ __('Save Course') }}
             </a>
             </div>

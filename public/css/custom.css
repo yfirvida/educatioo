@@ -622,10 +622,11 @@ input.form-control:focus, select.form-control:focus{
 }
 .actions-wrapper .box{
   background: #fff;
-  padding: 20px 0
+  padding: 15px 10px;
+  border-radius: 6px;
 }
 .actions-wrapper .actions{
-  position: absolute;
+  position: relative;
   right: 0px;
   bottom: 12px;
 }

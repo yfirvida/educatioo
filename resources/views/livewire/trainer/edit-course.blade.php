@@ -32,6 +32,7 @@
           {{ $message }}
         </div>
      @enderror
+
     <div id="accordion" class="mt-3">
         @if($questions && $questions->count() > 0) 
             @foreach ($questions as $index => $question)
@@ -179,14 +180,14 @@
             </div>
         @endif
     </div>
-    <div class="actions-wrapper">
-        <div class="col-md-3 offset-9 actions">
-           <div class="box text-center"> 
-            <button class="btn btn-orange w-100" wire:click="showForm">
-                <i class="far fa-question-circle mr-2"></i>
+<div class="actions-wrapper p-1 mt-1">
+        <div class=" actions pt-2">
+           <div class="box text-right"> 
+            <button class="btn btn-orange mx-1 btn-fix-size" wire:click="showForm">
+                <i class="far fa-question-circle"></i>
                 {{ __('Add new question') }}
             </button>
-            <a href="#" class="btn btn-white w-100 mt-2" wire:click="update">   
+            <a href="#" class="btn btn-white mx-1 btn-fix-size" wire:click="update">   
                 {{ __('Save Course') }}
             </a>
             </div>
