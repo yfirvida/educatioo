@@ -45,6 +45,8 @@ class Newcourse extends Component
     {
         $course = Exam::find($this->course_id);
         if($course): 
+            $this->name = $course->name;
+            $this->description = $course->description;
             $this->questions = $course->questions; 
             foreach($this->questions as $q){
                 $q->first_question = $q->pivot['first_question'];
