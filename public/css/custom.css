@@ -145,7 +145,7 @@ label{
   margin-bottom: 0.3rem;
 }
 
-input.form-control, select.form-control{
+input.form-control, select.form-control, textarea.form-control{
   border-radius: 3px;
   background-color: #fbfbfb !important;
   color: #737373 !important;
@@ -154,7 +154,7 @@ input.form-control, select.form-control{
   border: 1px solid #e6dede;
   outline: none !important;
 }
-input.form-control:focus, select.form-control:focus{
+input.form-control:focus, select.form-control:focus, textarea.form-control:focus{
   border-color: #e4601c !important;
   box-shadow: none !important;
   outline-offset: unset !important;
@@ -866,7 +866,9 @@ input.form-control:focus, select.form-control:focus{
 .modal.show .modal-dialog {
     max-height: 80%;
 }
-
+.modal .modal-dialog {
+    margin-top: 60px;
+}
 .form-img{
   max-width: 80%;
   max-height: 25px;

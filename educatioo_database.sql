@@ -583,7 +583,7 @@ CREATE TABLE IF NOT EXISTS `questions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `identifier` varchar(255) NOT NULL,
   `question` varchar(255) NOT NULL,
-  `intro` varchar(500) NOT NULL,
+  `intro` mediumtext NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `value` int(5) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

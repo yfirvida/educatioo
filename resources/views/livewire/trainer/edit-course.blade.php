@@ -241,7 +241,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="explanation" class="form-label">{{__('Explanation')}} </label>
-                                            <textarea  wire:model="explanation" class="form-control"  :errors="$errors" ></textarea>
+                                            <textarea  wire:model="explanation" rows="6" class="form-control"  :errors="$errors" ></textarea>
                                             @error('explanation') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
