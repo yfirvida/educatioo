@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Response;
 use App\Models\Classroom;
-use App\Models\level;
+use App\Models\Level;
 
 use DB;
 
