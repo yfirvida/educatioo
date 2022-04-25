@@ -103,7 +103,7 @@
                                             <td class="d-flex flex-wrap justify-content-center align-items-center">
                                                 
                                                 <button class="btn actions my-1" wire:click="detail({{$classroom->id}},{{$current}}, {{$student->id}})"><i class="fas fa-info-circle mr-2"></i> {{ __('Details') }}</button>
-                                                <button class="btn actions my-1" wire:click="print"><i class='fas fa-print mr-2'></i> {{ __('Certificade') }}</button>
+                                                <button class="btn actions my-1" wire:click="print" disabled><i class='fas fa-print mr-2'></i> {{ __('Certificade') }}</button>
                                             </td>
                                         </tr>
                                     @endforeach
