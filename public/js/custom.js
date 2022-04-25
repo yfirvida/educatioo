@@ -1,7 +1,8 @@
 $(function(){
-  $('.fa-ellipsis-h').click(function(){
+ /* $('.fa-ellipsis-h').click(function(){
+    console.log('click');
   	$(this).parent().find('.action-box').toggleClass('show');
-  });
+  });*/
 
   $('.upload-link').click(function(){
         $('input#file').trigger('click');

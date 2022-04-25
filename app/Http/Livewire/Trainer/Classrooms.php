@@ -85,7 +85,7 @@ class Classrooms extends Component
             
         }
         
-        self::resetInputFields();
+       // self::resetInputFields();
         $this->dispatchBrowserEvent('closeModal'); // Close modal using jquery
 
 
@@ -138,7 +138,9 @@ class Classrooms extends Component
     
             for ($x = 0; $x < $length = count($this->students); $x++) {
                 if($this->students[$x]->pin != null){
-                   $classroom->users()->updateExistingPivot($this->students[$x]->id, ['pin' => $this->students[$x]->pin]); 
+ 
+                    $classroom->users()->newPivotQuery()->updateOrInsert(['classroom_id' => $this->classroom_id,'user_id' =>$this->students[$x]->id], ['pin' => $this->students[$x]->pin]);
+
                    //send mail
                     $user = User::find($this->students[$x]->id);
                     Mail::to($user)->send(new Assign($this->students[$x]->id, $classroom->id));
@@ -255,9 +257,9 @@ class Classrooms extends Component
             $this->extras = User::allStudentsOutThisClassroom($this->trainer_id , $this->current->id);
             $this->assignST = \Session::get('students');
             $this->assignST->push($st);
-            foreach($this->assignST as $index => $student){
+            /*foreach($this->assignST as $index => $student){
                 $this->assignST[$index]->pin = $this->assignST[$index]->pivot->pin;
-            }
+            }*/
         } 
         else{
             //$this->students = User::allStudents($this->trainer_id);

@@ -39,9 +39,9 @@
                                     <td class="d-flex justify-content-between align-items-center act">
                                         <button wire:click="edit({{$class->id}})" class="btn actions mb-2 mr-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</button>
                                         <button wire:click="confirm({{$class->id}})" class="btn actions mb-2 mr-2"><i class="fas fa-minus"></i> {{ __('Delete') }}</button> 
-                                        <i class='fas fa-ellipsis-h mb-2 text-danger'></i>
+                                        <i class='fas fa-ellipsis-h mb-2 text-danger' wire:click="$emit('toggleBox', {{$class->id}})"></i>
 
-                                        <div class="action-box">
+                                        <div class="action-box_{{$class->id}} action-box">
                                             <a class="btn actions mb-2" href="{{ route('courses-list', $class->id) }}"><i class="fas fa-clipboard-check mr-1"></i> {{ __('Show questionnaries') }}</a> 
                                             <button class="btn btn-orange mb-2" wire:click="showAssignForm({{$class->id}})"><i class="fas fa-user-plus"></i> {{ __('Assign students') }}</button> 
 
@@ -216,7 +216,7 @@
                                                         <th scope="col">{{ __('Name') }}</th>
                                                         <th scope="col">{{ __('Email') }}</th>
                                                         <th scope="col">{{ __('PIN') }}</th>
-                                                        <th scope="col" class="text-center"></th>
+                                                        <th scope="col" class="text-center"><a href="#" wire:click="showStForm"><i class="fas fa-plus"></i></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -467,5 +467,13 @@
         window.addEventListener('closeConfirmModal', event => {
             $('#confirmModal').modal('hide');
         });
+         document.addEventListener('livewire:load', function () {
+            Livewire.on('toggleBox', function(class_id) {
+                $('.action-box_'+ class_id).toggleClass('show');
+            });
+
+        });
+
+        
     </script>
 @endpush
