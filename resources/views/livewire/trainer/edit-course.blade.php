@@ -139,19 +139,19 @@
                     <div class="col-md-3 p-1 opt">
                         <div class="box text-center">
                             <div class="form-check first-checks">
-                                <input wire:model.defer="questions.{{$index}}.first_question" class="form-check-input" type="checkbox" value=""  >
+                                <input wire:model.defer="questions.{{$index}}.first_question" class="form-check-input" type="checkbox" value=""  wire:click="Is_first({{$question->id}}, {{ $index}})">
                                 <label class="form-check-label" for="flexCheckDefault">
                                     {{ __('First question') }}
                                 </label>
                             </div>
                             <div class="form-check last-checks">
-                                <input wire:model.defer="questions.{{$index}}.latest_question" class="form-check-input" type="checkbox" value=""  >
+                                <input wire:model.defer="questions.{{$index}}.latest_question" class="form-check-input" type="checkbox" value=""  wire:click="Is_last({{$question->id}}, {{ $index}})">
                                 <label class="form-check-label" for="flexCheckDefault">
                                     {{ __('Last question') }}
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input wire:model.defer="questions.{{$index}}.show_in_result" class="form-check-input" type="checkbox" value="" >
+                                <input wire:model.defer="questions.{{$index}}.show_in_result" class="form-check-input" type="checkbox"  wire:click="Is_show({{$question->id}}, {{ $index}})">
                                 <label class="form-check-label" for="flexCheckDefault">
                                     {{ __('Show in results') }}
                                 </label>

@@ -204,6 +204,44 @@ class EditCourse extends Component
         $this->dispatchBrowserEvent('closeUpdateQModal');
 
     }
+
+    public function Is_show($id, $index)
+    {
+        
+        $q = Question::find($id);
+        $this->course->questions()->updateExistingPivot($q->id, ['show_in_result' => $this->questions[$index]->show_in_result]);
+
+    }
+    public function Is_last($id, $index)
+    {
+        if($this->questions[$index]->latest_question == 1){
+            foreach($this->questions as $ind => $e){
+                if($e->latest_question != 0 && $ind != $index) {
+                    $e->latest_question = 0;
+                    $this->course->questions()->updateExistingPivot($e->id, ['latest_question' => $e->latest_question]);
+                }
+            } 
+        } 
+        $q = Question::find($id);
+        $this->course->questions()->updateExistingPivot($q->id, ['latest_question' => $this->questions[$index]->latest_question]);
+
+    }
+    public function Is_first($id, $index)
+    {
+        if($this->questions[$index]->first_question == 1){
+            foreach($this->questions as $ind => $e ){
+                if($e->first_question != 0 && $ind != $index) {
+                    $e->first_question = 0; 
+                    $this->course->questions()->updateExistingPivot($e->id, ['first_question' => $e->first_question]);
+                }
+            }  
+        }
+
+        $q = Question::find($id);
+        $this->course->questions()->updateExistingPivot($q->id, ['first_question' => $this->questions[$index]->first_question]);
+        
+
+    }
     //new question
 
     //new answer

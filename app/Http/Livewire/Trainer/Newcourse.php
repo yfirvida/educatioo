@@ -21,7 +21,7 @@ class Newcourse extends Component
     public $nameq, $q_value, $explanation, $question_name, $showR, $latestQ, $firstQ; 
     public $levels, $questions;
     public $answer, $next_question, $right, $imagea;
-    public $course_id = 0;
+    public $course_id = 7;
     public $question_id, $current;
 
     public $image;
@@ -245,6 +245,47 @@ class Newcourse extends Component
 
         $this->dispatchBrowserEvent('closeModal'); 
         $this->dispatchBrowserEvent('closeUpdateModal');
+
+    }
+
+    public function Is_show($id, $index)
+    {
+        $course = Exam::find($this->course_id);
+        
+        $q = Question::find($id);
+        $course->questions()->updateExistingPivot($q->id, ['show_in_result' => $this->questions[$index]->show_in_result]);
+
+    }
+    public function Is_last($id, $index)
+    {
+        $course = Exam::find($this->course_id);
+        if($this->questions[$index]->latest_question == 1){
+            foreach($this->questions as $ind => $e){
+                if($e->latest_question != 0 && $ind != $index) {
+                    $e->latest_question = 0;
+                    $course->questions()->updateExistingPivot($e->id, ['latest_question' => $e->latest_question]);
+                }
+            } 
+        } 
+        $q = Question::find($id);
+        $course->questions()->updateExistingPivot($q->id, ['latest_question' => $this->questions[$index]->latest_question]);
+
+    }
+    public function Is_first($id, $index)
+    {
+        $course = Exam::find($this->course_id);
+        if($this->questions[$index]->first_question == 1){
+            foreach($this->questions as $ind => $e ){
+                if($e->first_question != 0 && $ind != $index) {
+                    $e->first_question = 0; 
+                    $course->questions()->updateExistingPivot($e->id, ['first_question' => $e->first_question]);
+                }
+            }  
+        }
+
+        $q = Question::find($id);
+        $course->questions()->updateExistingPivot($q->id, ['first_question' => $this->questions[$index]->first_question]);
+        
 
     }
     //new question
