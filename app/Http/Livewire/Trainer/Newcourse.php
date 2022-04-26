@@ -21,7 +21,7 @@ class Newcourse extends Component
     public $nameq, $q_value, $explanation, $question_name, $showR, $latestQ, $firstQ; 
     public $levels, $questions;
     public $answer, $next_question, $right, $imagea;
-    public $course_id = 7;
+    public $course_id = 0;
     public $question_id, $current;
 
     public $image;
