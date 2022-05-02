@@ -8,6 +8,7 @@ use App\Models\Exam;
 use App\Models\Certificate;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
+use DateTimeZone;
 
 use Mail;
 use App\Mail\LaunchMail;
@@ -89,8 +90,11 @@ class Launch extends Component
         ]);
 
         //format the dates
-        $start = DateTime::createFromFormat('d/m/Y g:i A', $this->start)->format('Y-m-d H:i:s');
-        $end = DateTime::createFromFormat('d/m/Y g:i A', $this->end)->format('Y-m-d H:i:s');
+        $start = DateTime::createFromFormat('d/m/Y g:i A', $this->start)->setTimeZone(new DateTimeZone('UTC'));
+        $start = $start->format('Y-m-d H:i:s');
+        $end = DateTime::createFromFormat('d/m/Y g:i A', $this->end)->setTimeZone(new DateTimeZone('UTC'));
+        $end = $end->format('Y-m-d H:i:s');
+
 
 
         //launch

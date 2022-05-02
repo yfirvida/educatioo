@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use DateTime;
+use DateTimeZone;
 
 class Exam extends Model
 {
@@ -59,13 +61,17 @@ class Exam extends Model
         return Exam::where('author', $user)->orderBy('name', 'asc')->get();
     }
     public static function activeExams($id){
-        $now = date('Y-m-d H:i:s');
+        $now = new DateTime();
+        $now->setTimeZone(new DateTimeZone('UTC'));
+        $now = $now->format('Y-m-d H:i:s');
         return Exam::where('author', $id)->WhereHas('classrooms', function ($query) use($now){ 
             $query->where('end', '>=', $now); })->paginate(10);
     }
 
     public static function currectExam($id){
-        $now = date('Y-m-d H:i:s');
+        $now = new DateTime();
+        $now->setTimeZone(new DateTimeZone('UTC'));
+        $now = $now->format('Y-m-d H:i:s');
         return Exam::WhereHas('classrooms', function ($query) use($now , $id){ 
             $query->where('start', '<=', $now)->where('end', '>=', $now)->where('exam_id', '>=', $id); })->first();
     }
@@ -86,13 +92,15 @@ class Exam extends Model
     }
 
     public static function listForResult($id){
-        $now = date('Y-m-d H:i:s');
+        //$now = date('Y-m-d H:i:s');
+        $now = new DateTime();
+        $now->setTimeZone(new DateTimeZone('UTC'));
+        $now = $now->format('Y-m-d H:i:s');
         return Exam::WhereHas('classrooms', function ($query) use($now , $id){ 
             $query->where('start', '<=', $now)->where('archive', '=', 0)->where('classroom_id', '=', $id); })->get();
     }
 
     public static function archive($id){
-        $now = date('Y-m-d H:i:s');
         return Exam::where('author', $id)->WhereHas('classrooms', function ($query) { 
             $query->where('archive', '=', 1); })->paginate(10);
     }

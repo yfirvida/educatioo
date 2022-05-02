@@ -7,6 +7,8 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Exam;
 use App\Models\Classroom;
+use DateTime;
+use DateTimeZone;
 
 class Dashboard extends Component
 {
@@ -18,7 +20,9 @@ class Dashboard extends Component
         $class_id = \Session::get('class_id');
         $this->classroom = Classroom::find($class_id);
         $course_id = \Session::get('course_id');
-        $now = date('Y-m-d H:i:s');
+        $now = new DateTime();
+        $now->setTimeZone(new DateTimeZone('UTC'));
+        $now = $now->format('Y-m-d H:i:s');
         $course = Exam::find($course_id); 
         $active = $course->classrooms()->where('start', '<=', $now)->where('end', '>=', $now)->get();
         
