@@ -10,7 +10,7 @@ use App\Models\Result;
 
 class Results extends Component
 {
-    public $classroom, $course, $user, $class_id, $course_id, $value, $total, $min, $aproved;
+    public $classroom, $course, $user, $class_id, $course_id, $points, $total, $min, $aproved, $value;
 
     public function mount()
     {
@@ -23,14 +23,14 @@ class Results extends Component
     }
     public function render()
     {
-        $this->value = Result::getValue($this->course_id, $this->user->id, $this->class_id);
+        $this->points = Result::getValue($this->course_id, $this->user->id, $this->class_id);
         $this->total = Exam::getTotalPoints($this->course_id, $this->class_id);
         $this->min = Exam::getMinPoints($this->course_id, $this->class_id);
 
         //calc the aproved
-        $required = ($this->total * $this->min)/100;
+        $this->value = ($this->points * 100)/$this->total;
 
-        if($this->value >= $required){$this->aproved = "Aproved";}else{$this->aproved = "Failed";}
+        if($this->value >= $this->min){$this->aproved = "Passed";}else{$this->aproved = "Failed";}
 
         return view('livewire.student.result')->layout('layouts.students');
     }
