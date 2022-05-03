@@ -52,7 +52,6 @@ class AuthenticatedSessionController extends Controller
 
         // if user is student take him to his dashboard
         if ( Auth::user()->isStudent() ) {
-            
             return '/student/dashboard';
         }
 
@@ -60,7 +59,6 @@ class AuthenticatedSessionController extends Controller
         else if ( Auth::user()->isAdmin() ) {
             return '/admin/dashboard';
         }
-
         return '/';
 
     }

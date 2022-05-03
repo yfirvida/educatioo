@@ -33,6 +33,7 @@ class LoginRequest extends FormRequest
             'password' => ['required', 'string'],
             'class_id' => ['nullable', 'string'],
             'course_id' => ['nullable', 'string'],
+            'trainer_id' => ['nullable', 'string'],
         ];
     }
 
@@ -47,7 +48,8 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+
+        if (! Auth::attempt(['email' => $this->email, 'password' => $this->password, 'trainer_id' => $this->trainer_id], $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([

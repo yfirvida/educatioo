@@ -874,6 +874,12 @@ input.form-control:focus, select.form-control:focus, textarea.form-control:focus
   max-height: 25px;
 }
 
+.extraimage{
+  max-height: 200px;
+  width: 100%;
+  object-fit: contain;
+}
+
 .error{
   color: red;
   font-size: 14px;

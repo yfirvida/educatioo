@@ -19,7 +19,7 @@ class EditCourse extends Component
     public $levels;
     public $questions, $current;
     public $image;
-    public $imageA;
+    public $answerImage;
     public $images_temp = [];
     public $index_question;
 
@@ -435,10 +435,10 @@ class EditCourse extends Component
         $this->index_answerID = $id;
     }
 
-    public function updatedImageA($value)
+    public function updatedAnswerImage($value)
     {
         $this->validate([
-            'imageA' => 'mimes:jpeg,jpg,png,gif|max:500|required|image'
+            'answerImage' => 'mimes:jpeg,jpg,png,gif|max:500|required|image'
         ]);
         $this->imagesA_temp[$this->index_answerID] = $value;
        

@@ -66,7 +66,7 @@ $(function(){
             dataType: 'json',
             success: function (data) {
               if(data.length == 0){
-                alert('No user found, Please check the data 111');
+                alert('No user found, Please check the data!!!');
               }
               else{
                     $('#g_name').replaceWith("<span id='g_name'>"+data[0].class+"</span>");
@@ -77,6 +77,7 @@ $(function(){
                     $('#course_id').val(data[0].exam_id);
                     $('#email2').val(data[0].email);
                     $('#password2').val('1234');
+                    $('#trainer_id').val(data[0].trainer_id);
                     $('#loginStdModal').modal('show');
                 }
              

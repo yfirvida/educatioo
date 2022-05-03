@@ -196,6 +196,7 @@
                     <input type="hidden" id="course_id" name="course_id">
                     <input type="hidden" id="email2" name="email" >
                     <input type="hidden" id="password2" name="password" >
+                    <input type="hidden" id="trainer_id" name="trainer_id" >
                     <input type="hidden" id="remember" name="remember" value="false">
                     <div class="d-flex justify-content-center">
                         <button class=" btn btn-orange mx-2">

@@ -20,7 +20,7 @@ class Newcourse extends Component
     public $name, $description, $author, $level_id;
     public $nameq, $q_value, $explanation, $question_name, $showR, $latestQ, $firstQ; 
     public $levels, $questions;
-    public $answer, $next_question, $right, $imagea;
+    public $answer, $next_question, $right, $answerImage;
     public $course_id = 0;
     public $question_id, $current;
 
@@ -483,10 +483,10 @@ class Newcourse extends Component
         $this->index_answerID = $id;
     }
 
-    public function updatedImagea($value)
+    public function updatedAnswerImage($value)
     {
         $this->validate([
-            'imagea' => 'mimes:jpeg,jpg,png,gif|max:500|required|image'
+            'answerImage' => 'mimes:jpeg,jpg,png,gif|max:500|required|image'
         ]);
         $this->imagesA_temp[$this->index_answerID] = $value;
 

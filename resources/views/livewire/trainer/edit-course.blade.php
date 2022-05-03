@@ -413,12 +413,13 @@
                                 <label for="image" class="form-label">{{__('Image')}} </label>
                                     <div class="img-wrapper">
                                         <a href="#" class="add-image"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
-                                        @if ($imageA != null)
-                                            <img class="form-img ml-3" src="{{ $imageA->temporaryUrl() }}"> 
-                                        @endif
-                                        <input type="file" class="fileI" name="imageFile" wire:model="imageA"  style="display:none" accept="image/*"/>
+                                        <input type="file" class="fileI" name="imageFile" wire:model="answerImage"  style="display:none" accept="image/*"/>
                                     </div>
-                                @error('imageA') <span class="error">{{ $message }}</span> @enderror
+                                @error('answerImage') <span class="error">{{ $message }}</span> @enderror
+
+                                @if ($answerImage != null && !$errors->has('answerImage'))
+                                    <figure class=" mt-5"><img  class="extraimage" src="{{ $answerImage->temporaryUrl() }}"> </figure>
+                                @endif
                             </div>
                         </div>
                         <div class="col-6 check-group">
