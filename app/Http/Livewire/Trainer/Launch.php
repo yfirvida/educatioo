@@ -41,7 +41,9 @@ class Launch extends Component
         $user = Auth::user();
         $this->launch = Exam::activeExams($user->id);
 
-        $this->today = date('Y-m-d H:i:s');
+        $this->today = new DateTime();
+        $this->today->setTimeZone(new DateTimeZone('UTC'));
+        $this->today = $now->format('Y-m-d H:i:s');
         return view('livewire.trainer.launch', ['launchs' => $this->launch])->layout('layouts.main');
     }
 
@@ -134,7 +136,9 @@ class Launch extends Component
     {
         $c = Exam::find($course);
 
-        $today = date('Y-m-d H:i:s');
+        $today = new DateTime();
+        $today->setTimeZone(new DateTimeZone('UTC'));
+        $today = $now->format('Y-m-d H:i:s');
 
         $c->classrooms()->updateExistingPivot($class, ['end' => $today]); 
 
@@ -157,8 +161,14 @@ class Launch extends Component
 
         $relation = $classroom->exams()->where('exam_id',$this->course_id )->first();
 
-        $this->start = DateTime::createFromFormat('Y-m-d H:i:s', $relation->pivot->start)->format('d/m/Y g:i A');
-        $this->end = DateTime::createFromFormat('Y-m-d H:i:s', $relation->pivot->end)->format('d/m/Y g:i A');
+
+        //format the dates
+        $this->start = DateTime::createFromFormat('d/m/Y g:i A', $relation->pivot->start)->setTimeZone(new DateTimeZone('UTC'));
+        $this->start = $this->start->format('Y-m-d H:i:s');
+        $this->end = DateTime::createFromFormat('d/m/Y g:i A', $relation->pivot->end)->setTimeZone(new DateTimeZone('UTC'));
+        $this->end = $this->end->format('Y-m-d H:i:s');
+
+
         $this->certificate_id = $relation->pivot->certificate_id;
         $this->min_points = $relation->pivot->min_points;
         $this->total_points = $relation->pivot->total_points;
@@ -171,9 +181,12 @@ class Launch extends Component
 
         $classroom = Classroom::find($this->classroom_id);
 
+
         //format the dates
-        $start = DateTime::createFromFormat('d/m/Y g:i A', $this->start)->format('Y-m-d H:i:s');
-        $end = DateTime::createFromFormat('d/m/Y g:i A', $this->end)->format('Y-m-d H:i:s');
+        $start = DateTime::createFromFormat('d/m/Y g:i A', $this->start)->setTimeZone(new DateTimeZone('UTC'));
+        $start = $start->format('Y-m-d H:i:s');
+        $end = DateTime::createFromFormat('d/m/Y g:i A', $this->end)->setTimeZone(new DateTimeZone('UTC'));
+        $end = $end->format('Y-m-d H:i:s');
 
         $classroom->exams()->updateExistingPivot($this->course_id, ['start' => $start, 'end' => $end, 'min_points' => $this->min_points, 'total_points' => $this->total_points, 'certificate_id' => $this->certificate_id]);
 
