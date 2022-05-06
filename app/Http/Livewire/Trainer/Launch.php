@@ -43,7 +43,7 @@ class Launch extends Component
 
         $this->today = new DateTime();
         $this->today->setTimeZone(new DateTimeZone('UTC'));
-        $this->today = $now->format('Y-m-d H:i:s');
+        $this->today = $this->today->format('Y-m-d H:i:s');
         return view('livewire.trainer.launch', ['launchs' => $this->launch])->layout('layouts.main');
     }
 
@@ -138,7 +138,7 @@ class Launch extends Component
 
         $today = new DateTime();
         $today->setTimeZone(new DateTimeZone('UTC'));
-        $today = $now->format('Y-m-d H:i:s');
+        $today = $today->format('Y-m-d H:i:s');
 
         $c->classrooms()->updateExistingPivot($class, ['end' => $today]); 
 
