@@ -34,7 +34,7 @@
                         @if($launchs->isNotEmpty())
                             @foreach ($launchs as $launch)
                                  @foreach ($launch->classrooms as $course)
-                                 @if($course->pivot->end >= $today)
+                                 @if($course->pivot->utc_end >= $today)
                                     <tr>
                                         <td>{{$launch->name}}</td>
                                         <td class="text-wrap">{{$course->name}}</td>
@@ -43,8 +43,8 @@
                                         <td>{{date('d/m/Y g:i A', strtotime($course->pivot->end))}}</td>
                                         <td class="d-flex justify-content-center align-items-center">
                                             <div>
-                                                <button class="btn actions mb-2" wire:click="edit({{$course->id}}, {{ $launch->id}})"><i class="fas fa-edit"></i> {{ __('Edit') }}</button>
-                                                <button class="btn actions mb-2" wire:click="confirm({{$course->id}}, {{ $launch->id}})"><i class="far fa-clock"></i> {{ __('End now') }}</button>
+                                                <button class="btn actions mb-2" wire:click="edit({{$course->id}}, {{ $launch->id}}, '{{ $course->pivot->start}}')"><i class="fas fa-edit"></i> {{ __('Edit') }}</button>
+                                                <button class="btn actions mb-2" wire:click="confirm({{$course->id}}, {{ $launch->id}}, '{{ $course->pivot->start}}')"><i class="far fa-clock"></i> {{ __('End now') }}</button>
                                             </div> 
                                         </td>
                                     </tr>
@@ -110,8 +110,10 @@
                             <div class="form-group date datepickers" id="st_date" data-target-input="nearest" wire:ignore>
                                 <label for="start" class="form-label">{{__('Start at')}}<sup class="text-danger">*</sup></label>
                                 <input wire:model="start" id="start" name="start" type="text" value="" data-target="#st_date" data-toggle="datetimepicker" class="form-control col-md-6 datetimepicker-input" autocomplete="off" required>
+
                                 <i class='far fa-calendar-alt'></i>
                             </div>
+                            <input type="hidden" wire:model="utc_start" >
                             @error('start') <span class="error">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-lg-3 col-md-6">
@@ -120,6 +122,7 @@
                                 <input wire:model="end"  name="end" type="text" data-target="#end_date" data-toggle="datetimepicker" class="form-control col-md-6 datetimepicker-input" data-target="#end_date" autocomplete="off" required>
                                 <i class='far fa-calendar-alt'></i>
                             </div>
+                            <input type="hidden" wire:model="utc_end" >
                             @error('end') <span class="error">{{ $message }}</span> @enderror
                         </div>
                     </div>
@@ -249,6 +252,7 @@
                                 <input wire:model="start" id="start2" name="start" type="text" value="" data-target="#start_date" data-toggle="datetimepicker" class="form-control col-md-6 datetimepicker-input" autocomplete="off" required>
                                 <i class='far fa-calendar-alt'></i>
                             </div>
+                            <input type="hidden" wire:model="utc_start" >
                             @error('start') <span class="error">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-lg-6 col-md-6">
@@ -257,6 +261,7 @@
                                 <input wire:model="end"  name="end2" type="text" data-target="#endd_date" data-toggle="datetimepicker" class="form-control col-md-6 datetimepicker-input" autocomplete="off" required>
                                 <i class='far fa-calendar-alt'></i>
                             </div>
+                            <input type="hidden" wire:model="utc_end" >
                             @error('end') <span class="error">{{ $message }}</span> @enderror
                         </div>
                     </div>
@@ -321,7 +326,7 @@
                     <img src="{{ asset('star-admin/images/loading-gif.gif') }}" class="loader" />
                 </div>
                 <div wire:loading.remove wire:target="end">
-                    <button type="button" wire:click.prevent="endnow({{$current_course}}, {{$current_group}})" class="btn btn-orange btn-fix-size" >{{__('End now')}}</button>
+                    <button type="button" wire:click.prevent="endnow({{$current_course}}, {{$current_group}}, '{{$current_s}}',new Date(Date.now()).toLocaleString())" class="btn btn-orange btn-fix-size" >{{__('End now')}}</button>
                 </div>
                 <button type="button" wire:click.prevent="closeconfirm" class="btn btn-white btn-fix-size" >{{__('Cancel')}}</button>
             </div>
@@ -355,22 +360,34 @@
            $('#st_date').on("change.datetimepicker", function (e) {
                 var date = $('#start').val(e.date.format('DD/MM/YYYY LT'));
                 @this.set('start', $('#start').val());
+                const d = new Date(e.date.format('DD/MM/YYYY LT'));
+                let day = d.toUTCString();
+                @this.set('utc_start', day);
 
             });
            $('#end_date').on("change.datetimepicker", function (e) {
                 var date = $('#end_date').val(e.date.format('DD/MM/YYYY LT'));
                 @this.set('end', $('#end_date').val());
+                const d = new Date(e.date.format('DD/MM/YYYY LT'));
+                let day = d.toUTCString();
+                @this.set('utc_end', day);
 
             });
 
            $('#start_date').on("change.datetimepicker", function (e) {
                 var date = $('#start2').val(e.date.format('DD/MM/YYYY LT'));
                 @this.set('start', $('#start2').val());
+                const d = new Date(e.date.format('DD/MM/YYYY LT'));
+                let day = d.toUTCString();
+                @this.set('utc_start', day);
 
             });
            $('#endd_date').on("change.datetimepicker", function (e) {
                 var date = $('#endd_date').val(e.date.format('DD/MM/YYYY LT'));
                 @this.set('end', $('#endd_date').val());
+                const d = new Date(e.date.format('DD/MM/YYYY LT'));
+                let day = d.toUTCString();
+                @this.set('utc_end', day);
 
             });
 

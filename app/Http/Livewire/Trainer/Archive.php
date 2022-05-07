@@ -14,6 +14,7 @@ class Archive extends Component
     {
         $user = Auth::user();
         $this->courses = Exam::archive($user->id);
+
         
     }
     public function render()

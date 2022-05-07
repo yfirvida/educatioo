@@ -25,6 +25,7 @@
                         @if($courses && $courses->count() > 0)
                             @foreach($courses as $course) 
                                 @foreach ($course->classrooms as $class)
+                                 @if($class->pivot->archive == 1)
                                     <tr>
                                         <td>{{$course->name}}</td>
                                         <td class="text-wrap">{{$class->name}}</td>
@@ -32,6 +33,7 @@
                                         <td>{{date('d/m/Y g:i A', strtotime($class->pivot->start)) }}</td>
                                         <td>{{date('d/m/Y g:i A', strtotime($class->pivot->end)) }}</td>
                                     </tr>
+                                    @endif
                                 @endforeach
                             @endforeach
                         @else

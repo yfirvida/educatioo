@@ -20,7 +20,7 @@ class Exam extends Model
 
     public function classrooms()
     {
-        return $this->belongsToMany(Classroom::class)->withPivot('start', 'end', 'min_points', 'total_points','email_instructions', 'certificate_id', 'archive')->orderBy('pivot_start','asc');
+        return $this->belongsToMany(Classroom::class)->withPivot('start', 'end', 'utc_start', 'utc_end', 'min_points', 'total_points','email_instructions', 'certificate_id', 'archive')->orderBy('pivot_start','asc');
     }
 
     public function results()
@@ -65,15 +65,15 @@ class Exam extends Model
         $now->setTimeZone(new DateTimeZone('UTC'));
         $now = $now->format('Y-m-d H:i:s');
         return Exam::where('author', $id)->WhereHas('classrooms', function ($query) use($now){ 
-            $query->where('end', '>=', $now); })->paginate(10);
+            $query->where('utc_end', '>', $now); })->paginate(10);
     }
 
     public static function currectExam($id){
         $now = new DateTime();
         $now->setTimeZone(new DateTimeZone('UTC'));
-        $now = $now->format('Y-m-d H:i:s');
+        $now = $now->format('Y-m-d H:i:s'); 
         return Exam::WhereHas('classrooms', function ($query) use($now , $id){ 
-            $query->where('start', '<=', $now)->where('end', '>=', $now)->where('exam_id', '>=', $id); })->first();
+            $query->where('utc_start', '<=', $now)->where('utc_end', '>=', $now)->where('exam_id', '>=', $id); })->first();
     }
 
     public static function getTotalPoints($exam_id, $class_id){
@@ -92,12 +92,11 @@ class Exam extends Model
     }
 
     public static function listForResult($id){
-        //$now = date('Y-m-d H:i:s');
         $now = new DateTime();
         $now->setTimeZone(new DateTimeZone('UTC'));
         $now = $now->format('Y-m-d H:i:s');
         return Exam::WhereHas('classrooms', function ($query) use($now , $id){ 
-            $query->where('start', '<=', $now)->where('archive', '=', 0)->where('classroom_id', '=', $id); })->get();
+            $query->where('utc_start', '<=', $now)->where('archive', '=', 0)->where('classroom_id', '=', $id); })->get();
     }
 
     public static function archive($id){

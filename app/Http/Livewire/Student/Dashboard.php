@@ -21,8 +21,10 @@ class Dashboard extends Component
         $this->classroom = Classroom::find($class_id);
         $course_id = \Session::get('course_id');
         $now = new DateTime();
-        $now->setTimeZone(new DateTimeZone('UTC'));
+       // $now->setTimeZone(new DateTimeZone('UTC'));
         $now = $now->format('Y-m-d H:i:s');
+
+        $now = gmdate("Y-m-d H:i:s");
 
         $course = Exam::find($course_id); 
         $active = $course->classrooms()->where('start', '<=', $now)->where('end', '>=', $now)->get();

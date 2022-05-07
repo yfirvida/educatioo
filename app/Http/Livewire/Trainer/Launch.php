@@ -18,7 +18,8 @@ class Launch extends Component
 {
 
     public $course_id, $classroom_id, $groups,  $certificate_id, $min_points, $students, $certificates, $instructions, $start, $end; 
-    public $current_course, $current_group, $update_mode = false;
+    public $current_course, $current_group, $current_s, $update_mode = false;
+    public $utc_start, $utc_end;
     public $quiz, $today;
     protected $launch;
 
@@ -87,21 +88,25 @@ class Launch extends Component
             'instructions' => 'required',
             'start' => 'required',
             'end' => 'required',
+            'utc_start' => 'required',
+            'utc_end' => 'required',
             'min_points' => 'required',
             'total_points' => 'required',
         ]);
 
         //format the dates
-        $start = DateTime::createFromFormat('d/m/Y g:i A', $this->start)->setTimeZone(new DateTimeZone('UTC'));
-        $start = $start->format('Y-m-d H:i:s');
-        $end = DateTime::createFromFormat('d/m/Y g:i A', $this->end)->setTimeZone(new DateTimeZone('UTC'));
-        $end = $end->format('Y-m-d H:i:s');
+        $start = DateTime::createFromFormat('d/m/Y g:i A', $this->start)->format('Y-m-d H:i:s');
+        $utc_start = DateTime::createFromFormat('D, d M Y H:i:s e', $this->utc_start)->format('Y-m-d H:i:s'); 
 
 
+        $end = DateTime::createFromFormat('d/m/Y g:i A', $this->end)->format('Y-m-d H:i:s');
+        $utc_end = DateTime::createFromFormat('D, d M Y H:i:s e', $this->utc_end)->format('Y-m-d H:i:s'); 
+
+        
 
         //launch
         $classroom = Classroom::find($this->classroom_id);
-        $classroom->exams()->attach($this->course_id, ['start' => $start, 'end' => $end, 'min_points' => $this->min_points, 'total_points' => $this->total_points, 'email_instructions' => $this->instructions, 'certificate_id' => $this->certificate_id]);
+        $classroom->exams()->attach($this->course_id, ['start' => $start, 'end' => $end, 'utc_start' => $utc_start, 'utc_end' => $utc_end, 'min_points' => $this->min_points, 'total_points' => $this->total_points, 'email_instructions' => $this->instructions, 'certificate_id' => $this->certificate_id]);
 
         //get course name for email
 
@@ -118,10 +123,11 @@ class Launch extends Component
 
     }
 
-    public function confirm($class, $course)
+    public function confirm($class, $course, $s)
     {
         $this->current_course = $course; 
         $this->current_group = $class;
+        $this->current_s = $s;
         $this->dispatchBrowserEvent('openconfirmModal');
 
     }
@@ -132,15 +138,19 @@ class Launch extends Component
         $this->dispatchBrowserEvent('closeconfirmModal'); 
 
     }
-    public function endnow($course, $class)
+    public function endnow($course, $class, $s, $date)
     {
         $c = Exam::find($course);
 
         $today = new DateTime();
-        $today->setTimeZone(new DateTimeZone('UTC'));
-        $today = $today->format('Y-m-d H:i:s');
+        $utc = $today->setTimeZone(new DateTimeZone('UTC'));
+        $utc = $utc->format('Y-m-d H:i:s');
 
-        $c->classrooms()->updateExistingPivot($class, ['end' => $today]); 
+        $d = new DateTime($date);
+        $d = $d->format('Y-m-d H:i:s');
+        
+
+        $c->classrooms()->wherePivot('start', $s)->updateExistingPivot($class, ['end' => $d, 'utc_end' => $utc]); 
 
         session()->flash('message', 'Course Ended Successfully. To access the this Course go to Results');
        
@@ -151,7 +161,7 @@ class Launch extends Component
 
     }
 
-    public function edit($class, $course) 
+    public function edit($class, $course, $s) 
     {
         $this->update_mode = true;
         $this->course_id = $course; 
@@ -159,14 +169,15 @@ class Launch extends Component
 
         $classroom = Classroom::find($this->classroom_id);
 
-        $relation = $classroom->exams()->where('exam_id',$this->course_id )->first();
+        $relation = $classroom->exams()->where('exam_id',$this->course_id )->where('start',$s )->first();
 
 
         //format the dates
-        $this->start = DateTime::createFromFormat('d/m/Y g:i A', $relation->pivot->start)->setTimeZone(new DateTimeZone('UTC'));
-        $this->start = $this->start->format('Y-m-d H:i:s');
-        $this->end = DateTime::createFromFormat('d/m/Y g:i A', $relation->pivot->end)->setTimeZone(new DateTimeZone('UTC'));
-        $this->end = $this->end->format('Y-m-d H:i:s');
+        $this->start = DateTime::createFromFormat('Y-m-d H:i:s', $relation->pivot->start)->format('d/m/Y g:i A');
+        $this->end = DateTime::createFromFormat('Y-m-d H:i:s', $relation->pivot->end)->format('d/m/Y g:i A');
+
+        $this->utc_start = DateTime::createFromFormat('Y-m-d H:i:s', $relation->pivot->utc_start)->format('D, d M Y H:i:s e'); 
+        $this->utc_end = DateTime::createFromFormat('Y-m-d H:i:s', $relation->pivot->utc_end)->format('D, d M Y H:i:s e');
 
 
         $this->certificate_id = $relation->pivot->certificate_id;
@@ -181,14 +192,16 @@ class Launch extends Component
 
         $classroom = Classroom::find($this->classroom_id);
 
-
         //format the dates
-        $start = DateTime::createFromFormat('d/m/Y g:i A', $this->start)->setTimeZone(new DateTimeZone('UTC'));
-        $start = $start->format('Y-m-d H:i:s');
-        $end = DateTime::createFromFormat('d/m/Y g:i A', $this->end)->setTimeZone(new DateTimeZone('UTC'));
-        $end = $end->format('Y-m-d H:i:s');
+        $start = DateTime::createFromFormat('d/m/Y g:i A', $this->start)->format('Y-m-d H:i:s');
+        $utc_start = DateTime::createFromFormat('D, d M Y H:i:s e', $this->utc_start)->format('Y-m-d H:i:s'); 
 
-        $classroom->exams()->updateExistingPivot($this->course_id, ['start' => $start, 'end' => $end, 'min_points' => $this->min_points, 'total_points' => $this->total_points, 'certificate_id' => $this->certificate_id]);
+
+        $end = DateTime::createFromFormat('d/m/Y g:i A', $this->end)->format('Y-m-d H:i:s');
+        $utc_end = DateTime::createFromFormat('D, d M Y H:i:s e', $this->utc_end)->format('Y-m-d H:i:s'); 
+
+
+        $classroom->exams()->updateExistingPivot($this->course_id, ['start' => $start, 'end' => $end, 'utc_start' => $utc_start, 'utc_end' => $utc_end,'min_points' => $this->min_points, 'total_points' => $this->total_points, 'certificate_id' => $this->certificate_id]);
 
         $this->update_mode = false;
         $this->dispatchBrowserEvent('closeEditModal');
