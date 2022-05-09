@@ -14,6 +14,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- plugins:css -->
+    <link rel="stylesheet" type="text/css" href="/fresco/dist/css/fresco.css" />
     <link rel="stylesheet" href="/star-admin/vendors/typicons/typicons.css">
     <link rel="stylesheet" href="/star-admin/vendors/simple-line-icons/css/simple-line-icons.css">
     <!-- endinject -->
@@ -43,6 +44,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- plugins:js -->
+    <script type="text/javascript" src="/fresco/dist/js/fresco.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"></script>
     <script src="/star-admin/js/template.js"></script>
     <!-- endinject --> 

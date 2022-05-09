@@ -23,7 +23,10 @@
                                 <div class="box">
                                     <div class="img-wrapper">
                                         @if($question->image)
-                                            <div class="wrapper"><img src="<?php echo Theme::url('storage/questions'); ?>/{{$question->image}}"></div>
+                                            <div class="wrapper-xl">
+                                                <a href="<?php echo Theme::url('storage/questions'); ?>/{{$question->image}}" class="fresco"><i class="fas fa-search"></i></a>
+                                                <img src="<?php echo Theme::url('storage/questions'); ?>/{{$question->image}}">
+                                            </div>
                                         @else
                                             <div class="wrapper"><img src=""></div>
                                         @endif
@@ -54,7 +57,10 @@
                                             <div class="box">
                                                 <div class="img-wrapper">
                                                      @if($answer->image)
-                                                        <div class="wrapper"><img src="<?php echo Theme::url('storage/answers'); ?>/{{$answer->image}}"></div>
+                                                        <div class="wrapper-xl">
+                                                            <a href="<?php echo Theme::url('storage/answers'); ?>/{{$answer->image}}" class="fresco"><i class="fas fa-search"></i></a>
+                                                            <img src="<?php echo Theme::url('storage/answers'); ?>/{{$answer->image}}">
+                                                        </div>
                                                     @else
                                                         <div class="wrapper"><img src=""></div>
                                                     @endif

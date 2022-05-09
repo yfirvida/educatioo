@@ -23,7 +23,10 @@
                 <h2 class="text-left mb-3">{{$current->identifier}}</h2>
                 <h5 class="text-left mb-4">{{$current->question}}</h5>
                 @if($current->image )
+                <div class="wrapper">
+                    <a href="<?php echo Theme::url('storage/questions'); ?>/{{$current->image}}" class="fresco"><i class="fas fa-search"></i></a>
                     <img class="position-relative mx-auto centered" src="<?php echo Theme::url('storage/questions'); ?>/{{$current->image}}">
+                </div>
                 @endif
             </div>
             <div class="col-lg-6 radio-checks">
@@ -38,7 +41,10 @@
                                     </label>
                                 </div>
                                 @if($answer->image )
-                                    <div class="image-wrapper"><img class="position-relative centered" src="<?php echo Theme::url('storage/answers'); ?>/{{$answer->image}}"></div>
+                                    <div class="image-wrapper">
+                                        <a href="<?php echo Theme::url('storage/answers'); ?>/{{$answer->image}}" class="fresco"><i class="fas fa-search"></i></a>
+                                        <img class="position-relative centered" src="<?php echo Theme::url('storage/answers'); ?>/{{$answer->image}}">
+                                    </div>
                                 @endif
                             </div>
                         </div>

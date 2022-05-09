@@ -295,7 +295,7 @@ class Newcourse extends Component
         
         $this->answer  = '';
         $this->next_question  = null;
-        $this->imageA  = '';
+        $this->answerImage  = '';
         $this->right  = false;
 
     }
@@ -319,19 +319,19 @@ class Newcourse extends Component
          $validatedData = $this->validate([
             'answer' => 'required',
             'next_question' => 'nullable',
-            'imagea' => 'image|mimes:jpeg,jpg,png,gif|max:500|nullable',
+            'answerImage' => 'image|mimes:jpeg,jpg,png,gif|max:500|nullable',
             'right' => 'nullable'
 
         ]);
 
-        if($this->imagea != ''){
+        if($this->answerImage != ''){
             //save image
                 $name       = substr(md5(microtime() . rand(0, 9999)), 0, 20);
-                $extension  = $this->imagea->getClientOriginalExtension();
+                $extension  = $this->answerImage->getClientOriginalExtension();
                 $filename   = $name .'.'. $extension;
                 $path       = 'public/answers';
                 $url_image  = $storage  = 'storage/answers/'.$filename;
-                $this->imagea->storeAs($path, $filename);
+                $this->answerImage->storeAs($path, $filename);
         }
         else{
             $filename = null;

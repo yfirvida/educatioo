@@ -481,6 +481,7 @@ input.form-control:focus, select.form-control:focus, textarea.form-control:focus
   border: 1px solid #efefef;
   border-radius: 6px;
   height: 100%;
+  
 }
 
 .accordion-item .box .img-wrapper a, .modal-body .img-wrapper a{
@@ -506,12 +507,21 @@ input.form-control:focus, select.form-control:focus, textarea.form-control:focus
   margin-right: 5px;
 }
 
+.accordion-item .box .img-wrapper a i.fa-search, .modal-body .img-wrapper a i.fa-search{
+  position: absolute;
+  top: 0px;
+  right: -6px;
+  border: none;
+  font-size: 10px;
+  color: #e4601c;
+}
+
 .accordion-item .box .img-wrapper a:hover i, .modal-body .img-wrapper a:hover i{
   color: #e4601c;
   border-color: #e4601c;
 }
 
-.accordion-item .box .img-wrapper .wrapper{
+.accordion-item .box .img-wrapper .wrapper, .accordion-item .box .img-wrapper .wrapper-xl{
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
@@ -520,7 +530,14 @@ input.form-control:focus, select.form-control:focus, textarea.form-control:focus
   padding: 10px;
   margin-left: 10px;
   width: 40px;
-  height: 40px
+  height: 40px;
+  position: relative;
+}
+
+.accordion-item .box .img-wrapper .wrapper-xl{
+  width: 90px;
+  height: 90px;
+  position: relative;
 }
 
 .accordion-item .box .icons-wrapper{
@@ -793,6 +810,13 @@ input.form-control:focus, select.form-control:focus, textarea.form-control:focus
 .welc .btn-orange i{
   font-size: 12px;
 }
+
+.welc .wrapper{
+  position: relative;
+  background: #f0f2f5;
+  padding: 0;
+  border-radius: 6px;
+}
 .welc .image-wrapper{
   display: inline-flex;
   align-items: center;
@@ -803,7 +827,23 @@ input.form-control:focus, select.form-control:focus, textarea.form-control:focus
   margin-left: 10px;
   width: 40px;
   height: 40px;
+  position: relative;
 }
+
+.welc .image-wrapper a i.fa-search, .welc .wrapper a i.fa-search{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  border: none;
+  font-size: 10px;
+  color: #e4601c;
+  z-index: 10
+}
+.welc .wrapper a i.fa-search{
+  top:  6px;
+  right: 6px;
+}
+
 .welc .box{
   border-radius: 6px;
   padding: 7px;

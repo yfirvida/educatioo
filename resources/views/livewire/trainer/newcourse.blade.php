@@ -45,11 +45,12 @@
                                     <div class="img-wrapper">
                                         <a href="#" class="add-image" wire:click="indexImage({{ $index }})"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
                                         <div class="wrapper">
-
                                             @if (!empty($images_temp[$index]))
+                                                <a href="{{ $images_temp[$index]->temporaryUrl() }}" class="fresco"><i class="fas fa-search"></i></a>
                                                 <img src="{{ $images_temp[$index]->temporaryUrl() }}">
                                             @else
                                                 @if($question->image != null)
+                                                    <a href="<?php echo Theme::url('storage/questions'); ?>/{{$question->image}}" class="fresco"><i class="fas fa-search"></i></a>
                                                     <img src="<?php echo Theme::url('storage/questions'); ?>/{{$question->image}}">
                                                 @endif
                                             @endif
@@ -87,16 +88,18 @@
                                                 <div class="wrapper">
 
                                                     @if (!empty($imagesA_temp[$answer->id]))
+                                                        <a href="{{ $imagesA_temp[$answer->id]->temporaryUrl() }}" class="fresco"><i class="fas fa-search"></i></a>
                                                         <img src="{{ $imagesA_temp[$answer->id]->temporaryUrl() }}">
                                                     @else
                                                         @if($answer->image != null)
+                                                            <a href="<?php echo Theme::url('storage/answers'); ?>/{{$answer->image}}" class="fresco"><i class="fas fa-search"></i></a>
                                                             <img src="<?php echo Theme::url('storage/answers'); ?>/{{$answer->image}}">
                                                         @endif
                                                     @endif
                                                 </div>
-                                                <input type="file" class="fileI" name="imageFile" wire:model="imagea" :errors="$errors"  style="display:none"/>
+                                                <input type="file" class="fileI" name="imageFile" wire:model="answerImage" :errors="$errors"  style="display:none"/>
                                             </div>
-                                             @error('imagea') <span class="error">{{ $message }}</span> @enderror
+                                             @error('answerImage') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3 p-1">
@@ -207,72 +210,82 @@
                         <div class="col-12">
                             <div class="question-wrapper">
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group">
-                                            <label for="nameq" class="form-label">{{__('Question Identifier')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="nameq" type="text" class="form-control" placeholder="{{_('Ex Question 1')}}" :errors="$errors" autocomplete="off" />
-                                            @error('nameq') <span class="error">{{ $message }}</span> @enderror
+                                    <div class="col-lg-8">
+                                        <div class="row">
+                                            <div class="col-lg-6 ">
+                                                <div class="form-group">
+                                                    <label for="nameq" class="form-label">{{__('Question Identifier')}} <sup class="text-danger">*</sup></label>
+                                                    <input wire:model="nameq" type="text" class="form-control" placeholder="{{_('Ex Question 1')}}" :errors="$errors" autocomplete="off" />
+                                                    @error('nameq') <span class="error">{{ $message }}</span> @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label for="q_value" class="form-label">{{__('Value')}} <sup class="text-danger">*</sup></label>
+                                                    <input wire:model="q_value" type="number" class="form-control"  :errors="$errors" autocomplete="off" />
+                                                    @error('q_value') <span class="error">{{ $message }}</span> @enderror
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="form-group">
-                                            <label for="q_value" class="form-label">{{__('Value')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="q_value" type="number" class="form-control"  :errors="$errors" autocomplete="off" />
-                                            @error('q_value') <span class="error">{{ $message }}</span> @enderror
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="explanation" class="form-label">{{__('Explanation')}} </label>
+                                                    <textarea  wire:model="explanation" rows="6" class="form-control"  :errors="$errors" ></textarea>
+                                                    @error('explanation') <span class="error">{{ $message }}</span> @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label for="question_name" class="form-label">{{__('Question')}} <sup class="text-danger">*</sup></label>
+                                                    <input wire:model="question_name" type="text" class="form-control"  :errors="$errors" autocomplete="off" />
+                                                    @error('question_name') <span class="error">{{ $message }}</span> @enderror
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
-                                        <div class="form-group mb-lg-0">
-                                            <label for="image" class="form-label">{{__('Image')}} </label>
-                                            <div class="img-wrapper">
-                                                <a href="#" class="add-image"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
-                                                @if ($image != null)
-                                                    <img class="form-img ml-3" src="{{ $image->temporaryUrl() }}"> 
-                                                @endif
-                                                <input type="file" class="fileI" name="imageFile" wire:model="image" :errors="$errors"  style="display:none" accept="image/*"/>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group ">
+                                                    <label for="image" class="form-label">{{__('Image')}} </label>
+                                                    <div class="img-wrapper">
+                                                        <a href="#" class="add-image"><i class="fas fa-plus"></i> {{ __('Add image') }}</a>
+                                                        <input type="file" class="fileI" name="imageFile" wire:model="image" :errors="$errors"  style="display:none" accept="image/*"/>
+                                                    </div>
+                                                    @error('image') <span class="error">{{ $message }}</span> @enderror
+                                                    @if ($image != null && !$errors->has('image'))
+                                                        <figure class=" mt-2"><img  class="extraimage" src="{{ $image->temporaryUrl() }}"> </figure>
+                                                    @endif
+                                                </div>
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4 check-group ml-0">
+                                                <div class="form-check">
+                                                    <input wire:model="firstQ" class="form-check-input" type="checkbox" :errors="$errors">
+                                                    <label class="form-check-label" for="firstQ">
+                                                        {{ __('First question') }}
+                                                    </label>
+                                                    @error('firstQ') <span class="error">{{ $message }}</span> @enderror
+                                                </div>
+                                                <div class="form-check">
+                                                    <input wire:model="latestQ" class="form-check-input" type="checkbox" :errors="$errors">
+                                                    <label class="form-check-label" for="latestQ">
+                                                        {{ __('Last question') }}
+                                                    </label>
+                                                    @error('latestQ') <span class="error">{{ $message }}</span> @enderror
+                                                </div>
+                                                <div class="form-check">
+                                                    <input wire:model="showR" class="form-check-input" type="checkbox"  :errors="$errors">
+                                                    <label class="form-check-label" for="showR">
+                                                        {{ __('Show in results') }}
+                                                    </label>
+                                                    @error('showR') <span class="error">{{ $message }}</span> @enderror
+                                                </div>
                                             </div>
-                                            @error('image') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label for="explanation" class="form-label">{{__('Explanation')}} </label>
-                                            <textarea  wire:model="explanation" rows="6" class="form-control"  :errors="$errors" ></textarea>
-                                            @error('explanation') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="form-group">
-                                            <label for="question_name" class="form-label">{{__('Question')}} <sup class="text-danger">*</sup></label>
-                                            <input wire:model="question_name" type="text" class="form-control"  :errors="$errors" autocomplete="off" />
-                                            @error('question_name') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-4 check-group">
-                                        <div class="form-check">
-                                            <input wire:model="firstQ" class="form-check-input" type="checkbox" :errors="$errors">
-                                            <label class="form-check-label" for="firstQ">
-                                                {{ __('First question') }}
-                                            </label>
-                                            @error('firstQ') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                        <div class="form-check">
-                                            <input wire:model="latestQ" class="form-check-input" type="checkbox" :errors="$errors">
-                                            <label class="form-check-label" for="latestQ">
-                                                {{ __('Last question') }}
-                                            </label>
-                                            @error('latestQ') <span class="error">{{ $message }}</span> @enderror
-                                        </div>
-                                        <div class="form-check">
-                                            <input wire:model="showR" class="form-check-input" type="checkbox"  :errors="$errors">
-                                            <label class="form-check-label" for="showR">
-                                                {{ __('Show in results') }}
-                                            </label>
-                                            @error('showR') <span class="error">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                 </div>
