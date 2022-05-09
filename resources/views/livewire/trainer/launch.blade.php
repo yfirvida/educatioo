@@ -360,7 +360,7 @@
            $('#st_date').on("change.datetimepicker", function (e) {
                 var date = $('#start').val(e.date.format('DD/MM/YYYY LT'));
                 @this.set('start', $('#start').val());
-                const d = new Date(e.date.format('DD/MM/YYYY LT'));
+                const d = new Date(e.date);
                 let day = d.toUTCString();
                 @this.set('utc_start', day);
 
@@ -368,7 +368,7 @@
            $('#end_date').on("change.datetimepicker", function (e) {
                 var date = $('#end_date').val(e.date.format('DD/MM/YYYY LT'));
                 @this.set('end', $('#end_date').val());
-                const d = new Date(e.date.format('DD/MM/YYYY LT'));
+                const d = new Date(e.date);
                 let day = d.toUTCString();
                 @this.set('utc_end', day);
 
@@ -377,7 +377,7 @@
            $('#start_date').on("change.datetimepicker", function (e) {
                 var date = $('#start2').val(e.date.format('DD/MM/YYYY LT'));
                 @this.set('start', $('#start2').val());
-                const d = new Date(e.date.format('DD/MM/YYYY LT'));
+                const d = new Date(e.date);
                 let day = d.toUTCString();
                 @this.set('utc_start', day);
 
@@ -385,7 +385,7 @@
            $('#endd_date').on("change.datetimepicker", function (e) {
                 var date = $('#endd_date').val(e.date.format('DD/MM/YYYY LT'));
                 @this.set('end', $('#endd_date').val());
-                const d = new Date(e.date.format('DD/MM/YYYY LT'));
+                const d = new Date(e.date);
                 let day = d.toUTCString();
                 @this.set('utc_end', day);
 

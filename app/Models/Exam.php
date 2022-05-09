@@ -64,8 +64,9 @@ class Exam extends Model
         $now = new DateTime();
         $now->setTimeZone(new DateTimeZone('UTC'));
         $now = $now->format('Y-m-d H:i:s');
+        
         return Exam::where('author', $id)->WhereHas('classrooms', function ($query) use($now){ 
-            $query->where('utc_end', '>', $now); })->paginate(10);
+            $query->where('utc_end', '>=', $now); })->paginate(10);
     }
 
     public static function currectExam($id){
@@ -95,6 +96,7 @@ class Exam extends Model
         $now = new DateTime();
         $now->setTimeZone(new DateTimeZone('UTC'));
         $now = $now->format('Y-m-d H:i:s');
+
         return Exam::WhereHas('classrooms', function ($query) use($now , $id){ 
             $query->where('utc_start', '<=', $now)->where('archive', '=', 0)->where('classroom_id', '=', $id); })->get();
     }

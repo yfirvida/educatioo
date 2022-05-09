@@ -12,13 +12,13 @@
                 
             </div>
         </div>
+        <h3 class="mb-2 mt-5">{{_('You have finished the quiz')}}</h3>
+        <h3 class="mb-4">{{$course->name}}</h3>
         <h1 class="mb-3 mt-4">
             @if($aproved == 'Passed')
                 {{_('Congratulations!')}}
             @endif
         </h1>
-        <h3 class="mb-2 <?php if($aproved != 'Passed'): echo 'mt-5'; endif; ?>">{{_('You have finished the quiz')}}</h3>
-        <h3 class="mb-4">{{$course->name}}</h3>
         <div class="d-lg-flex justify-content-center align-items-center">
             <h1 class="mb-3 mt-4">{{_('Score')}} {{$value}}/{{$min}} %</h1>
             @if($aproved == 'Passed')
@@ -28,7 +28,7 @@
             @endif
             <div>
                 <h1 class=" mt-4 <?php if($aproved != 'Passed'): echo 'mb-3'; endif; ?>">{{$aproved}}</h1>
-                <h4 class="pb-lg-0 pb-5">{{_('We are really sorry!')}}</h4>
+                @if($aproved != 'Passed') <h4 class="pb-lg-0 pb-5">{{_('We are really sorry!')}}</h4>@endif
             </div>
         </div>
         

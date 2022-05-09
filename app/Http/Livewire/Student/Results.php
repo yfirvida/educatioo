@@ -29,6 +29,7 @@ class Results extends Component
 
         //calc the aproved
         $this->value = ($this->points * 100)/$this->total;
+        $this->value - round($this->value);
 
         if($this->value >= $this->min){$this->aproved = "Passed";}else{$this->aproved = "Failed";}
 
