@@ -249,7 +249,7 @@ class EditCourse extends Component
         
         $this->answer  = '';
         $this->next_question  = null;
-        $this->imageA  = '';
+        $this->answerImage  = '';
         $this->right  = false;
 
     }

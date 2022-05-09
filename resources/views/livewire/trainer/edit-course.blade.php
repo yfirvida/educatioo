@@ -98,10 +98,10 @@
                                                         @endif
                                                     @endif
                                                 </div>
-                                                <input type="file" class="fileI" name="imageFile" wire:model="imageA"  style="display:none" accept="image/*" />
+                                                <input type="file" class="fileI" name="imageFile" wire:model="answerImage"  style="display:none" accept="image/*" />
                                             </div>
                                         </div>
-                                         @error('imageA') <span class="error">{{ $message }}</span> @enderror
+                                         @error('answerImage') <span class="error">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="col-md-3 p-1">
                                         <div class="box">
