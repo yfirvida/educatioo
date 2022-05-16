@@ -18,7 +18,7 @@ class Classroom extends Model
 
     public function exams()
     {
-        return $this->belongsToMany(Exam::class)->withPivot('start', 'end', 'utc_start', 'utc_end', 'min_points' , 'total_points', 'email_instructions', 'certificate_id', 'archive')->orderBy('pivot_start','asc');
+        return $this->belongsToMany(Exam::class)->withPivot('id','start', 'end', 'utc_start', 'utc_end', 'min_points' , 'total_points', 'email_instructions', 'certificate_id', 'archive')->orderBy('pivot_start','asc');
     }
 
     public function users()

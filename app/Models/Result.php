@@ -12,6 +12,7 @@ class Result extends Model
     protected $fillable = [
         'user_id',
         'exam_id',
+        'launch_id',
         'classroom_id',
         'result',
         'next_question',
@@ -21,25 +22,25 @@ class Result extends Model
 
     protected $casts = ['detail' => 'array'];
 
-    public static function getValue($exam_id, $user_id, $class_id)
+    public static function getValue($launch_id, $user_id)
     {
-        $q = Result::where('exam_id', $exam_id)->where('user_id', $user_id)->where('classroom_id', $class_id)->first();
+        $q = Result::where('launch_id', $launch_id)->where('user_id', $user_id)->first();
         $result = 0;
         if($q): $result = $q->result; endif;
         return $result;
     }
 
-    public static function getNext($exam_id, $user_id, $class_id)
+    public static function getNext($launch_id, $user_id)
     {
-        $q = Result::where('exam_id', $exam_id)->where('user_id', $user_id)->where('classroom_id', $class_id)->first();
-        $result = 0;
+        $q = Result::where('launch_id', $launch_id)->where('user_id', $user_id)->first();
+        $result = -1;
         if($q): $result = $q->next_question; endif;
         return $result;
     }
 
-    public static function getDetail($exam_id, $user_id, $class_id)
+    public static function getDetail($launch_id, $user_id)
     {
-        $q = Result::where('exam_id', $exam_id)->where('user_id', $user_id)->where('classroom_id', $class_id)->first();
+        $q = Result::where('launch_id', $launch_id)->where('user_id', $user_id)->first();
         $result = 0;
         if($q): $result = $q->detail; endif;
         return $result;

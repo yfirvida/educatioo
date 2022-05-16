@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DateTime;
 use DateTimeZone;
+use DB;
 
 class Exam extends Model
 {
@@ -20,7 +21,7 @@ class Exam extends Model
 
     public function classrooms()
     {
-        return $this->belongsToMany(Classroom::class)->withPivot('start', 'end', 'utc_start', 'utc_end', 'min_points', 'total_points','email_instructions', 'certificate_id', 'archive')->orderBy('pivot_start','asc');
+        return $this->belongsToMany(Classroom::class)->withPivot('id','start', 'end', 'utc_start', 'utc_end', 'min_points', 'total_points','email_instructions', 'certificate_id', 'archive')->orderBy('pivot_start','asc');
     }
 
     public function results()
@@ -77,19 +78,17 @@ class Exam extends Model
             $query->where('utc_start', '<=', $now)->where('utc_end', '>=', $now)->where('exam_id', '>=', $id); })->first();
     }
 
-    public static function getTotalPoints($exam_id, $class_id){
+    public static function getTotalPoints($launch_id){
    
-        $exam = Exam::find($exam_id);
-        $pivot = $exam->classrooms->find($class_id);
+        $pivot = \DB::table('classroom_exam')->where('id', $launch_id)->first();
 
-         return $pivot->pivot->total_points;
+         return $pivot->total_points;
     }
-    public static function getMinPoints($exam_id, $class_id){
+    public static function getMinPoints($launch_id){
    
-        $exam = Exam::find($exam_id);
-        $pivot = $exam->classrooms->find($class_id);
+        $pivot = \DB::table('classroom_exam')->where('id', $launch_id)->first();
 
-         return $pivot->pivot->min_points;
+         return $pivot->min_points;
     }
 
     public static function listForResult($id){

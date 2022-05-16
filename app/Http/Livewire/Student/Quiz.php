@@ -11,7 +11,7 @@ use App\Models\Result;
 
 class Quiz extends Component
 {
-    public $classroom, $course, $user, $class_id, $course_id, $current, $next, $latest, $answers, $value, $detail;
+    public $classroom, $course, $user, $class_id, $course_id, $current, $next, $latest, $answers, $value, $detail, $launch_id;
 
     protected $rules = [
         'answers.*.resp' => 'nullable',
@@ -22,24 +22,25 @@ class Quiz extends Component
         $this->user = Auth::user();
         $this->class_id = \Session::get('class_id');
         $this->course_id = \Session::get('course_id');
+        $this->launch_id = \Session::get('launch_id');
         $this->classroom = Classroom::find($this->class_id);
         $this->course = Exam::find($this->course_id);
-        $this->next = Result::getNext($this->course_id, $this->user->id, $this->class_id);
+        $this->next = Result::getNext($this->launch_id, $this->user->id );
 
     }
 
     public function render()
     {
 
-        if(!$this->next){ //first question
+        if($this->next == -1){ //first question
             $this->current = Question::firstQuestion($this->course_id);
             $this->value = 0;
         }
         else{ //other question
 
             $this->current = Question::find($this->next);
-            $this->value = Result::getValue($this->course_id, $this->user->id, $this->class_id);
-            $this->detail = Result::getDetail($this->course_id, $this->user->id, $this->class_id);
+            $this->value = Result::getValue($this->launch_id, $this->user->id);
+            $this->detail = Result::getDetail($this->launch_id, $this->user->id);
 
         }
 
@@ -70,7 +71,7 @@ class Quiz extends Component
                 
 
                 Result::updateOrCreate(
-                    ['user_id' => $this->user->id, 'exam_id' => $this->course_id, 'classroom_id' => $this->class_id],
+                    ['user_id' => $this->user->id, 'exam_id' => $this->course_id, 'classroom_id' => $this->class_id, 'launch_id' => $this->launch_id],
                     ['result' => $this->value, 'next_question' => $this->next, 'detail' => $this->detail]
                 );
               }      

@@ -17,15 +17,16 @@ class Results extends Component
         $this->user = Auth::user();
         $this->class_id = \Session::get('class_id');
         $this->course_id = \Session::get('course_id');
+        $this->launch_id = \Session::get('launch_id');
         $this->classroom = Classroom::find($this->class_id);
         $this->course = Exam::find($this->course_id);
 
     }
     public function render()
     {
-        $this->points = Result::getValue($this->course_id, $this->user->id, $this->class_id);
-        $this->total = Exam::getTotalPoints($this->course_id, $this->class_id);
-        $this->min = Exam::getMinPoints($this->course_id, $this->class_id);
+        $this->points = Result::getValue($this->launch_id, $this->user->id);
+        $this->total = Exam::getTotalPoints($this->launch_id);
+        $this->min = Exam::getMinPoints($this->launch_id);
 
         //calc the aproved
         $this->value = ($this->points * 100)/$this->total;

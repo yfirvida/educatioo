@@ -12,9 +12,15 @@
     	<h1 class="mb-2">{{_('Welcome')}}</h1>
     	<h3 class="mb-5">{{$user->name}}</h3>
         @if($course)
-        	<h6 class="mb-4">{{_('Instructions')}}</h6> 
-        	<p class="text-justify mr-5 pr-5">{{$course->description}}</p>
-        	<a href="{{ route('quiz') }}" class="btn btn-orange mx-auto mt-5" >{{ __('Start') }}</a>
+            @if($next == 0)
+        	    <h6 class="mb-4">{{_('You have already completed this course')}}</h6> 
+                <a href="{{ route('result') }}" class="btn btn-orange mx-auto mt-5" >{{ __('See your Result') }}</a>
+            @else
+                <h6 class="mb-4">{{_('Instructions')}}</h6> 
+                <p class="text-justify mr-5 pr-5">{{$course->description}}</p>
+                <a href="{{ route('quiz') }}" class="btn btn-orange mx-auto mt-5" >{{ __('Start') }}</a>
+                
+            @endif
         @else
         <p class="text-center">{{_('This course is not active at this moment')}}</p>
         @endif
