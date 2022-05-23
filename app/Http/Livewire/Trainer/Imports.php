@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class Imports extends Component
 {
     public $url, $name;
+    public $idReferences = [];
     public function render()
     {
         return view('livewire.trainer.imports')->layout('layouts.main');
@@ -49,9 +50,23 @@ class Imports extends Component
                        $newQ = $question->replicateRow();
                        $newExam->questions()->attach($newQ->id, ['show_in_result' => $question->exams[0]->pivot['show_in_result'], 'latest_question' => $question->exams[0]->pivot['latest_question'], 'first_question' => $question->exams[0]->pivot['first_question']]);
 
+                       $this->idReferences[$question->id] = $newQ->id;
+
                     }
 
                     $newExam->save();
+                    foreach($newExam->questions as $question)
+                    {
+                       foreach($question->answers as $answer)
+                        {
+                            if (array_key_exists($answer->next_question, $this->idReferences)) {
+                                $new = $this->idReferences[$answer->next_question];
+                                $answer->update(['next_question'=> $new]);
+                            }
+                        } 
+                        
+                    }
+
                     session()->flash('message', 'Course Imported Successfully. To see this course go to Courses');
                     //desactivar el code
                     Import::deactive($course_id, $code);
