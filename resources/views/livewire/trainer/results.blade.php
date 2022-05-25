@@ -50,7 +50,7 @@
                                     <td>{{date('d/m/Y g:i A', strtotime($course->end)) }}</td>
                                     <td class="d-flex justify-content-center align-items-center">
                                         <div>
-                                            <button class="btn actions mb-2" wire:click="show({{$course->id}}, {{ $classroom->id}})"><i class="fas fa-user-edit"></i> {{ __('View') }}</button>
+                                            <a href="{{ route('details', ['launch_id'=> $course->launch_id]) }}" class="btn actions mb-2" ><i class="fas fa-user-edit"></i> {{ __('View') }}</a>
                                             <button class="btn actions" wire:click="archive({{$course->id}}, {{ $classroom->id}})"><img src="/img/archive-orange.png" > {{ __('Archive') }}</button>
                                         </div> 
                                     </td>

@@ -924,3 +924,14 @@ input.form-control:focus, select.form-control:focus, textarea.form-control:focus
   color: red;
   font-size: 14px;
 }
+
+div.green{
+  background-color: #c9e9cf;
+  padding: 1rem 1.375rem;
+  border-radius: 3px;
+}
+div.red{
+  background-color: #f5b2b2;
+  padding: 1rem 1.375rem;
+  border-radius: 3px;
+}

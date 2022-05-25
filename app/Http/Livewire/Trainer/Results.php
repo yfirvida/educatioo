@@ -37,27 +37,8 @@ class Results extends Component
             $this->classroom = Classroom::find($c);
             $this->coursess = Exam::listForResult($c);
 
-            if($this->coursess){
-                foreach($this->coursess as $index => $course){
-                    $pivot = $course->classrooms->find($c);
-                    if($pivot){
-                        $this->coursess[$index]->start = $pivot->pivot->start;
-                        $this->coursess[$index]->end = $pivot->pivot->end;
-                    }
-                    
-
-                }
-            }
-            if($this->current){
-                $pivot = $this->classroom->exams->find($this->current);
-                if($pivot){
-                    $this->total = $pivot->pivot->total_points;
-                    $this->min_points = $pivot->pivot->min_points;
-                }
-            
-
                 //calc the aproved
-                $required = ($this->total * $this->min_points)/100;
+               /* $required = ($this->total * $this->min_points)/100;
 
                 if($this->students){
                     foreach($this->students as $index => $student){
@@ -74,12 +55,10 @@ class Results extends Component
                         $this->students[$index]->status = $status;
 
                     }
-                }
+                }*/
 
             }
             
-
-        }
         return view('livewire.trainer.results',['courses' => $this->coursess])->layout('layouts.main');
     }
 
@@ -88,18 +67,6 @@ class Results extends Component
         \Session::put('classroom', $value);
         $this->classroom = Classroom::find($value);
         $this->coursess = Exam::listForResult($value);
-
-        if($this->coursess){
-            foreach($this->coursess as $index => $course){
-                $pivot = $course->classrooms->find($value);
-                if($pivot){
-                    $this->coursess[$index]->start = $pivot->pivot->start;
-                    $this->coursess[$index]->end = $pivot->pivot->end;
-                }
-                
-
-            }
-        }
 
     }
 

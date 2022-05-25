@@ -43,6 +43,7 @@ Route::group(['middleware' => ['web', 'trainer'], 'namespace' => '\App\Http\Live
 	Route::get('/trainer/edit-course/{id}',EditCourse::class)->name('edit-course');
 	Route::get('/trainer/course-preview/{id}',CoursePreview::class)->name('course-preview');
 	Route::get('/trainer/results',Results::class)->name('results');
+	Route::get('/trainer/details/{launch_id}',ResultDetail::class)->name('details');
 	Route::get('/trainer/archive',Archive::class)->name('archive');
 	Route::get('/trainer/launch',Launch::class)->name('launch');
 	Route::get('/trainer/courses-list/{id}',CoursesList::class)->name('courses-list');

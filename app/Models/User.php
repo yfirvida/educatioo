@@ -103,8 +103,8 @@ class User extends Authenticatable
         return User::where('trainer_id', $id)->where('role','student')->whereDoesntHave('classrooms')->orWhereHas('classrooms', function ($query) use($class){ $query->where('classroom_id', '<>', $class); })->get();
     }
 
-    public static function getResults($user, $exam , $class){
+    public static function getResults($user, $launch_id){
         $user = User::find($user);
-        return $user->results->where('exam_id', '=', $exam)->where('classroom_id', '=', $class)->first();
+        return $user->results->where('launch_id', '=', $launch_id)->first();
     }
 }
