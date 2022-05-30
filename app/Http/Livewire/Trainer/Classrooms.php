@@ -72,7 +72,9 @@ class Classrooms extends Component
         ]);
 
         //asign students
-    
+
+
+    if($this->students != null){
         for ($x = 0; $x < $length = count($this->students); $x++) {
             if($this->students[$x]->pin != null){
                $classroom->users()->attach($this->students[$x]->id, ['pin' => $this->students[$x]->pin]); 
@@ -83,6 +85,8 @@ class Classrooms extends Component
             }
             
         }
+    }
+        
         
        // self::resetInputFields();
         $this->dispatchBrowserEvent('closeModal'); // Close modal using jquery
