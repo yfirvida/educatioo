@@ -14,7 +14,7 @@
         <span class="menu-title">{{ __('Courses') }}</span>
       </div>
     </a>
-    <a class="menu-btn {{request()->routeIs('results') ? 'active' : '' }}" href="{{ route('results') }}">
+    <a class="menu-btn {{request()->routeIs('results') || request()->routeIs('details') ? 'active' : '' }}" href="{{ route('results') }}">
       <div class="text-center">
         <img class="normal" src="/img/result.png">
         <img class="active" src="/img/result_active.png">

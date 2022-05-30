@@ -19,7 +19,7 @@
         </div>
         <p class="text-justify my-3" style="min-height:50px">{{$current->intro }}</p>
         <div class="row mt-4">
-            <div class="col-lg-3 border-right">
+            <div class="col-lg-3 border-right-lg mb-3">
                 <h2 class="text-left mb-3">{{$current->identifier}}</h2>
                 <h5 class="text-left mb-4">{{$current->question}}</h5>
                 @if($current->image )
@@ -52,7 +52,7 @@
                 </div>
             </div>
         </div>
-        <img src="/img/girl2.png">
+        <img src="/img/girl2.png" class="d-lg-inline d-none">
     </div>
 </div>
 </div>

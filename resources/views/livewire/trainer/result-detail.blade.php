@@ -7,8 +7,8 @@
     <div class="content-wrapper">
         <div class="content b-bottom pb-4">
             <div class="d-flex justify-content-between align-items-end mt-3 ">
-                <h2>{{$exam[0]->name}}</h2>
-                <h3>{{$exam[0]->class}}</h3>
+                <h2>{{$exam->name}}</h2>
+                <h3>{{$exam->class}}</h3>
             </div>
         </div>
         <div class="content">
@@ -27,7 +27,9 @@
                             @if($questions && $questions->count() > 0)
                                 <?php $i = 1;?>
                                 @foreach($questions as $q) 
-                                    <th scope="col" class="text-center">{{$i}}</th>
+                                    <th scope="col" class="text-center q_th" wire:click="showQuestion({{$q->id}})">
+                                        <span class="question_head" >{{$i}}</span>
+                                    </th>
                                     <?php $i++ ; ?>
                                 @endforeach
                             @endif
@@ -77,4 +79,47 @@
             </div>
         </div>
     </div>
+<!-- question modal -->
+<div wire:ignore.self class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="questionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header py-3 pb-0">
+                <button type="button" class="close" wire:click="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body pb-3">
+                <div class="inside-form text-center d-flex align-items-center justify-content-center">  
+                    @if($current_question && $current_question->count() > 0 )
+                        <div>
+                            <h2 class=" mb-4">{{$current_question->question}}</h2>
+                            @if($current_question->image )
+                            <div class="wrapper">
+                                <img class="position-relative mx-auto centered" src="<?php echo Theme::url('storage/questions'); ?>/{{$current_question->image}}">
+                            </div>
+                            @endif
+                        </div>
+                    @endif
+                </div>
+            </div>
+            <div class="modal-footer justify-content-end">
+                <button type="button" wire:click.prevent="close" class="btn btn-white btn-fix-size" >{{__('Close')}}</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+</div>
+
+@push('scripts')
+    <script>
+        window.addEventListener('openModal', event => {         
+            $('#questionModal').modal('show');
+        });
+
+        window.addEventListener('closeModal', event => {
+            $('#questionModal').modal('hide');
+        });
+        
+    </script>
+@endpush
