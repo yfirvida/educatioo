@@ -92,12 +92,36 @@
                 <div class="inside-form text-center d-flex align-items-center justify-content-center">  
                     @if($current_question && $current_question->count() > 0 )
                         <div>
-                            <h2 class=" mb-4">{{$current_question->question}}</h2>
-                            @if($current_question->image )
-                            <div class="wrapper">
-                                <img class="position-relative mx-auto centered" src="<?php echo Theme::url('storage/questions'); ?>/{{$current_question->image}}">
+                            <div class="w-100 pb-3">
+                                <h2 class=" mb-4">{{$current_question->question}}</h2>
+                                @if($current_question->image )
+                                <div class="wrapper">
+                                    <img class="position-relative mx-auto centered" src="<?php echo Theme::url('storage/questions'); ?>/{{$current_question->image}}">
+                                </div>
+                                @endif
                             </div>
-                            @endif
+                            <div class="pt-3 detail">
+                                <h3 class="mb-4 font-weight-bold">{{_('Answers')}}</h3>
+                            @foreach ($answers as $ind => $answer)
+                                <div class="col-lg" wire:key="answer-{{ $answer->id }}">
+                                    <div class="box d-flex border justify-content-between">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" disabled <?php if($answer->correct == 1): echo "checked"; endif; ?>>
+                                            <label class="form-check-label" >
+                                                {{$answer->answer }}
+                                            </label>
+                                        </div>
+                                        @if($answer->image )
+                                            <div class="image-wrapper">
+                                                <a href="<?php echo Theme::url('storage/answers'); ?>/{{$answer->image}}" class="fresco"><i class="fas fa-search"></i></a>
+                                                <img class="position-relative centered" src="<?php echo Theme::url('storage/answers'); ?>/{{$answer->image}}">
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            
+                            @endforeach
+                            </div>
                         </div>
                     @endif
                 </div>

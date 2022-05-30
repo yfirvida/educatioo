@@ -817,7 +817,7 @@ input.form-control:focus, select.form-control:focus, textarea.form-control:focus
   padding: 0;
   border-radius: 6px;
 }
-.welc .image-wrapper{
+.welc .image-wrapper, .detail .image-wrapper{
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
@@ -830,7 +830,7 @@ input.form-control:focus, select.form-control:focus, textarea.form-control:focus
   position: relative;
 }
 
-.welc .image-wrapper a i.fa-search, .welc .wrapper a i.fa-search{
+.welc .image-wrapper a i.fa-search, .welc .wrapper a i.fa-search, .detail .wrapper a i.fa-search, .detail .image-wrapper a i.fa-search{
   position: absolute;
   top: 0px;
   right: 0px;
@@ -839,17 +839,18 @@ input.form-control:focus, select.form-control:focus, textarea.form-control:focus
   color: #e4601c;
   z-index: 10
 }
-.welc .wrapper a i.fa-search{
+.welc .wrapper a i.fa-search, .detail .wrapper a i.fa-search{
   top:  6px;
   right: 6px;
 }
 
-.welc .box{
+.welc .box, .detail .box{
   border-radius: 6px;
   padding: 7px;
   margin-bottom: 15px;
+  min-width: 160px
 }
-.welc .box [type='checkbox'] {
+.welc .box [type='checkbox'], .detail .box [type='checkbox'] {
     color: #e4601c;
     margin-left: 0;
     margin-top: 4px;
@@ -857,12 +858,12 @@ input.form-control:focus, select.form-control:focus, textarea.form-control:focus
     position: absolute;
     left: 0;
 }
-.welc .form-check-input:focus{
+.welc .form-check-input:focus, .detail .form-check-input:focus{
   outline: unset;
   box-shadow: none;
 } 
 
-.welc .form-check .form-check-label{
+.welc .form-check .form-check-label, .detail .form-check .form-check-label{
   font-size: 16px;
   margin-left: 1.5rem
 }

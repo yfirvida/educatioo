@@ -10,7 +10,7 @@ use App\Models\Question;
 
 class ResultDetail extends Component
 {
-    public $class, $students, $questions;
+    public $class, $students, $questions, $answers;
     public $current_question;
     protected $launch_id, $exam;
     public function mount($launch_id)
@@ -95,6 +95,7 @@ class ResultDetail extends Component
     public function showQuestion($id) 
     { 
         $this->current_question = Question::find($id);
+        $this->answers = $this->current_question->answers()->get();
         $this->dispatchBrowserEvent('openModal');
     }
 
