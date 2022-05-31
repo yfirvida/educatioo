@@ -156,10 +156,10 @@
                                 </label>
                             </div>
                             <div class="icons-wrapper mt-2">
-                                <a href="#" class="mr-2" wire:click="confirm({{$question->id}})"><i class="far fa-trash-alt"></i></a>
-                                <a href="#" class="mr-2" wire:click="editQ({{$question->id}})"><i class='fas fa-edit'></i></a>
-                                <a href="#" class="mr-2" wire:click="copy({{$question->id}})"><i class='far fa-copy'></i></a>
-                                <a href="#"  wire:click='showA2Form({{$question->id}})'><i class='fab fa-rocketchat'></i></a>
+                                <a href="#" class="mr-2" wire:click="confirm({{$question->id}})" data-toggle="tooltip" data-placement="bottom" title="{{_('Delete Question')}}"><i class="far fa-trash-alt"></i></a>
+                                <a href="#" class="mr-2" wire:click="editQ({{$question->id}})" data-toggle="tooltip" data-placement="bottom" title="{{_('Edit Question')}}"><i class='fas fa-edit'></i></a>
+                                <a href="#" class="mr-2" wire:click="copy({{$question->id}})" data-toggle="tooltip" data-placement="bottom" title="{{_('Clone Question')}}"><i class='far fa-copy'></i></a>
+                                <a href="#"  wire:click='showA2Form({{$question->id}})' data-toggle="tooltip" data-placement="bottom" title="{{_('Add Answer')}}"><i class='fab fa-rocketchat'></i></a>
                             </div>
                         </div>
                     </div>

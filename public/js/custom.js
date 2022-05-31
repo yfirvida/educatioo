@@ -4,6 +4,8 @@ $(function(){
   	$(this).parent().find('.action-box').toggleClass('show');
   });*/
 
+  $('[data-toggle="tooltip"]').tooltip();
+
   $('.upload-link').click(function(){
         $('input#file').trigger('click');
   });

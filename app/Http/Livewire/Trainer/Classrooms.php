@@ -43,11 +43,11 @@ class Classrooms extends Component
         self::resetInputFields();
         $this->resetErrorBag();
         $this->levels = Level::all_items();
-        $this->students = User::allStudents($this->trainer_id);
+       /* $this->students = User::allStudents($this->trainer_id);
         foreach($this->students as $index => $student){
             $this->students[$index]->pin = bin2hex(random_bytes(4));
         }
-        \Session::put('students', $this->students);
+        \Session::put('students', $this->students);*/
         $this->dispatchBrowserEvent('openModal');
     }
     public function close()

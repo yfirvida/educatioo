@@ -25,7 +25,7 @@ Route::group(['middleware' => ['web', 'admin'], 'namespace' => '\App\Http\Livewi
 	Route::get('/admin/users', Users::class)->name('users');
 	Route::get('/admin/lands', Lands::class)->name('lands');
 	Route::get('/admin/plans', Plans::class)->name('plans');
-
+	Route::get('/admin/limits', Limits::class)->name('limits');
 	Route::get('/admin/profile', Profile::class)->name('profile');
 
 	Route::get('/admin/help', Dashboard::class)->name('help');

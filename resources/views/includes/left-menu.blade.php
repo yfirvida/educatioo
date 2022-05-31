@@ -31,6 +31,14 @@
       </a>
     </li>
 
+    <li class="nav-item {{request()->routeIs('limits') ? 'active' : '' }}">
+      <a class="nav-link" href="{{ route('limits') }}" >
+        <i class="menu-icon mdi mdi mdi-file-lock"></i>
+        <span class="menu-title">{{ __('Limits') }}</span>
+        <i class="menu-arrow"></i> 
+      </a>
+    </li>
+
     <li class="nav-item nav-category">{{ __('Profile') }}</li>
     <li class="nav-item {{request()->routeIs('profile') ? 'active' : '' }}">
       <a class="nav-link" href="{{ route('profile') }}" >
