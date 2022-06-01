@@ -194,6 +194,7 @@
                      @csrf
                     <input type="hidden" id="class_id" name="class_id">
                     <input type="hidden" id="course_id" name="course_id">
+                    <input type="hidden" id="user_id" name="user_id">
                     <input type="hidden" id="email2" name="email" >
                     <input type="hidden" id="password2" name="password" >
                     <input type="hidden" id="trainer_id" name="trainer_id" >

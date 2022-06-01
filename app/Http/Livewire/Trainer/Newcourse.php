@@ -18,11 +18,12 @@ class Newcourse extends Component
     use WithFileUploads;
 
     public $name, $description, $author, $level_id;
-    public $nameq, $q_value, $explanation, $question_name, $showR, $latestQ, $firstQ; 
+    public $nameq, $explanation, $question_name, $showR, $latestQ, $firstQ; 
     public $levels, $questions;
     public $answer, $next_question, $right, $answerImage;
     public $course_id = 0;
     public $question_id, $current;
+    public $q_value = 0;
 
     public $image;
     public $images_temp = [];
@@ -73,7 +74,7 @@ class Newcourse extends Component
     private function resetInputQFields() {
         
         $this->nameq = '';
-        $this->q_value = '';
+        $this->q_value = 0;
         $this->explanation = '';
         $this->question_name = '';
         $this->image = '';
@@ -358,7 +359,7 @@ class Newcourse extends Component
     
     public function closeA()
     {
-        self::resetInputFields();
+        self::resetInputAFields();
         $this->dispatchBrowserEvent('closeAModal'); 
 
 

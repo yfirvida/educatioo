@@ -29,7 +29,7 @@ class WelcomeController extends Controller
         ->join('exams', 'exams.id', '=', 'classroom_exam.exam_id')
         ->where('classroom_user.pin', '=', $pin)
         ->where('exams.name', '=', $name)
-        ->select('users.*', 'classroom_exam.classroom_id', 'classroom_exam.exam_id', 'exams.level_id', 'classrooms.name As class')->get();
+        ->select('users.*', 'classroom_exam.classroom_id', 'classroom_exam.exam_id', 'exams.level_id', 'classrooms.name As class', 'users.id As user_id')->get();
 
        
 

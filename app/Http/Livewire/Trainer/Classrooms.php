@@ -48,6 +48,7 @@ class Classrooms extends Component
             $this->students[$index]->pin = bin2hex(random_bytes(4));
         }
         \Session::put('students', $this->students);*/
+        \Session::put('students', []);
         $this->dispatchBrowserEvent('openModal');
     }
     public function close()
@@ -261,9 +262,10 @@ class Classrooms extends Component
             $this->extras = User::allStudentsOutThisClassroom($this->trainer_id , $this->current->id);
             $this->assignST = User::hydrate(\Session::get('students'));
             $this->assignST->push($st);
-            /*foreach($this->assignST as $index => $student){
+           /* foreach($this->assignST as $index => $student){
                 $this->assignST[$index]->pin = $this->assignST[$index]->pivot->pin;
             }*/
+            \Session::put('students', $this->assignST->toArray());
         } 
         else{
             //$this->students = User::allStudents($this->trainer_id);
@@ -272,6 +274,8 @@ class Classrooms extends Component
             foreach($this->students as $index => $student){
                 $this->students[$index]->pin = bin2hex(random_bytes(4));
             }
+           
+            \Session::put('students', $this->students->toArray());
         }
         $this->dispatchBrowserEvent('closeStdModal'); // Close modal using jquery
 

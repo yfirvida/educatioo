@@ -22,6 +22,7 @@ class EditCourse extends Component
     public $answerImage;
     public $images_temp = [];
     public $index_question;
+    public $q_value = 0;
 
     public $imagesA_temp = [];
     public $index_answerID;
@@ -132,7 +133,7 @@ class EditCourse extends Component
     private function resetInputQFields() {
         
         $this->nameq = '';
-        $this->q_value = '';
+        $this->q_value = 0;
         $this->explanation = '';
         $this->question_name = '';
         $this->image = '';

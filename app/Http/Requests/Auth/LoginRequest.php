@@ -34,6 +34,7 @@ class LoginRequest extends FormRequest
             'class_id' => ['nullable', 'string'],
             'course_id' => ['nullable', 'string'],
             'trainer_id' => ['nullable', 'string'],
+            'user_id' => ['nullable', 'string'],
         ];
     }
 
@@ -48,13 +49,24 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
+        if($this->user_id != null){
+           if (! Auth::attempt(['email' => $this->email, 'password' => $this->password, 'trainer_id' => $this->trainer_id, 'id' => $this->user_id], $this->boolean('remember'))) {
+                RateLimiter::hit($this->throttleKey());
 
-        if (! Auth::attempt(['email' => $this->email, 'password' => $this->password, 'trainer_id' => $this->trainer_id], $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
+                throw ValidationException::withMessages([
+                    'email' => __('auth.failed'),
+                ]);
+            } 
+        }
+        else{
 
-            throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
-            ]);
+            if (! Auth::attempt(['email' => $this->email, 'password' => $this->password, 'trainer_id' => $this->trainer_id], $this->boolean('remember'))) {
+                RateLimiter::hit($this->throttleKey());
+
+                throw ValidationException::withMessages([
+                    'email' => __('auth.failed'),
+                ]);
+            }
         }
 
         RateLimiter::clear($this->throttleKey());

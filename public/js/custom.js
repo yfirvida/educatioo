@@ -76,6 +76,7 @@ $(function(){
                     $('#s_level').replaceWith("<span id='s_level'>"+data['level']+"</span>");
                     
                     $('#class_id').val(data[0].classroom_id);
+                    $('#user_id').val(data[0].user_id);
                     $('#course_id').val(data[0].exam_id);
                     $('#email2').val(data[0].email);
                     $('#password2').val('1234');
