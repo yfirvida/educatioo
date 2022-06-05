@@ -63,10 +63,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Land::class);
     }
-    public function plan()
+   /* public function plan()
     {
         return $this->belongsTo(Plan::class);
-    }
+    }*/
 
     public function quiz()
     {

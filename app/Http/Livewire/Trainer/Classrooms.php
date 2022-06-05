@@ -7,6 +7,7 @@ use App\Models\Level;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Classroom;
+use App\Models\Plan;
 
 use Illuminate\Support\Facades\Hash;
 
@@ -18,6 +19,7 @@ class Classrooms extends Component
     public $name, $level_id, $namestd, $email, $sendMailError;
     public $levels, $students, $extras, $assignST;
     public $trainer_id, $classroom_id, $st_id, $current, $current_class;
+    protected $plan_id = 1;
 
     protected $rules = [
         'students.*.pin' => 'required|string|min:6|unique',
@@ -27,6 +29,7 @@ class Classrooms extends Component
     public function render()
     {
         $user = Auth::user();
+        
         $this->trainer_id = $user->id;
         $classrooms = Classroom::where('trainer_id', $this->trainer_id)->paginate(10);
         return view('livewire.trainer.classrooms', ['classrooms' => $classrooms])->layout('layouts.main');
@@ -39,23 +42,35 @@ class Classrooms extends Component
 
     }
     public function showForm() {
+
         $user = Auth::user();
-        self::resetInputFields();
-        $this->resetErrorBag();
-        $this->levels = Level::all_items();
-       /* $this->students = User::allStudents($this->trainer_id);
-        foreach($this->students as $index => $student){
-            $this->students[$index]->pin = bin2hex(random_bytes(4));
+        if($user->plan == "Premium"){ $this->plan_id = 2;}
+        $plan = Plan::find($this->plan_id);
+        $plan_limit = $plan->groups_limit;
+
+        $current = Classroom::where('trainer_id', $this->trainer_id)->count();
+
+        //if it is out of bounds
+        if($plan_limit != null && $current >= $plan_limit){
+            //show messagge
+            session()->flash('emessage', 'You have created all the groups allowed in your plan. To create a new group you must delete one or update your plan');
         }
-        \Session::put('students', $this->students);*/
-        \Session::put('students', []);
-        $this->dispatchBrowserEvent('openModal');
+        else{
+            self::resetInputFields();
+            $this->resetErrorBag();
+            $this->levels = Level::all_items();
+    
+            \Session::put('students', []);
+            $this->dispatchBrowserEvent('openModal');
+        } 
+        
     }
     public function close()
     {
 
         $this->dispatchBrowserEvent('closeModal'); 
         $this->dispatchBrowserEvent('closeUpdateModal');
+
 
     }
 
@@ -75,7 +90,7 @@ class Classrooms extends Component
         //asign students
 
 
-    if($this->students != null){
+    /*if($this->students != null){
         for ($x = 0; $x < $length = count($this->students); $x++) {
             if($this->students[$x]->pin != null){
                $classroom->users()->attach($this->students[$x]->id, ['pin' => $this->students[$x]->pin]); 
@@ -86,7 +101,7 @@ class Classrooms extends Component
             }
             
         }
-    }
+    }*/
         
         
        // self::resetInputFields();
@@ -137,21 +152,6 @@ class Classrooms extends Component
                 'name' => $this->name,
                 'level_id' => $this->level_id
             ]);
-
-            //asign students
-
-            foreach($this->students as $index => $student){ 
-               
-                if($student->pin != null){
-                        $classroom->users()->newPivotQuery()->updateOrInsert(['classroom_id' => $this->classroom_id,'user_id' =>$student->id], ['pin' => $student->pin]);
-
-                       //send mail
-                        $user = User::find($student->id);
-                        Mail::to($user)->send(new Assign($student->id, $classroom->id));
-                }
-                
-                
-            }
 
             \Session::put('students', $this->students->toArray());
             $this->updateMode = false;
@@ -226,11 +226,26 @@ class Classrooms extends Component
     }
 
     public function showStForm() {
-        $user = Auth::user();
 
-        self::resetInputFieldsSt();
-        $this->resetErrorBag();
-        $this->dispatchBrowserEvent('openStdModal');
+        $user = Auth::user();
+        if($user->plan == "Premium"){ $this->plan_id = 2;}
+        $plan = Plan::find($this->plan_id);
+        $plan_limit = $plan->students_limit;
+
+        $current = $this->students->count();
+
+        //if it is out of bounds
+        if($plan_limit != null && $current >= $plan_limit){
+            //show messagge
+            session()->flash('smessage', 'You have created all the students allowed in your plan. To create a new student you must delete one or update your plan');
+        }
+        else{
+            self::resetInputFieldsSt();
+            $this->resetErrorBag();
+            $this->dispatchBrowserEvent('openStdModal');
+        } 
+
+        
     }
     public function closeStd()
     {
@@ -266,15 +281,21 @@ class Classrooms extends Component
                 $this->assignST[$index]->pin = $this->assignST[$index]->pivot->pin;
             }*/
             \Session::put('students', $this->assignST->toArray());
+
+            //send mail
+            Mail::to($st)->send(new Assign($st->id, $this->current->id));
         } 
-        else{
+        else{ 
             //$this->students = User::allStudents($this->trainer_id);
             $this->students = User::hydrate(\Session::get('students'));
             $this->students->push($st);
             foreach($this->students as $index => $student){
                 $this->students[$index]->pin = bin2hex(random_bytes(4));
             }
-           
+
+            $st->classrooms()->attach($this->classroom_id, ['pin' => $st->pin]);
+            //send mail
+            Mail::to($st)->send(new Assign($st->id, $this->classroom_id)); 
             \Session::put('students', $this->students->toArray());
         }
         $this->dispatchBrowserEvent('closeStdModal'); // Close modal using jquery
@@ -282,17 +303,34 @@ class Classrooms extends Component
     }
 
     public function showAssignForm($class) {
-        $this->extras = User::allStudentsOutThisClassroom($this->trainer_id , $class);
+
+        $user = Auth::user();
+        if($user->plan == "Premium"){ $this->plan_id = 2;}
+        $plan = Plan::find($this->plan_id);
+        $plan_limit = $plan->students_limit;
 
         $this->current = Classroom::where('id',$class)->first();
-        $this->name = $this->current->name;
-        $this->assignST = $this->current->users()->get();
-        foreach($this->assignST as $index => $student){
-            $this->assignST[$index]->pin = $student->pivot->pin;
+        $current = $this->current->users()->count();
+
+        //if it is out of bounds
+        if($plan_limit != null && $current >= $plan_limit){
+            //show messagge
+            session()->flash('emessage', 'You have assigned all the students allowed in your plan. To assign a new student you must delete one or update your plan');
         }
-        \Session::put('students', $this->assignST->toArray());
-        $this->resetErrorBag();
-        $this->dispatchBrowserEvent('openAssignModal');
+        else{
+            $this->extras = User::allStudentsOutThisClassroom($this->trainer_id , $class);
+
+            $this->current = Classroom::where('id',$class)->first();
+            $this->name = $this->current->name;
+            $this->assignST = $this->current->users()->get();
+            foreach($this->assignST as $index => $student){
+                $this->assignST[$index]->pin = $student->pivot->pin;
+            }
+            \Session::put('students', $this->assignST->toArray());
+            $this->resetErrorBag();
+            $this->dispatchBrowserEvent('openAssignModal');
+        } 
+        
     }
 
     public function assign(){

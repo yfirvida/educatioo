@@ -27,9 +27,13 @@ class RegisteredUserController extends Controller
      * @return \Illuminate\View\View
      */
 
-    public function create($plan)
+    public function create($p)
     {
         $lands = Land::all_items();
+        $plan = '';
+        if($p == 'Hke9dkeM-*$Jdajdskfj$CLNEN$T'){ $plan = 'Premium';}
+        if($p == 'Gtfr56-Lkbg*$ogtRwl90*$$k8965h'){ $plan = 'Basic';}
+        
         return view('auth.register', compact('lands', 'plan'));
     }
 
@@ -43,6 +47,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request, $plan)
     {
+       
        $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],

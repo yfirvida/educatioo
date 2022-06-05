@@ -6,7 +6,7 @@
         </div>
     @endif
     <div class="row">
-        <div class="d-flex justify-content-end">
+        <div class="d-none justify-content-end">
             <button class="bt badge badge-success mb-3" type="button"  wire:click="showForm">
                 <i class="mdi mdi-plus-circle-outline mr-2"></i>
                 {{ __('Add new plan') }}

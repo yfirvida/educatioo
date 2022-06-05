@@ -4,6 +4,11 @@
           {{ session('message') }}
         </div>
      @endif
+      @if (session()->has('emessage'))
+        <div class="alert alert-danger" style="margin-top:30px;">
+          {{ session('emessage') }}
+        </div>
+     @endif
 
     <div class="content-wrapper">
         <div class="content b-bottom pb-4">
@@ -65,7 +70,7 @@
 
 <!-- add new group modal -->
 <div wire:ignore.self class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
+    <div class="modal-dialog  modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header py-3">
                 @if ($sendMailError)
@@ -108,7 +113,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-12">
                                         <div class="table-responsive mt-4">
                                             <table class="table  users">
@@ -145,7 +150,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -207,6 +212,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if (session()->has('smessage'))
+                                    <div class="alert alert-danger" style="margin-top:30px;">
+                                      {{ session('smessage') }}
+                                    </div>
+                                 @endif
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="table-responsive mt-4">
@@ -226,7 +236,7 @@
                                                                 <td>{{$student->name}}</td>
                                                                 <td>{{$student->email}}</td>
                                                                 <td class="">
-                                                                    <input wire:model.defer="students.{{ $index }}.pin" type="text" class="form-control"   autocomplete="off" />
+                                                                    <input wire:model.defer="students.{{ $index }}.pin" type="text" class="form-control"   autocomplete="off" disabled/>
                                                                 </td>
                                                                 <td class="text-center ">
                                                                     <a href="#" wire:click="removeFromClass({{$index}})"><i class="fas fa-minus"></i></a> 
@@ -321,7 +331,7 @@
                                                                 <td>{{$student->name}}</td>
                                                                 <td>{{$student->email}}</td>
                                                                 <td class="">
-                                                                    <input wire:model.defer="assignST.{{ $index }}.pin" type="text" class="form-control"  autocomplete="off" />
+                                                                    <input wire:model.defer="assignST.{{ $index }}.pin" type="text" class="form-control"  autocomplete="off" disabled/>
                                                                 </td>
                                                                 <td class="text-center ">
                                                                     <a href="#" wire:click="removeASt({{$index}}, {{$student->id}})"><i class="fas fa-minus"></i></a> 
@@ -344,7 +354,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" wire:click.prevent="close" class="btn btn-white btn-fix-size" >{{__('Cancel')}}</button>
+                <button type="button" wire:click.prevent="close" data-dismiss="modal" class="btn btn-white btn-fix-size" >{{__('Cancel')}}</button>
             </div>
         </div>
     </div>

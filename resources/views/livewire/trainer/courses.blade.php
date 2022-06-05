@@ -4,17 +4,22 @@
           {{ session('message') }}
         </div>
      @endif
+     @if (session()->has('emessage'))
+        <div class="alert alert-danger" style="margin-top:30px;">
+          {{ session('emessage') }}
+        </div>
+     @endif
     <div class="content-wrapper">
         <div class="content b-bottom pb-4">
             <div class="d-flex justify-content-end align-items-center mt-3 ">
                 <div>
-                    <a href="{{ route('import') }}" class="btn mr-3 btn-white btn-fix-size">   
+                    <button wire:click="importCourse()"  class="btn mr-3 btn-white btn-fix-size">   
                         <i class="fas fa-file-import"></i> {{ __('Import') }}
-                    </a>
-                    <a href="{{ route('newcourse') }}" class="btn btn-orange btn-fix-size" >
+                    </button>
+                    <button wire:click="createNew()" class="btn btn-orange btn-fix-size" >
                         <img src="/img/quiz.png">
                         {{ __('Add new course') }}
-                    </a>
+                    </button>
                 </div> 
                 
             </div>
