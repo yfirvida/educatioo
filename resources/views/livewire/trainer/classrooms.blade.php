@@ -44,13 +44,13 @@
                                     <td class="d-flex justify-content-between align-items-center act">
                                         <button wire:click="edit({{$class->id}})" class="btn actions mb-2 mr-2"><i class="fas fa-edit"></i> {{ __('Edit') }}</button>
                                         <button wire:click="confirm({{$class->id}})" class="btn actions mb-2 mr-2"><i class="fas fa-minus"></i> {{ __('Delete') }}</button> 
-                                        <i class='fas fa-ellipsis-h mb-2 text-danger' wire:click="$emit('toggleBox', {{$class->id}})"></i>
+                                       <!--  <i class='fas fa-ellipsis-h mb-2 text-danger' wire:click="$emit('toggleBox', {{$class->id}})"></i>
 
                                         <div class="action-box_{{$class->id}} action-box">
                                             <a class="btn actions mb-2" href="{{ route('courses-list', $class->id) }}"><i class="fas fa-clipboard-check mr-1"></i> {{ __('Show questionnaries') }}</a> 
                                             <button class="btn btn-orange mb-2" wire:click="showAssignForm({{$class->id}})"><i class="fas fa-user-plus"></i> {{ __('Assign students') }}</button> 
 
-                                        </div>
+                                        </div> -->
                                     </td>
                                 </tr>
                             @endforeach
@@ -236,7 +236,9 @@
                                                                 <td>{{$student->name}}</td>
                                                                 <td>{{$student->email}}</td>
                                                                 <td class="">
-                                                                    <input wire:model.defer="students.{{ $index }}.pin" type="text" class="form-control"   autocomplete="off" disabled/>
+                                                                    {{$student->pin}}
+                                                                    <!-- <input wire:model.defer="students.{{ $index }}.pin" type="text" class="form-control"   autocomplete="off" disabled/> -->
+                                                                    
                                                                 </td>
                                                                 <td class="text-center ">
                                                                     <a href="#" wire:click="removeFromClass({{$index}})"><i class="fas fa-minus"></i></a> 

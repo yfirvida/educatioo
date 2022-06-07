@@ -25,12 +25,10 @@
                                 </div>
                             </th>
                             @if($questions && $questions->count() > 0)
-                                <?php $i = 1;?>
                                 @foreach($questions as $q) 
                                     <th scope="col" class="text-center q_th" wire:click="showQuestion({{$q->id}})">
-                                        <span class="question_head" >{{$i}}</span>
+                                        <span class="question_head" >{{$q->identifier}}</span>
                                     </th>
-                                    <?php $i++ ; ?>
                                 @endforeach
                             @endif
                         </tr>
