@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Land;
+use App\Models\Plan;
 use Intervention\Image\ImageManager;
 use Intervention\Image\ImageManagerStatic;
 use Livewire\WithFileUploads;
@@ -15,7 +16,7 @@ class Profile extends Component
     
     use WithFileUploads;
 
-    public $lands;
+    public $lands, $plan;
     public $user, $name, $password, $school, $land_id, $email, $image, $profile_image;
     public $uploaded = false;
     protected $listeners = ['fileUpload'];
@@ -32,6 +33,10 @@ class Profile extends Component
         $this->school = $this->user->school;
         $this->land_id = $this->user->land_id;
         $this->password = '******';
+
+        $plan_id = 1;
+        if($this->user->plan == "Premium"){ $plan_id = 2;}
+        $this->plan = Plan::find($plan_id);
     }
     public function render()
     {

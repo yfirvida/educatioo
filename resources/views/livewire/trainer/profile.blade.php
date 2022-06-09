@@ -6,8 +6,11 @@
      @endif
     <div class="content-wrapper">
         <div class="content b-bottom pb-4">
-            <div class="d-flex justify-content-start align-items-center mt-3 ">
-                <h2>{{_('Profile')}}</h2>  
+            <div class="d-flex justify-content-between align-items-center mt-3 ">
+                <h2>{{_('Profile')}}</h2> 
+                @if($plan->link != null) 
+                    <a class="btn btn-orange btn-fix-size" href="{{$plan->link}}">{{_('Plan Upgrade')}}</a>
+                @endif 
             </div>
         </div>
         <div class="content px-5">

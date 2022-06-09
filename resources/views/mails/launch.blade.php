@@ -16,7 +16,7 @@
     <p style="margin-bottom: 40px;">{{$instructions}}</p>
 
 
-    <p>Together with this course code <b>{{$course}}</b> and your PIN for this group you can start your course</p>
+    <p>Your course code is <b>{{$course}}</b> and together with your PIN for this group you can start your course</p>
 
     <a style="background-color:#2b388f;border-radius:0.25rem;color:#fff;padding:10px 45px;text-decoration:none;font-weight:700;font-size:22px;margin-top: 20px" href="{{ url('')}}">{{_('Login')}}</a>
 
